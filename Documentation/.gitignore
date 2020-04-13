@@ -1,0 +1,6 @@
+Doxyfile
+OutPut*
+Warnings*
+*.stamp
+Makefile
+Makefile.in
