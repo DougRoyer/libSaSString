@@ -5,7 +5,7 @@ This is a string library that unifies (char*), (char16_t*), (char32_t*), (wchar_
 td:string, std:u16string, std::u32string, and std::wstring into one 'String' object.
 This includes charset conversion and iterators.
 
-Its in namespace SoftwareAndServices::Library::String
+Its in namespace SoftwareAndServices::Library::Common
 
 Read the INSTALL.md file for build and installation instructions.
 
