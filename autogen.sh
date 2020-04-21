@@ -9,7 +9,6 @@ aclocal
 echo "autoheader"
 autoheader
 
-echo "There are over 5,500 test directories, this takes a while ..."
 echo "automake -v --add-missing"
 automake -v --add-missing  --no-force
 
@@ -19,4 +18,5 @@ autoconf
 #autoreconf --install
 
 echo "To build debug, run: ./configure --enable-debug"
+echo "To build test coverage, run: ./configure --enable-test-coverage"
 exit 0

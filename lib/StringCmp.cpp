@@ -243,71 +243,83 @@ namespace SoftwareAndServices {
 					Results = -1;
 
 				} else {
-					switch (Two._InputWidth) {
+					size_t		OneLen = strlen(One);
+					size_t		TwoLen = Two.Length();
 
-						case IsUnknownBit_t:
-							/*EMPTY*/
-							break;
+					if (OneLen < TwoLen) {
+						Results = -1;
 
-						case Is8Bit_t: {
-								char		*	OneStr = nullptr;
+					} else if (TwoLen > OneLen) {
+						Results = 1;
 
-								if (Charset8To8(nullptr,
-								                One,
-								                Two._InputCharset,
-								                OneStr)) {
-									Results = strncmp(OneStr, Two.cbegin().str8(),
-									                  Two.Length());
-									delete OneStr;
+					} else {
+						// Length is equal
+						switch (Two._InputWidth) {
+
+							case IsUnknownBit_t:
+								/*EMPTY*/
+								break;
+
+							case Is8Bit_t: {
+									char		*	OneStr = nullptr;
+
+									if (Charset8To8(nullptr,
+									                One,
+									                Two._InputCharset,
+									                OneStr)) {
+										Results = strncmp(OneStr, Two.cbegin().str8(),
+										                  Two.Length());
+										delete OneStr;
+									}
 								}
-							}
-							break;
+								break;
 
-						case Is16Bit_t: {
-								char16_t		*	OneStr = nullptr;
+							case Is16Bit_t: {
+									char16_t		*	OneStr = nullptr;
 
-								if (Charset8To16(nullptr,
-								                 One,
-								                 Two._InputCharset,
-								                 OneStr)) {
-									Results = strncmp(OneStr,
-									                  Two.cbegin().str16(),
-									                  Two.Length());
-									delete OneStr;
+									if (Charset8To16(nullptr,
+									                 One,
+									                 Two._InputCharset,
+									                 OneStr)) {
+										Results = strncmp(OneStr,
+										                  Two.cbegin().str16(),
+										                  Two.Length());
+										delete OneStr;
+									}
 								}
-							}
-							break;
+								break;
 
-						case Is32Bit_t: {
-								char32_t		*	OneStr = nullptr;
+							case Is32Bit_t: {
+									char32_t		*	OneStr = nullptr;
 
-								if (Charset8To32(nullptr,
-								                 One,
-								                 Two._InputCharset,
-								                 OneStr)) {
-									Results = strncmp(OneStr,
-									                  Two.cbegin().str32(),
-									                  Two.Length());
-									delete OneStr;
+									if (Charset8To32(nullptr,
+									                 One,
+									                 Two._InputCharset,
+									                 OneStr)) {
+										Results = strncmp(OneStr,
+										                  Two.cbegin().str32(),
+										                  Two.Length());
+										delete OneStr;
+									}
 								}
-							}
-							break;
+								break;
 
-						case IsWBit_t: {
-								wchar_t		*	OneStr = nullptr;
+							case IsWBit_t: {
+									wchar_t		*	OneStr = nullptr;
 
-								if (Charset8ToW(nullptr,
-								                One,
-								                Two._InputCharset,
-								                OneStr)) {
-									Results = strncmp(OneStr,
-									                  Two.cbegin().strW(),
-									                  Two.Length());
-									delete OneStr;
+									if (Charset8ToW(nullptr,
+									                One,
+									                Two._InputCharset,
+									                OneStr)) {
+										Results = strncmp(OneStr,
+										                  Two.cbegin().strW(),
+										                  Two.Length());
+										delete OneStr;
+									}
 								}
-							}
-							break;
+								break;
 
+						}
 					}
 				}
 
@@ -324,70 +336,81 @@ namespace SoftwareAndServices {
 					Results = -1;
 
 				} else {
-					switch (Two._InputWidth) {
+					size_t		OneLen = strlen(One);
+					size_t		TwoLen = Two.Length();
 
-						case IsUnknownBit_t:
-							/*EMPTY*/
-							break;
+					if (OneLen < TwoLen) {
+						Results = -1;
 
-						case Is8Bit_t: {
-								char		*	OneStr = nullptr;
+					} else if (TwoLen < OneLen) {
+						Results = 1;
 
-								if (Charset16To8(nullptr,
-								                 One,
-								                 Two._InputCharset,
-								                 OneStr)) {
-									Results = strncmp(OneStr,
-									                  Two.cbegin().str8(),
-									                  Two.Length());
-									delete OneStr;
+					} else {
+						switch (Two._InputWidth) {
+
+							case IsUnknownBit_t:
+								/*EMPTY*/
+								break;
+
+							case Is8Bit_t: {
+									char		*	OneStr = nullptr;
+
+									if (Charset16To8(nullptr,
+									                 One,
+									                 Two._InputCharset,
+									                 OneStr)) {
+										Results = strncmp(OneStr,
+										                  Two.cbegin().str8(),
+										                  Two.Length());
+										delete OneStr;
+									}
 								}
-							}
-							break;
+								break;
 
-						case Is16Bit_t: {
-								char16_t		*	OneStr = nullptr;
+							case Is16Bit_t: {
+									char16_t		*	OneStr = nullptr;
 
-								if (Charset16To16(nullptr,
-								                  One,
-								                  Two._InputCharset,
-								                  OneStr)) {
-									Results = strncmp(OneStr, Two.cbegin().str16(),
-									                  Two.Length());
-									delete OneStr;
+									if (Charset16To16(nullptr,
+									                  One,
+									                  Two._InputCharset,
+									                  OneStr)) {
+										Results = strncmp(OneStr, Two.cbegin().str16(),
+										                  Two.Length());
+										delete OneStr;
+									}
 								}
-							}
-							break;
+								break;
 
-						case Is32Bit_t: {
-								char32_t		*	OneStr = nullptr;
+							case Is32Bit_t: {
+									char32_t		*	OneStr = nullptr;
 
-								if (Charset16To32(nullptr,
-								                  One,
-								                  Two._InputCharset,
-								                  OneStr)) {
-									Results = strncmp(OneStr, Two.cbegin().str32(),
-									                  Two.Length());
-									delete OneStr;
+									if (Charset16To32(nullptr,
+									                  One,
+									                  Two._InputCharset,
+									                  OneStr)) {
+										Results = strncmp(OneStr, Two.cbegin().str32(),
+										                  Two.Length());
+										delete OneStr;
+									}
 								}
-							}
-							break;
+								break;
 
-						case IsWBit_t: {
-								wchar_t		*	OneStr = nullptr;
+							case IsWBit_t: {
+									wchar_t		*	OneStr = nullptr;
 
-								if (Charset16ToW(nullptr,
-								                 One,
-								                 Two._InputCharset,
-								                 OneStr)) {
-									Results = strncmp(OneStr,
-									                  Two.cbegin().strW(),
-									                  Two.Length());
-									delete OneStr;
+									if (Charset16ToW(nullptr,
+									                 One,
+									                 Two._InputCharset,
+									                 OneStr)) {
+										Results = strncmp(OneStr,
+										                  Two.cbegin().strW(),
+										                  Two.Length());
+										delete OneStr;
+									}
 								}
-							}
-							break;
+								break;
 
+						}
 					}
 				}
 
@@ -404,69 +427,80 @@ namespace SoftwareAndServices {
 					Results = -1;
 
 				} else {
-					switch (Two._InputWidth) {
+					size_t	OneLen = strlen(One);
+					size_t	TwoLen = Two.Length();
 
-						case IsUnknownBit_t:
-							/*EMPTY*/
-							break;
+					if (OneLen < TwoLen) {
+						Results = -1;
 
-						case Is8Bit_t: {
-								char		*	OneStr = nullptr;
+					} else if (TwoLen < OneLen) {
+						Results = 1;
 
-								if (Charset32To8(nullptr,
-								                 One,
-								                 Two._InputCharset,
-								                 OneStr)) {
-									Results = strncmp(OneStr,
-									                  Two.cbegin().str8(),
-									                  Two.Length());
-									delete OneStr;
+					} else {
+						switch (Two._InputWidth) {
+
+							case IsUnknownBit_t:
+								/*EMPTY*/
+								break;
+
+							case Is8Bit_t: {
+									char		*	OneStr = nullptr;
+
+									if (Charset32To8(nullptr,
+									                 One,
+									                 Two._InputCharset,
+									                 OneStr)) {
+										Results = strncmp(OneStr,
+										                  Two.cbegin().str8(),
+										                  Two.Length());
+										delete OneStr;
+									}
 								}
-							}
-							break;
+								break;
 
-						case Is16Bit_t: {
-								char16_t		*	OneStr = nullptr;
+							case Is16Bit_t: {
+									char16_t		*	OneStr = nullptr;
 
-								if (Charset32To16(nullptr,
-								                  One,
-								                  Two._InputCharset,
-								                  OneStr)) {
-									Results = strncmp(OneStr, Two.cbegin().str16(),
-									                  Two.Length());
-									delete OneStr;
+									if (Charset32To16(nullptr,
+									                  One,
+									                  Two._InputCharset,
+									                  OneStr)) {
+										Results = strncmp(OneStr, Two.cbegin().str16(),
+										                  Two.Length());
+										delete OneStr;
+									}
 								}
-							}
-							break;
+								break;
 
-						case Is32Bit_t: {
-								char32_t		*	OneStr = nullptr;
+							case Is32Bit_t: {
+									char32_t		*	OneStr = nullptr;
 
-								if (Charset32To32(nullptr,
-								                  One,
-								                  Two._InputCharset,
-								                  OneStr)) {
-									Results = strncmp(OneStr, Two.cbegin().str32(),
-									                  Two.Length());
-									delete OneStr;
+									if (Charset32To32(nullptr,
+									                  One,
+									                  Two._InputCharset,
+									                  OneStr)) {
+										Results = strncmp(OneStr, Two.cbegin().str32(),
+										                  Two.Length());
+										delete OneStr;
+									}
 								}
-							}
-							break;
+								break;
 
-						case IsWBit_t: {
-								wchar_t		*	OneStr = nullptr;
+							case IsWBit_t: {
+									wchar_t		*	OneStr = nullptr;
 
-								if (Charset32ToW(nullptr,
-								                 One,
-								                 Two._InputCharset,
-								                 OneStr)) {
-									Results = strncmp(OneStr, Two.cbegin().strW(),
-									                  Two.Length());
-									delete OneStr;
+									if (Charset32ToW(nullptr,
+									                 One,
+									                 Two._InputCharset,
+									                 OneStr)) {
+										Results = strncmp(OneStr, Two.cbegin().strW(),
+										                  Two.Length());
+										delete OneStr;
+									}
 								}
-							}
-							break;
+								break;
 
+						}
 					}
 				}
 
@@ -483,68 +517,79 @@ namespace SoftwareAndServices {
 					Results = -1;
 
 				} else {
-					switch (Two._InputWidth) {
+					size_t	OneLen = strlen(One);
+					size_t	TwoLen = Two.Length();
 
-						case IsUnknownBit_t:
-							/*EMPTY*/
-							break;
+					if (OneLen < TwoLen) {
+						Results = -1;
 
-						case Is8Bit_t: {
-								char		*	OneStr = nullptr;
+					} else if (TwoLen < OneLen) {
+						Results = 1;
 
-								if (CharsetWTo8(nullptr,
-								                One,
-								                Two._InputCharset,
-								                OneStr)) {
-									Results = strncmp(OneStr, Two.cbegin().str8(),
-									                  Two.Length());
-									delete OneStr;
+					} else {
+						switch (Two._InputWidth) {
+
+							case IsUnknownBit_t:
+								/*EMPTY*/
+								break;
+
+							case Is8Bit_t: {
+									char		*	OneStr = nullptr;
+
+									if (CharsetWTo8(nullptr,
+									                One,
+									                Two._InputCharset,
+									                OneStr)) {
+										Results = strncmp(OneStr, Two.cbegin().str8(),
+										                  Two.Length());
+										delete OneStr;
+									}
 								}
-							}
-							break;
+								break;
 
-						case Is16Bit_t: {
-								char16_t		*	OneStr = nullptr;
+							case Is16Bit_t: {
+									char16_t		*	OneStr = nullptr;
 
-								if (CharsetWTo16(nullptr,
-								                 One,
-								                 Two._InputCharset,
-								                 OneStr)) {
-									Results = strncmp(OneStr, Two.cbegin().str16(),
-									                  Two.Length());
-									delete OneStr;
+									if (CharsetWTo16(nullptr,
+									                 One,
+									                 Two._InputCharset,
+									                 OneStr)) {
+										Results = strncmp(OneStr, Two.cbegin().str16(),
+										                  Two.Length());
+										delete OneStr;
+									}
 								}
-							}
-							break;
+								break;
 
-						case Is32Bit_t: {
-								char32_t		*	OneStr = nullptr;
+							case Is32Bit_t: {
+									char32_t		*	OneStr = nullptr;
 
-								if (CharsetWTo32(nullptr,
-								                 One,
-								                 Two._InputCharset,
-								                 OneStr)) {
-									Results = strncmp(OneStr, Two.cbegin().str32(),
-									                  Two.Length());
-									delete OneStr;
+									if (CharsetWTo32(nullptr,
+									                 One,
+									                 Two._InputCharset,
+									                 OneStr)) {
+										Results = strncmp(OneStr, Two.cbegin().str32(),
+										                  Two.Length());
+										delete OneStr;
+									}
 								}
-							}
-							break;
+								break;
 
-						case IsWBit_t: {
-								wchar_t		*	OneStr = nullptr;
+							case IsWBit_t: {
+									wchar_t		*	OneStr = nullptr;
 
-								if (CharsetWToW(nullptr,
-								                One,
-								                Two._InputCharset,
-								                OneStr)) {
-									Results = strncmp(OneStr, Two.cbegin().strW(),
-									                  Two.Length());
-									delete OneStr;
+									if (CharsetWToW(nullptr,
+									                One,
+									                Two._InputCharset,
+									                OneStr)) {
+										Results = strncmp(OneStr, Two.cbegin().strW(),
+										                  Two.Length());
+										delete OneStr;
+									}
 								}
-							}
-							break;
+								break;
 
+						}
 					}
 				}
 
@@ -2616,29 +2661,40 @@ namespace SoftwareAndServices {
 				int		Results = 0;
 
 				size_t		Len = 0;
+				size_t		OneLen = One.Length();
 				size_t		TwoLen = Two.Length();
 
-				switch (Two.InputWidth()) {
+				if (OneLen < TwoLen) {
+					Results = -1;
 
-					case IsUnknownBit_t:
-						/*EMPTY*/
-						break;
+				} else if (TwoLen < OneLen) {
+					Results = 1;
 
-					case Is8Bit_t:
-						Results = strncmp(One.Get8(), Two.Get8(Len), TwoLen);
-						break;
+				} else {
+					// Length equal
+					//
+					switch (Two.InputWidth()) {
 
-					case Is16Bit_t:
-						Results = strncmp(One.Get16(), Two.Get16(Len), TwoLen);
-						break;
+						case IsUnknownBit_t:
+							/*EMPTY*/
+							break;
 
-					case Is32Bit_t:
-						Results = strncmp(One.Get32(), Two.Get32(Len), TwoLen);
-						break;
+						case Is8Bit_t:
+							Results = strncmp(One.Get8(), Two.Get8(Len), TwoLen);
+							break;
 
-					case IsWBit_t:
-						Results = strncmp(One.GetW(), Two.GetW(Len), TwoLen);
-						break;
+						case Is16Bit_t:
+							Results = strncmp(One.Get16(), Two.Get16(Len), TwoLen);
+							break;
+
+						case Is32Bit_t:
+							Results = strncmp(One.Get32(), Two.Get32(Len), TwoLen);
+							break;
+
+						case IsWBit_t:
+							Results = strncmp(One.GetW(), Two.GetW(Len), TwoLen);
+							break;
+					}
 				}
 
 				return (Results);
@@ -8419,8 +8475,12 @@ namespace SoftwareAndServices {
 						Results = ((ROString &) * this == (ROString &)Other);
 
 					} else {
-						String	*	OtherS = Other.ToCharset(_InputCharset,
-						                                     _InputWidth);
+						const String	*	OtherS = &Other;
+
+						if (strcmp(_InputCharset, Other._InputCharset) != 0) {
+							OtherS = Other.ToCharset(_InputCharset,
+							                         _InputWidth);
+						}
 
 						if (OtherS != nullptr) {
 							size_t		OutLen = 0;
@@ -8485,7 +8545,9 @@ namespace SoftwareAndServices {
 								}
 							}
 
-							delete OtherS;
+							if (&Other != OtherS) {
+								delete OtherS;
+							}
 						}
 					}
 				}

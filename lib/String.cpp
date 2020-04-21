@@ -160,18 +160,19 @@ namespace SoftwareAndServices {
 				_ROString = false;
 				_RO = nullptr;
 
+				if (Width == IsUnknownBit_t) {
+					_InputWidth = Is8Bit_t;
+					_OutputWidth = Is8Bit_t;
+					Width = Is8Bit_t;
+
+				} else {
+					_InputWidth = Width;
+					_OutputWidth = Width;
+				}
+
 				if (CSet != nullptr) {
 					_InputCharset = StringCache::Add(CSet);
 					_OutputCharset = StringCache::Add(CSet);
-
-					if (Width == IsUnknownBit_t) {
-						_InputWidth = Is8Bit_t;
-						_OutputWidth = Is8Bit_t;
-
-					} else {
-						_InputWidth = Width;
-						_OutputWidth = Width;
-					}
 
 				} else {
 
@@ -186,30 +187,22 @@ namespace SoftwareAndServices {
 
 						case Is8Bit_t:
 							_InputCharset = StringCache::Add(Current8BitCharset);
-							_InputWidth = Is8Bit_t;
 							_OutputCharset = StringCache::Add(Current8BitCharset);
-							_OutputWidth = Is8Bit_t;
 							break;
 
 						case Is16Bit_t:
 							_InputCharset = StringCache::Add(Current16BitCharset);
-							_InputWidth = Width;
 							_OutputCharset = StringCache::Add(Current8BitCharset);
-							_OutputWidth = Width;
 							break;
 
 						case Is32Bit_t:
 							_InputCharset = StringCache::Add(Current32BitCharset);
-							_InputWidth = Width;
 							_OutputCharset = StringCache::Add(Current32BitCharset);
-							_OutputWidth = Width;
 							break;
 
 						case IsWBit_t:
 							_InputCharset = StringCache::Add(CurrentWBitCharset);
-							_InputWidth = Width;
 							_OutputCharset = StringCache::Add(CurrentWBitCharset);
-							_OutputWidth = Width;
 							break;
 
 					}
@@ -231,18 +224,19 @@ namespace SoftwareAndServices {
 				_ROString = false;
 				_RO = nullptr;
 
+				if (Width == IsUnknownBit_t) {
+					_InputWidth = Is8Bit_t;
+					_OutputWidth = Is8Bit_t;
+					Width = Is8Bit_t;
+
+				} else {
+					_InputWidth = Width;
+					_OutputWidth = Width;
+				}
+
 				if (CSet != nullptr) {
 					_InputCharset = StringCache::Add(CSet);
 					_OutputCharset = StringCache::Add(CSet);
-
-					if (Width == IsUnknownBit_t) {
-						_InputWidth = Is8Bit_t;
-						_OutputWidth = Is8Bit_t;
-
-					} else {
-						_InputWidth = Width;
-						_OutputWidth = Width;
-					}
 
 				} else {
 					switch (Width) {
@@ -259,30 +253,22 @@ namespace SoftwareAndServices {
 
 						case Is8Bit_t:
 							_InputCharset = StringCache::Add(Current8BitCharset);
-							_InputWidth = Is8Bit_t;
 							_OutputCharset = StringCache::Add(Current8BitCharset);
-							_OutputWidth = Is8Bit_t;
 							break;
 
 						case Is16Bit_t:
 							_InputCharset = StringCache::Add(Current16BitCharset);
-							_InputWidth = Width;
 							_OutputCharset = StringCache::Add(Current8BitCharset);
-							_OutputWidth = Width;
 							break;
 
 						case Is32Bit_t:
 							_InputCharset = StringCache::Add(Current32BitCharset);
-							_InputWidth = Width;
 							_OutputCharset = StringCache::Add(Current32BitCharset);
-							_OutputWidth = Width;
 							break;
 
 						case IsWBit_t:
 							_InputCharset = StringCache::Add(CurrentWBitCharset);
-							_InputWidth = Width;
 							_OutputCharset = StringCache::Add(CurrentWBitCharset);
-							_OutputWidth = Width;
 							break;
 					}
 				}
@@ -315,58 +301,49 @@ namespace SoftwareAndServices {
 				_ROString = false;
 				_RO = nullptr;
 
+				if (Width == IsUnknownBit_t) {
+					_InputCharset = StringCache::Add(InitStr._InputCharset);
+					_InputWidth = InitStr.InputWidth();
+					_OutputCharset = StringCache::Add(InitStr._InputCharset);
+					_OutputWidth = InitStr.OutputWidth();
+					Width = _InputWidth;
+
+				} else {
+					_InputWidth = Width;
+					_OutputWidth = Width;
+				}
+
 				if (CSet != nullptr) {
 					_InputCharset = StringCache::Add(CSet);
 					_OutputCharset = StringCache::Add(CSet);
-
-					if (Width == IsUnknownBit_t) {
-						_InputWidth = InitStr.InputWidth();
-						_OutputWidth = InitStr.OutputWidth();
-
-					} else {
-						_InputWidth = Width;
-						_OutputWidth = Width;
-					}
 
 				} else {
 					switch (Width) {
 
 						case Is8Bit_t:
 							_InputCharset = StringCache::Add(Current8BitCharset);
-							_InputWidth = Is8Bit_t;
 							_OutputCharset = StringCache::Add(Current8BitCharset);
-							_OutputWidth = Is8Bit_t;
 							break;
 
 						case Is16Bit_t:
 							_InputCharset = StringCache::Add(Current16BitCharset);
-							_InputWidth = Width;
 							_OutputCharset = StringCache::Add(Current8BitCharset);
-							_OutputWidth = Width;
 							break;
 
 						case Is32Bit_t:
 							_InputCharset = StringCache::Add(Current32BitCharset);
-							_InputWidth = Width;
 							_OutputCharset = StringCache::Add(Current32BitCharset);
-							_OutputWidth = Width;
 							break;
 
 						case IsWBit_t:
 							_InputCharset = StringCache::Add(CurrentWBitCharset);
-							_InputWidth = Width;
 							_OutputCharset = StringCache::Add(CurrentWBitCharset);
-							_OutputWidth = Width;
 							break;
 
 						default:
 
 						/*FALLTHRU*/
 						case IsUnknownBit_t:
-							_InputCharset = StringCache::Add(InitStr._InputCharset);
-							_InputWidth = InitStr.InputWidth();
-							_OutputCharset = StringCache::Add(InitStr._InputCharset);
-							_OutputWidth = InitStr.OutputWidth();
 							break;
 					}
 				}
@@ -399,48 +376,44 @@ namespace SoftwareAndServices {
 				_ROString = false;
 				_RO = nullptr;
 
+
+				if (Width == IsUnknownBit_t) {
+					_InputCharset = StringCache::Add(InitStr._InputCharset);
+					_InputWidth = InitStr.InputWidth();
+					_OutputCharset = StringCache::Add(InitStr._InputCharset);
+					_OutputWidth = InitStr.OutputWidth();
+					Width = _InputWidth;
+
+				} else {
+					_InputWidth = Width;
+					_OutputWidth = Width;
+				}
+
 				if (CSet != nullptr) {
 					_InputCharset = StringCache::Add(CSet);
 					_OutputCharset = StringCache::Add(CSet);
-
-					if (Width == IsUnknownBit_t) {
-						_InputWidth = InitStr.InputWidth();
-						_OutputWidth = InitStr.OutputWidth();
-
-					} else {
-						_InputWidth = Width;
-						_OutputWidth = Width;
-					}
 
 				} else {
 					switch (Width) {
 
 						case Is8Bit_t:
 							_InputCharset = StringCache::Add(Current8BitCharset);
-							_InputWidth = Is8Bit_t;
 							_OutputCharset = StringCache::Add(Current8BitCharset);
-							_OutputWidth = Is8Bit_t;
 							break;
 
 						case Is16Bit_t:
 							_InputCharset = StringCache::Add(Current16BitCharset);
-							_InputWidth = Width;
-							_OutputCharset = StringCache::Add(Current8BitCharset);
-							_OutputWidth = Width;
+							_OutputCharset = StringCache::Add(Current16BitCharset);
 							break;
 
 						case Is32Bit_t:
 							_InputCharset = StringCache::Add(Current32BitCharset);
-							_InputWidth = Width;
 							_OutputCharset = StringCache::Add(Current32BitCharset);
-							_OutputWidth = Width;
 							break;
 
 						case IsWBit_t:
 							_InputCharset = StringCache::Add(CurrentWBitCharset);
-							_InputWidth = Width;
 							_OutputCharset = StringCache::Add(CurrentWBitCharset);
-							_OutputWidth = Width;
 							break;
 
 						default:
@@ -448,10 +421,6 @@ namespace SoftwareAndServices {
 						/*FALLTHRU*/
 
 						case IsUnknownBit_t:
-							_InputCharset = StringCache::Add(InitStr._InputCharset);
-							_InputWidth = InitStr.InputWidth();
-							_OutputCharset = StringCache::Add(InitStr._InputCharset);
-							_OutputWidth = InitStr.OutputWidth();
 							break;
 
 					}
@@ -485,48 +454,41 @@ namespace SoftwareAndServices {
 				_ROString = false;
 				_RO = nullptr;
 
+				if (Width == IsUnknownBit_t) {
+					_InputWidth = Is16Bit_t;
+					_OutputWidth = Is16Bit_t;
+					Width = Is16Bit_t;
+
+				} else {
+					_InputWidth = Width;
+					_OutputWidth = Width;
+				}
+
 				if (CSet != nullptr) {
 					_InputCharset = StringCache::Add(CSet);
 					_OutputCharset = StringCache::Add(CSet);
-
-					if (Width == IsUnknownBit_t) {
-						_InputWidth = Is16Bit_t;
-						_OutputWidth = Is16Bit_t;
-
-					} else {
-						_InputWidth = Width;
-						_OutputWidth = Width;
-					}
 
 				} else {
 					switch (Width) {
 
 						case Is8Bit_t:
 							_InputCharset = StringCache::Add(Current8BitCharset);
-							_InputWidth = Is8Bit_t;
 							_OutputCharset = StringCache::Add(Current8BitCharset);
-							_OutputWidth = Is8Bit_t;
 							break;
 
 						case Is16Bit_t:
 							_InputCharset = StringCache::Add(Current16BitCharset);
-							_InputWidth = Width;
-							_OutputCharset = StringCache::Add(Current8BitCharset);
-							_OutputWidth = Width;
+							_OutputCharset = StringCache::Add(Current16BitCharset);
 							break;
 
 						case Is32Bit_t:
 							_InputCharset = StringCache::Add(Current32BitCharset);
-							_InputWidth = Width;
 							_OutputCharset = StringCache::Add(Current32BitCharset);
-							_OutputWidth = Width;
 							break;
 
 						case IsWBit_t:
 							_InputCharset = StringCache::Add(CurrentWBitCharset);
-							_InputWidth = Width;
 							_OutputCharset = StringCache::Add(CurrentWBitCharset);
-							_OutputWidth = Width;
 							break;
 
 						default:
@@ -535,9 +497,7 @@ namespace SoftwareAndServices {
 
 						case IsUnknownBit_t:
 							_InputCharset = StringCache::Add(Current16BitCharset);
-							_InputWidth = Is16Bit_t;
-							_OutputCharset = StringCache::Add(Current8BitCharset);
-							_OutputWidth = Is16Bit_t;
+							_OutputCharset = StringCache::Add(Current16BitCharset);
 							break;
 
 					}
@@ -570,48 +530,42 @@ namespace SoftwareAndServices {
 				_ROString = false;
 				_RO = nullptr;
 
+
+				if (Width == IsUnknownBit_t) {
+					_InputWidth = Is32Bit_t;
+					_OutputWidth = Is32Bit_t;
+					Width = Is32Bit_t;
+
+				} else {
+					_InputWidth = Width;
+					_OutputWidth = Width;
+				}
+
 				if (CSet != nullptr) {
 					_InputCharset = StringCache::Add(CSet);
 					_OutputCharset = StringCache::Add(CSet);
-
-					if (Width == IsUnknownBit_t) {
-						_InputWidth = Is32Bit_t;
-						_OutputWidth = Is32Bit_t;
-
-					} else {
-						_InputWidth = Width;
-						_OutputWidth = Width;
-					}
 
 				} else {
 					switch (Width) {
 
 						case Is8Bit_t:
 							_InputCharset = StringCache::Add(Current8BitCharset);
-							_InputWidth = Is8Bit_t;
 							_OutputCharset = StringCache::Add(Current8BitCharset);
-							_OutputWidth = Is8Bit_t;
 							break;
 
 						case Is16Bit_t:
 							_InputCharset = StringCache::Add(Current16BitCharset);
-							_InputWidth = Width;
-							_OutputCharset = StringCache::Add(Current8BitCharset);
-							_OutputWidth = Width;
+							_OutputCharset = StringCache::Add(Current16BitCharset);
 							break;
 
 						case Is32Bit_t:
 							_InputCharset = StringCache::Add(Current32BitCharset);
-							_InputWidth = Width;
 							_OutputCharset = StringCache::Add(Current32BitCharset);
-							_OutputWidth = Width;
 							break;
 
 						case IsWBit_t:
 							_InputCharset = StringCache::Add(CurrentWBitCharset);
-							_InputWidth = Width;
 							_OutputCharset = StringCache::Add(CurrentWBitCharset);
-							_OutputWidth = Width;
 							break;
 
 						default:
@@ -619,10 +573,8 @@ namespace SoftwareAndServices {
 						/*FALLTHRU*/
 
 						case IsUnknownBit_t:
-							_InputCharset = StringCache::Add(Current16BitCharset);
-							_InputWidth = Is16Bit_t;
-							_OutputCharset = StringCache::Add(Current8BitCharset);
-							_OutputWidth = Is16Bit_t;
+							_InputCharset = StringCache::Add(Current32BitCharset);
+							_OutputCharset = StringCache::Add(Current32BitCharset);
 							break;
 					}
 				}
@@ -654,48 +606,42 @@ namespace SoftwareAndServices {
 				_ROString = false;
 				_RO = nullptr;
 
+
+				if (Width == IsUnknownBit_t) {
+					_InputWidth = IsWBit_t;
+					_OutputWidth = IsWBit_t;
+					Width = IsWBit_t;
+
+				} else {
+					_InputWidth = Width;
+					_OutputWidth = Width;
+				}
+
 				if (CSet != nullptr) {
 					_InputCharset = StringCache::Add(CSet);
 					_OutputCharset = StringCache::Add(CSet);
-
-					if (Width == IsUnknownBit_t) {
-						_InputWidth = IsWBit_t;
-						_OutputWidth = IsWBit_t;
-
-					} else {
-						_InputWidth = Width;
-						_OutputWidth = Width;
-					}
 
 				} else {
 					switch (Width) {
 
 						case Is8Bit_t:
 							_InputCharset = StringCache::Add(Current8BitCharset);
-							_InputWidth = Is8Bit_t;
 							_OutputCharset = StringCache::Add(Current8BitCharset);
-							_OutputWidth = Is8Bit_t;
 							break;
 
 						case Is16Bit_t:
 							_InputCharset = StringCache::Add(Current16BitCharset);
-							_InputWidth = Width;
-							_OutputCharset = StringCache::Add(Current8BitCharset);
-							_OutputWidth = Width;
+							_OutputCharset = StringCache::Add(Current16BitCharset);
 							break;
 
 						case Is32Bit_t:
 							_InputCharset = StringCache::Add(Current32BitCharset);
-							_InputWidth = Width;
 							_OutputCharset = StringCache::Add(Current32BitCharset);
-							_OutputWidth = Width;
 							break;
 
 						case IsWBit_t:
 							_InputCharset = StringCache::Add(CurrentWBitCharset);
-							_InputWidth = Width;
 							_OutputCharset = StringCache::Add(CurrentWBitCharset);
-							_OutputWidth = Width;
 							break;
 
 						default:
@@ -703,10 +649,8 @@ namespace SoftwareAndServices {
 						/*FALLTHRU*/
 
 						case IsUnknownBit_t:
-							_InputCharset = StringCache::Add(Current32BitCharset);
-							_InputWidth = Is32Bit_t;
-							_OutputCharset = StringCache::Add(Current32BitCharset);
-							_OutputWidth = Is32Bit_t;
+							_InputCharset = StringCache::Add(CurrentWBitCharset);
+							_OutputCharset = StringCache::Add(CurrentWBitCharset);
 							break;
 					}
 				}
@@ -738,48 +682,41 @@ namespace SoftwareAndServices {
 				_ROString = false;
 				_RO = nullptr;
 
+				if (Width == IsUnknownBit_t) {
+					_InputWidth = Is8Bit_t;
+					_OutputWidth = Is8Bit_t;
+					Width = Is8Bit_t;
+
+				} else {
+					_InputWidth = Width;
+					_OutputWidth = Width;
+				}
+
 				if (CSet != nullptr) {
 					_InputCharset = StringCache::Add(CSet);
 					_OutputCharset = StringCache::Add(CSet);
-
-					if (Width == IsUnknownBit_t) {
-						_InputWidth = Is8Bit_t;
-						_OutputWidth = Is8Bit_t;
-
-					} else {
-						_InputWidth = Width;
-						_OutputWidth = Width;
-					}
 
 				} else {
 					switch (Width) {
 
 						case Is8Bit_t:
 							_InputCharset = StringCache::Add(Current8BitCharset);
-							_InputWidth = Is8Bit_t;
 							_OutputCharset = StringCache::Add(Current8BitCharset);
-							_OutputWidth = Is8Bit_t;
 							break;
 
 						case Is16Bit_t:
 							_InputCharset = StringCache::Add(Current16BitCharset);
-							_InputWidth = Width;
-							_OutputCharset = StringCache::Add(Current8BitCharset);
-							_OutputWidth = Width;
+							_OutputCharset = StringCache::Add(Current16BitCharset);
 							break;
 
 						case Is32Bit_t:
 							_InputCharset = StringCache::Add(Current32BitCharset);
-							_InputWidth = Width;
 							_OutputCharset = StringCache::Add(Current32BitCharset);
-							_OutputWidth = Width;
 							break;
 
 						case IsWBit_t:
 							_InputCharset = StringCache::Add(CurrentWBitCharset);
-							_InputWidth = Width;
 							_OutputCharset = StringCache::Add(CurrentWBitCharset);
-							_OutputWidth = Width;
 							break;
 
 						default:
@@ -788,9 +725,7 @@ namespace SoftwareAndServices {
 
 						case IsUnknownBit_t:
 							_InputCharset = StringCache::Add(Current8BitCharset);
-							_InputWidth = Is8Bit_t;
 							_OutputCharset = StringCache::Add(Current8BitCharset);
-							_OutputWidth = Is8Bit_t;
 							break;
 					}
 				}
@@ -822,48 +757,41 @@ namespace SoftwareAndServices {
 				_ROString = false;
 				_RO = nullptr;
 
+				if (Width == IsUnknownBit_t) {
+					_InputWidth = Is16Bit_t;
+					_OutputWidth = Is16Bit_t;
+					Width = Is16Bit_t;
+
+				} else {
+					_InputWidth = Width;
+					_OutputWidth = Width;
+				}
+
 				if (CSet != nullptr) {
 					_InputCharset = StringCache::Add(CSet);
 					_OutputCharset = StringCache::Add(CSet);
-
-					if (Width == IsUnknownBit_t) {
-						_InputWidth = Is16Bit_t;
-						_OutputWidth = Is16Bit_t;
-
-					} else {
-						_InputWidth = Width;
-						_OutputWidth = Width;
-					}
 
 				} else {
 					switch (Width) {
 
 						case Is8Bit_t:
 							_InputCharset = StringCache::Add(Current8BitCharset);
-							_InputWidth = Is8Bit_t;
 							_OutputCharset = StringCache::Add(Current8BitCharset);
-							_OutputWidth = Is8Bit_t;
 							break;
 
 						case Is16Bit_t:
 							_InputCharset = StringCache::Add(Current16BitCharset);
-							_InputWidth = Width;
-							_OutputCharset = StringCache::Add(Current8BitCharset);
-							_OutputWidth = Width;
+							_OutputCharset = StringCache::Add(Current16BitCharset);
 							break;
 
 						case Is32Bit_t:
 							_InputCharset = StringCache::Add(Current32BitCharset);
-							_InputWidth = Width;
 							_OutputCharset = StringCache::Add(Current32BitCharset);
-							_OutputWidth = Width;
 							break;
 
 						case IsWBit_t:
 							_InputCharset = StringCache::Add(CurrentWBitCharset);
-							_InputWidth = Width;
 							_OutputCharset = StringCache::Add(CurrentWBitCharset);
-							_OutputWidth = Width;
 							break;
 
 						default:
@@ -871,10 +799,8 @@ namespace SoftwareAndServices {
 						/*FALLTHRU*/
 
 						case IsUnknownBit_t:
-							_InputCharset = StringCache::Add(Current8BitCharset);
-							_InputWidth = Is8Bit_t;
-							_OutputCharset = StringCache::Add(Current8BitCharset);
-							_OutputWidth = Is8Bit_t;
+							_InputCharset = StringCache::Add(Current16BitCharset);
+							_OutputCharset = StringCache::Add(Current16BitCharset);
 							break;
 					}
 				}
@@ -906,48 +832,44 @@ namespace SoftwareAndServices {
 				_ROString = false;
 				_RO = nullptr;
 
+				if (Width == IsUnknownBit_t) {
+					_InputWidth = Is32Bit_t;
+					_OutputWidth = Is32Bit_t;
+					Width = Is32Bit_t;
+
+				} else {
+					_InputWidth = Width;
+					_OutputWidth = Width;
+				}
+
 				if (CSet != nullptr) {
 					_InputCharset = StringCache::Add(CSet);
 					_OutputCharset = StringCache::Add(CSet);
 
-					if (Width == IsUnknownBit_t) {
-						_InputWidth = Is16Bit_t;
-						_OutputWidth = Is16Bit_t;
-
-					} else {
-						_InputWidth = Width;
-						_OutputWidth = Width;
-					}
-
 				} else {
+					_InputWidth = Width;
+					_OutputWidth = Width;
+
 					switch (Width) {
 
 						case Is8Bit_t:
 							_InputCharset = StringCache::Add(Current8BitCharset);
-							_InputWidth = Is8Bit_t;
 							_OutputCharset = StringCache::Add(Current8BitCharset);
-							_OutputWidth = Is8Bit_t;
 							break;
 
 						case Is16Bit_t:
 							_InputCharset = StringCache::Add(Current16BitCharset);
-							_InputWidth = Width;
-							_OutputCharset = StringCache::Add(Current8BitCharset);
-							_OutputWidth = Width;
+							_OutputCharset = StringCache::Add(Current16BitCharset);
 							break;
 
 						case Is32Bit_t:
 							_InputCharset = StringCache::Add(Current32BitCharset);
-							_InputWidth = Width;
 							_OutputCharset = StringCache::Add(Current32BitCharset);
-							_OutputWidth = Width;
 							break;
 
 						case IsWBit_t:
 							_InputCharset = StringCache::Add(CurrentWBitCharset);
-							_InputWidth = Width;
 							_OutputCharset = StringCache::Add(CurrentWBitCharset);
-							_OutputWidth = Width;
 							break;
 
 						default:
@@ -955,10 +877,8 @@ namespace SoftwareAndServices {
 						/*FALLTHRU*/
 
 						case IsUnknownBit_t:
-							_InputCharset = StringCache::Add(Current8BitCharset);
-							_InputWidth = Is8Bit_t;
-							_OutputCharset = StringCache::Add(Current8BitCharset);
-							_OutputWidth = Is8Bit_t;
+							_InputCharset = StringCache::Add(Current32BitCharset);
+							_OutputCharset = StringCache::Add(Current32BitCharset);
 							break;
 					}
 				}
@@ -990,48 +910,41 @@ namespace SoftwareAndServices {
 				_ROString = false;
 				_RO = nullptr;
 
+				if (Width == IsUnknownBit_t) {
+					_InputWidth = IsWBit_t;
+					_OutputWidth = IsWBit_t;
+					Width = IsWBit_t;
+
+				} else {
+					_InputWidth = Width;
+					_OutputWidth = Width;
+				}
+
 				if (CSet != nullptr) {
 					_InputCharset = StringCache::Add(CSet);
 					_OutputCharset = StringCache::Add(CSet);
-
-					if (Width == IsUnknownBit_t) {
-						_InputWidth = Is16Bit_t;
-						_OutputWidth = Is16Bit_t;
-
-					} else {
-						_InputWidth = Width;
-						_OutputWidth = Width;
-					}
 
 				} else {
 					switch (Width) {
 
 						case Is8Bit_t:
 							_InputCharset = StringCache::Add(Current8BitCharset);
-							_InputWidth = Is8Bit_t;
 							_OutputCharset = StringCache::Add(Current8BitCharset);
-							_OutputWidth = Is8Bit_t;
 							break;
 
 						case Is16Bit_t:
 							_InputCharset = StringCache::Add(Current16BitCharset);
-							_InputWidth = Width;
-							_OutputCharset = StringCache::Add(Current8BitCharset);
-							_OutputWidth = Width;
+							_OutputCharset = StringCache::Add(Current16BitCharset);
 							break;
 
 						case Is32Bit_t:
 							_InputCharset = StringCache::Add(Current32BitCharset);
-							_InputWidth = Width;
 							_OutputCharset = StringCache::Add(Current32BitCharset);
-							_OutputWidth = Width;
 							break;
 
 						case IsWBit_t:
 							_InputCharset = StringCache::Add(CurrentWBitCharset);
-							_InputWidth = Width;
 							_OutputCharset = StringCache::Add(CurrentWBitCharset);
-							_OutputWidth = Width;
 							break;
 
 						default:
@@ -1040,9 +953,7 @@ namespace SoftwareAndServices {
 
 						case IsUnknownBit_t:
 							_InputCharset = StringCache::Add(CurrentWBitCharset);
-							_InputWidth = IsWBit_t;
 							_OutputCharset = StringCache::Add(CurrentWBitCharset);
-							_OutputWidth = IsWBit_t;
 							break;
 					}
 				}
@@ -1079,7 +990,7 @@ namespace SoftwareAndServices {
 			}
 
 			String	&
-			String::operator =(const char CopyFrom)
+			String::operator=(const char CopyFrom)
 			{
 				if (!_ROString) {
 					Clear();
@@ -1090,7 +1001,7 @@ namespace SoftwareAndServices {
 			}
 
 			String	&
-			String::operator =(const char16_t CopyFrom)
+			String::operator=(const char16_t CopyFrom)
 			{
 				if (!_ROString) {
 					Clear();
@@ -1101,7 +1012,7 @@ namespace SoftwareAndServices {
 			}
 
 			String	&
-			String::operator =(const char32_t CopyFrom)
+			String::operator=(const char32_t CopyFrom)
 			{
 				if (!_ROString) {
 					Clear();
@@ -1112,7 +1023,7 @@ namespace SoftwareAndServices {
 			}
 
 			String	&
-			String::operator =(const wchar_t CopyFrom)
+			String::operator=(const wchar_t CopyFrom)
 			{
 				if (!_ROString) {
 					Clear();
@@ -1123,7 +1034,7 @@ namespace SoftwareAndServices {
 			}
 
 			String	&
-			String::operator =(const char * CopyFrom)
+			String::operator=(const char * CopyFrom)
 			{
 				if (!_ROString) {
 					Clear();
@@ -1134,7 +1045,7 @@ namespace SoftwareAndServices {
 			}
 
 			String	&
-			String::operator =(const char16_t * CopyFrom)
+			String::operator=(const char16_t * CopyFrom)
 			{
 				if (!_ROString) {
 					Clear();
@@ -1145,7 +1056,7 @@ namespace SoftwareAndServices {
 			}
 
 			String	&
-			String::operator =(const char32_t * CopyFrom)
+			String::operator=(const char32_t * CopyFrom)
 			{
 				if (!_ROString) {
 					Clear();
@@ -1156,7 +1067,7 @@ namespace SoftwareAndServices {
 			}
 
 			String	&
-			String::operator =(const wchar_t * CopyFrom)
+			String::operator=(const wchar_t * CopyFrom)
 			{
 				if (!_ROString) {
 					Clear();
@@ -1167,19 +1078,7 @@ namespace SoftwareAndServices {
 			}
 
 			String	&
-			String::operator =(const String & CopyFrom)
-			{
-
-				if (!_ROString) {
-					Clear();
-					Append(CopyFrom);
-				}
-
-				return (*this);
-			}
-
-			String	&
-			String::operator =(const ROString & CopyFrom)
+			String::operator=(const String & CopyFrom)
 			{
 
 				if (!_ROString) {
@@ -1191,7 +1090,19 @@ namespace SoftwareAndServices {
 			}
 
 			String	&
-			String::operator =(const std::string & CopyFrom)
+			String::operator=(const ROString & CopyFrom)
+			{
+
+				if (!_ROString) {
+					Clear();
+					Append(CopyFrom);
+				}
+
+				return (*this);
+			}
+
+			String	&
+			String::operator=(const std::string & CopyFrom)
 			{
 				if (!_ROString) {
 					Clear();
@@ -1202,7 +1113,7 @@ namespace SoftwareAndServices {
 			}
 
 			String	&
-			String::operator =(const std::u16string & CopyFrom)
+			String::operator=(const std::u16string & CopyFrom)
 			{
 				if (!_ROString) {
 					Clear();
@@ -1213,7 +1124,7 @@ namespace SoftwareAndServices {
 			}
 
 			String	&
-			String::operator =(const std::u32string & CopyFrom)
+			String::operator=(const std::u32string & CopyFrom)
 			{
 				if (!_ROString) {
 					Clear();
@@ -1224,7 +1135,7 @@ namespace SoftwareAndServices {
 			}
 
 			String	&
-			String::operator =(const std::wstring & CopyFrom)
+			String::operator=(const std::wstring & CopyFrom)
 			{
 				if (!_ROString) {
 					Clear();
@@ -1232,119 +1143,6 @@ namespace SoftwareAndServices {
 				}
 
 				return (*this);
-			}
-
-
-
-			bool
-			String::operator <(const char * Other) const
-			{
-				bool			Results = false;
-
-				if (Other != nullptr) {
-					const char * const	Us8 = Get8();
-
-					Results = (::strcmp(Us8, Other) < 0);
-				}
-
-				return (Results);
-			}
-
-			bool
-			String::operator <(const String & Other) const
-			{
-				bool			Results = false;
-
-				const char * const	Us8 = Get8();
-				const char * const	Other8 = Other.Get8();
-
-				Results = (::strcmp(Us8, Other8) < 0);
-
-				return (Results);
-			}
-
-
-			bool
-			String::operator <=(const char * const Other) const
-			{
-				bool			Results = false;
-
-				if (Other != nullptr) {
-					const char * const	Us8 = Get8();
-
-					Results = (::strcmp(Us8, Other) < 0);
-				}
-
-				return (Results);
-			}
-
-			bool
-			String::operator <=(const String & Other) const
-			{
-				bool			Results = false;
-
-				const char * const	Us8 = Get8();
-				const char * const	Other8 = Other.Get8();
-
-				Results = (::strcmp(Us8, Other8) <= 0);
-
-				return (Results);
-			}
-
-
-			bool
-			String::operator >(const char * const Other) const
-			{
-				bool			Results = false;
-
-				if (Other != nullptr) {
-					const char * const	Us8 = Get8();
-
-					Results = (::strcmp(Us8, Other) > 0);
-				}
-
-				return (Results);
-			}
-
-			bool
-			String::operator >(const String & Other) const
-			{
-				bool			Results = false;
-
-				const char * const	Us8 = Get8();
-				const char * const	Other8 = Other.Get8();
-
-				Results = (::strcmp(Us8, Other8) > 0);
-
-				return (Results);
-			}
-
-
-			bool
-			String::operator >=(const char * const Other) const
-			{
-				bool			Results = false;
-
-				if (Other != nullptr) {
-					const char * const	Us8 = Get8();
-
-					Results = (::strcmp(Us8, Other) >= 0);
-				}
-
-				return (Results);
-			}
-
-			bool
-			String::operator >=(const String & Other) const
-			{
-				bool			Results = false;
-
-				const char * const	Us8 = Get8();
-				const char * const	Other8 = Other.Get8();
-
-				Results = (::strcmp(Us8, Other8) >= 0);
-
-				return (Results);
 			}
 
 			void

@@ -47,11 +47,35 @@ if test "x$enable_debug" = xyes; then
    CXXFLAGS=`echo "$CXXFLAGS" | $SED -e 's/-g[0-9]*//g'`
    changequote([,])
 
+	 CPPFLAGS="-DDEBUG -UNDEBUG"
    CFLAGS="$CFLAGS -g -O0"
    CXXFLAGS="$CXXFLAGS -g -O0"
 fi
 
-echo "CFLAGS=$CFLAGS"
+AC_ARG_ENABLE([gcov],
+	[AS_HELP_STRING([--enable-gcov],
+				[whether to compile for test coverage analysis])],
+	[enable_gcov=$enableval],
+	[enable_gcov=no]
+)
+
+if test "x$enable_gcov" = xyes; then
+   dnl Remove all optimization flags from CFLAGS
+   changequote({,})
+   CFLAGS=`echo "$CFLAGS" | $SED -e 's/-O[0-9s]*//g'`
+   CXXFLAGS=`echo "$CXXFLAGS" | $SED -e 's/-O[0-9s]*//g'`
+
+   CFLAGS=`echo "$CFLAGS" | $SED -e 's/-g[0-9]*//g'`
+   CXXFLAGS=`echo "$CXXFLAGS" | $SED -e 's/-g[0-9]*//g'`
+   changequote([,])
+
+	 dnl Add gcov flags
+	 CPPFLAGS="-DGCOV -DDEBUG -UNDEBUG"
+   CFLAGS="$CFLAGS --profile-arcs --coverage -g -O0"
+   CXXFLAGS="$CXXFLAGS --profile-arcs --coverage -g -O0"
+fi
+
+#echo "CFLAGS=$CFLAGS"
 
 # Checks for libraries.
 AC_CHECK_LIB([tinyxml2],[XMLDocument])

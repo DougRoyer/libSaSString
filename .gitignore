@@ -45,3 +45,4 @@ Makefile.in
 stamp-*
 *.in
 configure.ac.tests
+*.gcno

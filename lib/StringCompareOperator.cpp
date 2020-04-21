@@ -875,6 +875,403 @@ namespace SoftwareAndServices {
 				return (Results);
 			}
 
+
+			bool
+			String::operator<(const char * Other) const
+			{
+				bool			Results = false;
+
+				if (Other != nullptr) {
+					Results = (strcmp(*this, Other) < 0);
+				}
+
+				return (Results);
+			}
+
+			bool
+			String::operator<(const char16_t * Other) const
+			{
+				bool			Results = false;
+
+				if (Other != nullptr) {
+					Results = (strcmp(*this, Other) < 0);
+				}
+
+				return (Results);
+			}
+
+			bool
+			String::operator<(const char32_t * Other) const
+			{
+				bool			Results = false;
+
+				if (Other != nullptr) {
+					Results = (strcmp(*this, Other) < 0);
+				}
+
+				return (Results);
+			}
+
+			bool
+			String::operator<(const wchar_t * Other) const
+			{
+				bool			Results = false;
+
+				if (Other != nullptr) {
+					Results = (strcmp(*this, Other) < 0);
+				}
+
+				return (Results);
+			}
+
+			bool
+			String::operator<(const String & Other) const
+			{
+				bool			Results = false;
+
+				Results = (strcmp(*this, Other) < 0);
+
+				return (Results);
+			}
+
+			bool
+			String::operator<(const ROString & Other) const
+			{
+				bool			Results = false;
+
+				Results = (strcmp(*this, Other) < 0);
+
+				return (Results);
+			}
+
+			bool
+			String::operator<(const std::string & Other) const
+			{
+				bool			Results = false;
+
+				Results = (strcmp(*this, Other) < 0);
+
+				return (Results);
+			}
+
+			bool
+			String::operator<(const std::u16string & Other) const
+			{
+				bool			Results = false;
+
+				Results = (strcmp(*this, Other) < 0);
+
+				return (Results);
+			}
+
+			bool
+			String::operator<(const std::u32string & Other) const
+			{
+				bool			Results = false;
+
+				Results = (strcmp(*this, Other) < 0);
+
+				return (Results);
+			}
+
+			bool
+			String::operator<(const std::wstring & Other) const
+			{
+				bool			Results = false;
+
+				Results = (strcmp(*this, Other) < 0);
+
+				return (Results);
+			}
+
+			bool
+			String::operator<=(const char * const Other) const
+			{
+				bool			Results = false;
+
+				if (Other != nullptr) {
+					Results = (strcmp(*this, Other) < 0);
+				}
+
+				return (Results);
+			}
+
+			bool
+			String::operator<=(const char16_t * const Other) const
+			{
+				bool			Results = false;
+
+				if (Other != nullptr) {
+					Results = (strcmp(*this, Other) < 0);
+				}
+
+				return (Results);
+			}
+
+			bool
+			String::operator<=(const char32_t * const Other) const
+			{
+				bool			Results = false;
+
+				if (Other != nullptr) {
+					Results = (strcmp(*this, Other) < 0);
+				}
+
+				return (Results);
+			}
+
+			bool
+			String::operator<=(const wchar_t * const Other) const
+			{
+				bool			Results = false;
+
+				if (Other != nullptr) {
+					Results = (strcmp(*this, Other) < 0);
+				}
+
+				return (Results);
+			}
+
+			bool
+			String::operator<=(const String & Other) const
+			{
+				bool			Results = false;
+
+				Results = (strcmp(*this, Other) <= 0);
+
+				return (Results);
+			}
+
+			bool
+			String::operator<=(const ROString & Other) const
+			{
+				bool			Results = false;
+
+				Results = (strcmp(*this, Other) <= 0);
+
+				return (Results);
+			}
+
+			bool
+			String::operator<=(const std::string & Other) const
+			{
+				bool			Results = false;
+
+				Results = (strcmp(*this, Other) <= 0);
+
+				return (Results);
+			}
+
+			bool
+			String::operator<=(const std::u16string & Other) const
+			{
+				bool			Results = false;
+
+				Results = (strcmp(*this, Other) <= 0);
+
+				return (Results);
+			}
+
+			bool
+			String::operator<=(const std::u32string & Other) const
+			{
+				bool			Results = false;
+
+				Results = (strcmp(*this, Other) <= 0);
+
+				return (Results);
+			}
+
+			bool
+			String::operator<=(const std::wstring & Other) const
+			{
+				bool			Results = false;
+
+				Results = (strcmp(*this, Other) <= 0);
+
+				return (Results);
+			}
+
+			bool
+			String::operator>(const char * const Other) const
+			{
+				bool			Results = false;
+
+				if (Other != nullptr) {
+					Results = (strcmp(*this, Other) > 0);
+				}
+
+				return (Results);
+			}
+
+			bool
+			String::operator>(const char16_t * const Other) const
+			{
+				bool			Results = false;
+
+				if (Other != nullptr) {
+					Results = (strcmp(*this, Other) > 0);
+				}
+
+				return (Results);
+			}
+
+			bool
+			String::operator>(const char32_t * const Other) const
+			{
+				bool			Results = false;
+
+				if (Other != nullptr) {
+					Results = (strcmp(*this, Other) > 0);
+				}
+
+				return (Results);
+			}
+
+			bool
+			String::operator>(const wchar_t * const Other) const
+			{
+				bool			Results = false;
+
+				if (Other != nullptr) {
+					Results = (strcmp(*this, Other) > 0);
+				}
+
+				return (Results);
+			}
+
+			bool
+			String::operator>(const String & Other) const
+			{
+				bool			Results = false;
+
+				Results = (strcmp(*this, Other) > 0);
+
+				return (Results);
+			}
+
+			bool
+			String::operator>(const ROString & Other) const
+			{
+				bool			Results = false;
+
+				Results = (strcmp(*this, Other) > 0);
+
+				return (Results);
+			}
+
+			bool
+			String::operator>(const std::string & Other) const
+			{
+				bool			Results = false;
+
+				Results = (strcmp(*this, Other) > 0);
+
+				return (Results);
+			}
+
+			bool
+			String::operator>(const std::u16string & Other) const
+			{
+				bool			Results = false;
+
+				Results = (strcmp(*this, Other) > 0);
+
+				return (Results);
+			}
+
+			bool
+			String::operator>(const std::u32string & Other) const
+			{
+				bool			Results = false;
+
+				Results = (strcmp(*this, Other) > 0);
+
+				return (Results);
+			}
+
+			bool
+			String::operator>(const std::wstring & Other) const
+			{
+				bool			Results = false;
+
+				Results = (strcmp(*this, Other) > 0);
+
+				return (Results);
+			}
+
+			bool
+			String::operator>=(const char * const Other) const
+			{
+				bool			Results = false;
+
+				if (Other != nullptr) {
+					Results = (strcmp(*this, Other) >= 0);
+				}
+
+				return (Results);
+			}
+
+			bool
+			String::operator>=(const String & Other) const
+			{
+				bool			Results = false;
+
+				Results = (strcmp(*this, Other) >= 0);
+
+				return (Results);
+			}
+
+			bool
+			String::operator>=(const ROString & Other) const
+			{
+				bool			Results = false;
+
+				Results = (strcmp(*this, Other) >= 0);
+
+				return (Results);
+			}
+
+			bool
+			String::operator>=(const std::string & Other) const
+			{
+				bool			Results = false;
+
+				Results = (strcmp(*this, Other) >= 0);
+
+				return (Results);
+			}
+
+			bool
+			String::operator>=(const std::u16string & Other) const
+			{
+				bool			Results = false;
+
+				Results = (strcmp(*this, Other) >= 0);
+
+				return (Results);
+			}
+
+			bool
+			String::operator>=(const std::u32string & Other) const
+			{
+				bool			Results = false;
+
+				Results = (strcmp(*this, Other) >= 0);
+
+				return (Results);
+			}
+
+			bool
+			String::operator>=(const std::wstring & Other) const
+			{
+				bool			Results = false;
+
+				Results = (strcmp(*this, Other) >= 0);
+
+				return (Results);
+			}
+
 		}
 	}
 }
