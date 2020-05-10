@@ -46,7 +46,7 @@ namespace SoftwareAndServices {
 			{
 				Width = Is8Bit_t;
 				Str.Utf8 = nullptr;
-				Language = 0;
+				Locale = 0;
 				Charset = nullptr;
 				IsReadOnly = false;
 
@@ -57,7 +57,7 @@ namespace SoftwareAndServices {
 			                             uint64_t Len)
 			{
 				Str.Utf8 = nullptr;
-				Language = 0;
+				Locale = 0;
 				IsReadOnly = CopyFrom.IsReadOnly;
 				Width = CopyFrom.Width;
 
@@ -80,7 +80,7 @@ namespace SoftwareAndServices {
 			                             size_t Len)
 			{
 				Str.Utf8 = nullptr;
-				Language = 0;
+				Locale = 0;
 				Width = Is8Bit_t;
 				Charset = nullptr;
 				IsReadOnly = false;
@@ -107,7 +107,7 @@ namespace SoftwareAndServices {
 			                             size_t Len)
 			{
 				Str.Utf8 = nullptr;
-				Language = 0;
+				Locale = 0;
 				Width = Is16Bit_t;
 				Charset = nullptr;
 				IsReadOnly = false;
@@ -133,7 +133,7 @@ namespace SoftwareAndServices {
 			                             size_t Len)
 			{
 				Str.Utf8 = nullptr;
-				Language = 0;
+				Locale = 0;
 				Charset = nullptr;
 				Width = Is32Bit_t;
 				IsReadOnly = false;
@@ -159,7 +159,7 @@ namespace SoftwareAndServices {
 			                             size_t Len)
 			{
 				Str.Utf8 = nullptr;
-				Language = 0;
+				Locale = 0;
 				Charset = nullptr;
 				Width = IsWBit_t;
 				IsReadOnly = false;
@@ -185,7 +185,7 @@ namespace SoftwareAndServices {
 			                             size_t Len)
 			{
 				Str.Utf8 = nullptr;
-				Language = 0;
+				Locale = 0;
 				Charset = nullptr;
 				Width = IsWBit_t;
 				IsReadOnly = false;
@@ -208,7 +208,7 @@ namespace SoftwareAndServices {
 			                             size_t Len)
 			{
 				Str.Utf8 = nullptr;
-				Language = 0;
+				Locale = 0;
 				Charset = nullptr;
 				Width = Is8Bit_t;
 				IsReadOnly = false;
@@ -231,7 +231,7 @@ namespace SoftwareAndServices {
 			                             size_t Len)
 			{
 				Str.Utf16 = nullptr;
-				Language = 0;
+				Locale = 0;
 				Width = Is16Bit_t;
 				Charset = nullptr;
 				IsReadOnly = false;
@@ -254,7 +254,7 @@ namespace SoftwareAndServices {
 			                             size_t Len)
 			{
 				Str.Utf32 = nullptr;
-				Language = 0;
+				Locale = 0;
 				Charset = nullptr;
 				Width = Is32Bit_t;
 				IsReadOnly = false;
@@ -331,7 +331,7 @@ namespace SoftwareAndServices {
 			void
 			String::StringSeg::SetLocale(locale_t TheLocale)
 			{
-				Language = TheLocale;
+				Locale = TheLocale;
 
 				return;
 			}
@@ -342,7 +342,7 @@ namespace SoftwareAndServices {
 			                       locale_t TheLocale)
 			{
 				Clear();
-				Language = TheLocale;
+				Locale = TheLocale;
 				Copy(CopyFrom, Len);
 				Charset = StringCache::Add(CopyFrom.Charset);
 			}
@@ -353,7 +353,7 @@ namespace SoftwareAndServices {
 			                       locale_t TheLocale)
 			{
 				Clear();
-				Language = TheLocale;
+				Locale = TheLocale;
 				Width = Is8Bit_t;
 				StrUnits = 0;
 
@@ -381,7 +381,7 @@ namespace SoftwareAndServices {
 			                       locale_t TheLocale)
 			{
 				Clear();
-				Language = TheLocale;
+				Locale = TheLocale;
 				Width = Is16Bit_t;
 				StrUnits = 0;
 
@@ -409,7 +409,7 @@ namespace SoftwareAndServices {
 			                       locale_t TheLocale)
 			{
 				Clear();
-				Language = TheLocale;
+				Locale = TheLocale;
 				Width = Is32Bit_t;
 				StrUnits = 0;
 
@@ -437,7 +437,7 @@ namespace SoftwareAndServices {
 			                       locale_t TheLocale)
 			{
 				Clear();
-				Language = TheLocale;
+				Locale = TheLocale;
 				Width = IsWBit_t;
 				StrUnits = 0;
 
@@ -504,7 +504,7 @@ namespace SoftwareAndServices {
 			                        size_t Len)
 			{
 				Clear();
-				Language = CopyFrom.Language;
+				Locale = CopyFrom.Locale;
 
 				Width = CopyFrom.Width;
 
@@ -628,7 +628,7 @@ namespace SoftwareAndServices {
 						}
 				}
 
-				Language = 0;
+				Locale = 0;
 
 				if (Charset != nullptr) {
 					StringCache::Remove(Charset);

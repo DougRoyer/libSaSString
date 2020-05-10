@@ -177,6 +177,7 @@ AC_CHECK_FUNCS([memset mkdir realpath rmdir strchr strdup strspn])
 AC_CONFIG_FILES([Makefile
 		include/Makefile
 		lib/Makefile
+		Utilities/Makefile
 		Documentation/Makefile
 		])
 AM_CONDITIONAL([HAVE_DOXYGEN],

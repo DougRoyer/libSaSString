@@ -459,6 +459,49 @@ namespace SoftwareAndServices {
 				return;
 			}
 
+			StringCache::StringCache(const char * str, size_t Len)
+			{
+				if (pthread_mutex_trylock(&StringCacheOnceMutex) == 0) {
+					StringCache_Init();
+				}
+
+				Add(str, Len);
+
+				return;
+			}
+
+			StringCache::StringCache(const char16_t * str, size_t Len)
+			{
+				if (pthread_mutex_trylock(&StringCacheOnceMutex) == 0) {
+					StringCache_Init();
+				}
+
+				Add(str, Len);
+
+				return;
+			}
+
+			StringCache::StringCache(const char32_t * str, size_t Len)
+			{
+				if (pthread_mutex_trylock(&StringCacheOnceMutex) == 0) {
+					StringCache_Init();
+				}
+
+				Add(str, Len);
+
+				return;
+			}
+
+			StringCache::StringCache(const wchar_t * str, size_t Len)
+			{
+				if (pthread_mutex_trylock(&StringCacheOnceMutex) == 0) {
+					StringCache_Init();
+				}
+
+				Add(str, Len);
+
+				return;
+			}
 
 			StringCache::~StringCache()
 			{
@@ -468,7 +511,7 @@ namespace SoftwareAndServices {
 			}
 
 			const char	*
-			StringCache::Add(const char * str)
+			StringCache::Add(const char * str, size_t Len)
 			{
 				const char	*	Results = nullptr;
 
@@ -484,7 +527,13 @@ namespace SoftwareAndServices {
 				StringCacheDatum8	**	datumPP = nullptr;
 				StringCacheDatum8	*	datumP = nullptr;
 
-				datum->value = str;
+				const char	*	Tmp = str;
+
+				if (Len > 0) {
+					Tmp = String::strdup8(str, Len);
+				}
+
+				datum->value = Tmp;
 
 				datumPP
 				    = Tree_t<StringCacheDatum8>::Search(datum,
@@ -501,7 +550,9 @@ namespace SoftwareAndServices {
 							delete datum;
 
 						} else {
-							datum->value = strdup(str);
+							if (Len == 0) {
+								datum->value = strdup(str);
+							}
 						}
 					}
 
@@ -514,7 +565,7 @@ namespace SoftwareAndServices {
 			}
 
 			const char16_t	*
-			StringCache::Add(const char16_t * str)
+			StringCache::Add(const char16_t * str, size_t Len)
 			{
 				const char16_t	*	Results = nullptr;
 
@@ -530,7 +581,13 @@ namespace SoftwareAndServices {
 				StringCacheDatum16	**	datumPP = nullptr;
 				StringCacheDatum16	*	datumP = nullptr;
 
-				datum->value = str;
+				const char16_t	*	Tmp = str;
+
+				if (Len > 0) {
+					Tmp = String::strdup16(str, Len);
+				}
+
+				datum->value = Tmp;
 
 				datumPP
 				    = Tree_t<StringCacheDatum16>::Search(datum,
@@ -547,7 +604,9 @@ namespace SoftwareAndServices {
 							delete datum;
 
 						} else {
-							datum->value = String::strdup16(str);
+							if (Len == 0) {
+								datum->value = String::strdup16(str);
+							}
 						}
 					}
 
@@ -560,7 +619,7 @@ namespace SoftwareAndServices {
 			}
 
 			const char32_t	*
-			StringCache::Add(const char32_t * str)
+			StringCache::Add(const char32_t * str, size_t Len)
 			{
 				const char32_t	* Results = nullptr;
 
@@ -576,7 +635,13 @@ namespace SoftwareAndServices {
 				StringCacheDatum32	**	datumPP = nullptr;
 				StringCacheDatum32	*	datumP = nullptr;
 
-				datum->value = str;
+				const char32_t	*	Tmp = str;
+
+				if (Len > 0) {
+					Tmp = String::strdup32(str, Len);
+				}
+
+				datum->value = Tmp;
 
 				datumPP
 				    = Tree_t<StringCacheDatum32>::Search(datum,
@@ -593,7 +658,9 @@ namespace SoftwareAndServices {
 							delete datum;
 
 						} else {
-							datum->value = String::strdup32(str);
+							if (Len == 0) {
+								datum->value = String::strdup32(str);
+							}
 						}
 					}
 
@@ -606,13 +673,15 @@ namespace SoftwareAndServices {
 			}
 
 			const wchar_t	*
-			StringCache::Add(const wchar_t * str)
+			StringCache::Add(const wchar_t * str, size_t Len)
 			{
 				const wchar_t	* Results = nullptr;
 
 				if (pthread_mutex_trylock(&StringCacheOnceMutex) == 0) {
 					StringCache_Init();
 				}
+
+				const wchar_t	*	Tmp = str;
 
 				if (str == nullptr) {
 					str = emptyW;
@@ -622,7 +691,11 @@ namespace SoftwareAndServices {
 				StringCacheDatumW	**	datumPP = nullptr;
 				StringCacheDatumW	*	datumP = nullptr;
 
-				datum->value = str;
+				if (Len > 0) {
+					Tmp = String::strdupW(str, Len);
+				}
+
+				datum->value = Tmp;
 
 				datumPP
 				    = Tree_t<StringCacheDatumW>::Search(datum,
@@ -639,7 +712,9 @@ namespace SoftwareAndServices {
 							delete datum;
 
 						} else {
-							datum->value = String::strdupW(str);
+							if (Len == 0) {
+								datum->value = String::strdupW(str);
+							}
 						}
 					}
 

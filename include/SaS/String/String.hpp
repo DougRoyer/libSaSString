@@ -139,11 +139,6 @@ namespace SoftwareAndServices {
 			extern locale_t		DefaultWBitLocale;
 
 			/**
-			 * The 32-bit Locale default.
-			 */
-			extern locale_t		DefaultWBitLocale;
-
-			/**
 			 * The 8-bit Locale.
 			 */
 			extern locale_t		Current8BitLocale;
@@ -162,11 +157,6 @@ namespace SoftwareAndServices {
 			 * The W-bit (wchar_t) Locale.
 			 */
 			extern locale_t		CurrentWBitLocale;
-
-			/**
-			 * The 32-bit Locale default.
-			 */
-			extern locale_t		DefaultWBitLocale;
 
 			/**
 			 * The 8-bit Charset default.
@@ -320,7 +310,7 @@ namespace SoftwareAndServices {
 				public:
 
 					/**
-					 * String: Deafult Constructor
+					 * String: Default Constructor
 					 * Create an empty String object.
 					 *
 					 * The charset will be set to CurrentCharset.
@@ -367,6 +357,23 @@ namespace SoftwareAndServices {
 					 */
 					String(const char * const Charset,
 					       CharacterUnitWidth_e CharsetWidth);
+
+					/**
+					 * String: Constructor
+					 * Create an empty String object.
+					 *
+					 * Sets the default input and output, charset and
+					 * character width.
+					 *
+					 * You can still append any other charset and width to
+					 * this object.
+					 *
+					 * You can still Get8(), Get16(). Get32(), or GetW() from
+					 * this object, no matter the default charset.
+					 *
+					 * @param TheLocale An opened locale from setlocale.
+					 */
+					String(locale_t TheLocale);
 
 					/**
 					 * String: Copy Constructor
@@ -6076,6 +6083,16 @@ namespace SoftwareAndServices {
 					 * @param Out The FILE object to print to.
 					 */
 					void			Print(FILE & Out) const;
+
+					/**
+					 * String.Print()
+					 *
+					 * Print to File object.
+					 * Just the string to File.
+					 *
+					 * @param Out The File object to print to.
+					 */
+					void			Print(File & Out) const;
 
 					/**
 					 * String.Print()
@@ -44868,7 +44885,7 @@ namespace SoftwareAndServices {
 						 */
 						void	Set(const StringSeg & CopyFrom,
 						            size_t Len = 0,
-						            locale_t TheLocal = 0);
+						            locale_t TheLocale = 0);
 
 						/**
 						 * Set the string value for this segment.
@@ -45019,9 +45036,9 @@ namespace SoftwareAndServices {
 						const char	*	Charset;
 
 						/**
-						 * Languange - (Not working yet).
+						 * Locale.
 						 */
-						locale_t		Language;
+						locale_t		Locale;
 
 						/**
 						 * When true, this is from Read Only (ROString) data.
@@ -45123,7 +45140,6 @@ namespace SoftwareAndServices {
 					friend class iteratorType<char32_t>;
 					friend class iteratorType<wchar_t>;
 			};
-
 		}
 	}
 }
@@ -45183,6 +45199,7 @@ extern "C" {
 	 */
 	void			ToLower32(char32_t * ToConvert);
 }
+//#include <SaS/String/StringLocale.hpp>
 #include <SaS/String/StringCache.hpp>
 
 #endif // SOFTWARE_AND_SERVICES_LIBRARY_STRING_STRING_HPP_

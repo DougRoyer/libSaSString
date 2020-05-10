@@ -2224,6 +2224,13 @@ namespace SoftwareAndServices {
 				return (Results);
 			}
 
+			void
+			String::Print(File & Out) const
+			{
+				Out.Printf("%s", Get8());
+
+				return;
+			}
 
 			void
 			String::Print(FILE & Out) const
@@ -2233,7 +2240,6 @@ namespace SoftwareAndServices {
 				return;
 			}
 
-
 			void
 			String::Print(std::ostream & Out) const
 			{
@@ -2241,7 +2247,6 @@ namespace SoftwareAndServices {
 
 				return;
 			}
-
 
 			uint64_t
 			String::Write(File & Fp)

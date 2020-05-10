@@ -90,80 +90,110 @@ namespace SoftwareAndServices {
 					 *
 					 * @param ToAdd A string to add to the cache.
 					 * The string will be copied, then placed into the cache.
+					 *
+					 * @param Len Optional. When provided, only Len characters
+					 * will be added.
 					 */
-					StringCache(const char * ToAdd);
+					StringCache(const char * ToAdd, size_t Len = 0);
 
 					/**
 					 * String Cache - Constructor.
 					 *
 					 * @param ToAdd A string to add to the cache.
 					 * The string will be copied, then placed into the cache.
+					 *
+					 * @param Len Optional. When provided, only Len characters
+					 * will be added.
 					 */
-					StringCache(const char16_t * ToAdd);
+					StringCache(const char16_t * ToAdd, size_t Len = 0);
 
 					/**
 					 * String Cache - Constructor.
 					 *
 					 * @param ToAdd A string to add to the cache.
 					 * The string will be copied, then placed into the cache.
+					 *
+					 * @param Len Optional. When provided, only Len characters
+					 * will be added.
 					 */
-					StringCache(const char32_t * ToAdd);
+					StringCache(const char32_t * ToAdd, size_t Len = 0);
 
 					/**
 					 * String Cache - Constructor.
 					 *
 					 * @param ToAdd A string to add to the cache.
 					 * The string will be copied, then placed into the cache.
+					 *
+					 * @param Len Optional. When provided, only Len characters
+					 * will be added.
 					 */
-					StringCache(const wchar_t * ToAdd);
+					StringCache(const wchar_t * ToAdd, size_t Len = 0);
 
 					/**
 					 * String Cache - Constructor.
 					 *
 					 * @param ToAdd A string to add to the cache.
 					 * The string will be copied, then placed into the cache.
+					 *
+					 * @param Len Optional. When provided, only Len characters
+					 * will be added.
 					 */
-					StringCache(const std::string & ToAdd);
+					StringCache(const std::string & ToAdd, size_t Len = 0);
 
 					/**
 					 * String Cache - Constructor.
 					 *
 					 * @param ToAdd A string to add to the cache.
 					 * The string will be copied, then placed into the cache.
+					 *
+					 * @param Len Optional. When provided, only Len characters
+					 * will be added.
 					 */
-					StringCache(const std::u16string & ToAdd);
+					StringCache(const std::u16string & ToAdd, size_t Len = 0);
 
 					/**
 					 * String Cache - Constructor.
 					 *
 					 * @param ToAdd A string to add to the cache.
 					 * The string will be copied, then placed into the cache.
+					 *
+					 * @param Len Optional. When provided, only Len characters
+					 * will be added.
 					 */
-					StringCache(const std::u32string & ToAdd);
+					StringCache(const std::u32string & ToAdd, size_t Len = 0);
 
 					/**
 					 * String Cache - Constructor.
 					 *
 					 * @param ToAdd A string to add to the cache.
 					 * The string will be copied, then placed into the cache.
+					 *
+					 * @param Len Optional. When provided, only Len characters
+					 * will be added.
 					 */
-					StringCache(const std::wstring & ToAdd);
+					StringCache(const std::wstring & ToAdd, size_t Len = 0);
 
 					/**
 					 * String Cache - Constructor.
 					 *
 					 * @param ToAdd A string to add to the cache.
 					 * The string will be copied, then placed into the cache.
+					 *
+					 * @param Len Optional. When provided, only Len characters
+					 * will be added.
 					 */
-					StringCache(const String & ToAdd);
+					StringCache(const String & ToAdd, size_t Len = 0);
 
 					/**
 					 * String Cache - Constructor.
 					 *
 					 * @param ToAdd A string to add to the cache.
 					 * The string will be copied, then placed into the cache.
+					 *
+					 * @param Len Optional. When provided, only Len characters
+					 * will be added.
 					 */
-					StringCache(const ROString & ToAdd);
+					StringCache(const ROString & ToAdd, size_t Len = 0);
 
 					/**
 					 * String Cache - Destructor.
@@ -174,29 +204,53 @@ namespace SoftwareAndServices {
 					 * Add or get a reference to an entry in the cache.
 					 *
 					 * @param StringToCache The string to add and get the reference to.
+					 *
+					 * @param Len Optional. When provided, only Len characters
+					 * will be added.
+					 *
+					 * @return The pointer to use when referencing this string.
 					 */
-					static const char	*	Add(const char * StringToCache);
+					static const char	*	Add(const char * StringToCache,
+					                            size_t Len = 0);
 
 					/**
 					 * Add or get a reference to an entry in the cache.
 					 *
 					 * @param StringToCache The string to add and get the reference to.
+					 *
+					 * @param Len Optional. When provided, only Len characters
+					 * will be added.
+					 *
+					 * @return The pointer to use when referencing this string.
 					 */
-					static const char16_t	*	Add(const char16_t * StringToCache);
+					static const char16_t	*	Add(const char16_t * StringToCache,
+					                                size_t Len = 0);
 
 					/**
 					 * Add or get a reference to an entry in the cache.
 					 *
 					 * @param StringToCache The string to add and get the reference to.
+					 *
+					 * @param Len Optional. When provided, only Len characters
+					 * will be added.
+					 *
+					 * @return The pointer to use when referencing this string.
 					 */
-					static const char32_t	*	Add(const char32_t * StringToCache);
+					static const char32_t	*	Add(const char32_t * StringToCache,
+					                                size_t Len = 0);
 
 					/**
 					 * Add or get a reference to an entry in the cache.
 					 *
 					 * @param StringToCache The string to add and get the reference to.
+					 *
+					 * @param Len Optional. When provided, only Len characters
+					 * will be added.
+					 *
+					 * @return The pointer to use when referencing this string.
 					 */
-					static const wchar_t	*	Add(const wchar_t * StringToCache);
+					static const wchar_t	*	Add(const wchar_t * StringToCache,
+					                                size_t Len = 0);
 
 					/**
 					 * Decrement the reference count to the string. Remove it

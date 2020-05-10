@@ -7,6 +7,8 @@ AM_CPPFLAGS		= \
 			-I/usr/include/tirpc
 
 LIBS			= \
+			-L/usr/local/lib \
+			-lSaSCommon \
 			-licui18n \
 			-licuuc \
 			-licudata
@@ -43,3 +45,23 @@ libSaSString_la_SOURCES = \
 			strlower.c \
 			strsearch.cpp \
 			strupper.c
+
+Locale =
+			StringLocale.cpp \
+			StringLocaleLcAddress.cpp \
+			StringLocaleLcCtype.cpp \
+			StringLocaleLcCollate.cpp \
+			StringLocaleLcIdentification.cpp \
+			StringLocaleLcMeasurement.cpp \
+			StringLocaleLcMessages.cpp \
+			StringLocaleLcMonentary.cpp \
+			StringLocaleLcName.cpp \
+			StringLocaleLcNumeric.cpp \
+			StringLocaleLcPaper.cpp \
+			StringLocaleLcTelephone.cpp \
+			StringLocaleLcTime.cpp
+
+clean-generic:
+	$(RM) -f *.gcno
+	$(RM) -rf .deps
+

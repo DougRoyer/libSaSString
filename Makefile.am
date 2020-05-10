@@ -1,7 +1,7 @@
 AUTOMAKE_OPTIONS = foreign
 ACLOCAL_AMFLAGS = -I m4
 
-SUBDIRS = lib  include
+SUBDIRS = lib  include Utilities
 DOC_SUBDIR = Documentation
 
 dist_doc_DATA=README

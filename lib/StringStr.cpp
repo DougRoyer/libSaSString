@@ -994,6 +994,7 @@ namespace SoftwareAndServices {
 			String::strstr(const_iterator & It,
 			               const_iterator & LookFor)
 			{
+				/**@todo */
 			}
 
 		}

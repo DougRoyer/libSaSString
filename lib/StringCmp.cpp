@@ -7879,7 +7879,7 @@ namespace SoftwareAndServices {
 			}
 
 			bool
-			String::operator ==(char Other) const
+			String::operator==(char Other) const
 			{
 				bool		Results = false;
 
@@ -7942,7 +7942,7 @@ namespace SoftwareAndServices {
 			}
 
 			bool
-			String::operator ==(char16_t Other) const
+			String::operator==(char16_t Other) const
 			{
 				bool			Results = false;
 
@@ -8002,7 +8002,7 @@ namespace SoftwareAndServices {
 			}
 
 			bool
-			String::operator ==(char32_t Other) const
+			String::operator==(char32_t Other) const
 			{
 				bool			Results = false;
 
@@ -8062,7 +8062,7 @@ namespace SoftwareAndServices {
 			}
 
 			bool
-			String::operator ==(wchar_t Other) const
+			String::operator==(wchar_t Other) const
 			{
 				bool		Results = false;
 
@@ -8122,7 +8122,7 @@ namespace SoftwareAndServices {
 			}
 
 			bool
-			String::operator ==(const char * Other) const
+			String::operator==(const char * Other) const
 			{
 				bool		Results = false;
 
@@ -8179,7 +8179,7 @@ namespace SoftwareAndServices {
 			}
 
 			bool
-			String::operator ==(const char16_t * Other) const
+			String::operator==(const char16_t * Other) const
 			{
 				bool		Results = false;
 
@@ -8236,7 +8236,7 @@ namespace SoftwareAndServices {
 			}
 
 			bool
-			String::operator ==(const char32_t * Other) const
+			String::operator==(const char32_t * Other) const
 			{
 				bool		Results = false;
 
@@ -8293,7 +8293,7 @@ namespace SoftwareAndServices {
 			}
 
 			bool
-			String::operator ==(const wchar_t * Other) const
+			String::operator==(const wchar_t * Other) const
 			{
 				bool		Results = false;
 
@@ -8350,31 +8350,31 @@ namespace SoftwareAndServices {
 			}
 
 			bool
-			String::operator ==(const std::string & other) const
+			String::operator==(const std::string & other) const
 			{
 				return (*this == other.c_str());
 			}
 
 			bool
-			String::operator ==(const std::u16string & other) const
+			String::operator==(const std::u16string & other) const
 			{
 				return (*this == other.c_str());
 			}
 
 			bool
-			String::operator ==(const std::u32string & other) const
+			String::operator==(const std::u32string & other) const
 			{
 				return (*this == other.c_str());
 			}
 
 			bool
-			String::operator ==(const std::wstring & other) const
+			String::operator==(const std::wstring & other) const
 			{
 				return (*this == other.c_str());
 			}
 
 			bool
-			String::operator ==(const ROString & Other) const
+			String::operator==(const ROString & Other) const
 			{
 				bool			Results = false;
 
@@ -8466,7 +8466,7 @@ namespace SoftwareAndServices {
 			}
 
 			bool
-			String::operator ==(const String & Other) const
+			String::operator==(const String & Other) const
 			{
 				bool			Results = false;
 

@@ -990,7 +990,7 @@ namespace SoftwareAndServices {
 				bool			Results = false;
 
 				if (Other != nullptr) {
-					Results = (strcmp(*this, Other) < 0);
+					Results = (strcmp(*this, Other) <= 0);
 				}
 
 				return (Results);
@@ -1002,7 +1002,7 @@ namespace SoftwareAndServices {
 				bool			Results = false;
 
 				if (Other != nullptr) {
-					Results = (strcmp(*this, Other) < 0);
+					Results = (strcmp(*this, Other) <= 0);
 				}
 
 				return (Results);
@@ -1014,7 +1014,7 @@ namespace SoftwareAndServices {
 				bool			Results = false;
 
 				if (Other != nullptr) {
-					Results = (strcmp(*this, Other) < 0);
+					Results = (strcmp(*this, Other) <= 0);
 				}
 
 				return (Results);
@@ -1026,7 +1026,7 @@ namespace SoftwareAndServices {
 				bool			Results = false;
 
 				if (Other != nullptr) {
-					Results = (strcmp(*this, Other) < 0);
+					Results = (strcmp(*this, Other) <= 0);
 				}
 
 				return (Results);
@@ -1099,6 +1099,9 @@ namespace SoftwareAndServices {
 
 				if (Other != nullptr) {
 					Results = (strcmp(*this, Other) > 0);
+
+				} else {
+					Results = true;
 				}
 
 				return (Results);
@@ -1111,6 +1114,9 @@ namespace SoftwareAndServices {
 
 				if (Other != nullptr) {
 					Results = (strcmp(*this, Other) > 0);
+
+				} else {
+					Results = true;
 				}
 
 				return (Results);
@@ -1123,6 +1129,9 @@ namespace SoftwareAndServices {
 
 				if (Other != nullptr) {
 					Results = (strcmp(*this, Other) > 0);
+
+				} else {
+					Results = true;
 				}
 
 				return (Results);
@@ -1135,6 +1144,9 @@ namespace SoftwareAndServices {
 
 				if (Other != nullptr) {
 					Results = (strcmp(*this, Other) > 0);
+
+				} else {
+					Results = true;
 				}
 
 				return (Results);
@@ -1207,6 +1219,54 @@ namespace SoftwareAndServices {
 
 				if (Other != nullptr) {
 					Results = (strcmp(*this, Other) >= 0);
+
+				} else {
+					Results = true;
+				}
+
+				return (Results);
+			}
+
+			bool
+			String::operator>=(const char16_t * const Other) const
+			{
+				bool			Results = false;
+
+				if (Other != nullptr) {
+					Results = (strcmp(*this, Other) >= 0);
+
+				} else {
+					Results = true;
+				}
+
+				return (Results);
+			}
+
+			bool
+			String::operator>=(const char32_t * const Other) const
+			{
+				bool			Results = false;
+
+				if (Other != nullptr) {
+					Results = (strcmp(*this, Other) >= 0);
+
+				} else {
+					Results = true;
+				}
+
+				return (Results);
+			}
+
+			bool
+			String::operator>=(const wchar_t * const Other) const
+			{
+				bool			Results = false;
+
+				if (Other != nullptr) {
+					Results = (strcmp(*this, Other) >= 0);
+
+				} else {
+					Results = true;
 				}
 
 				return (Results);
