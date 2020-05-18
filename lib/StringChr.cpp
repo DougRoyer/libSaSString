@@ -42,1231 +42,1137 @@ namespace SoftwareAndServices {
 			{
 				const_iterator	&	Results = cend();
 
-				const_iterator	it = cbegin();
-				size_t		cWidth = 0;
-				int		Cmp = 0;
+				if (_ROString) {
+				} else {
+					std::vector<StringSeg *>::const_iterator	sIt;
 
-				while (it != cend()) {
+					const_iterator	it = cbegin();
 
-					switch (_InputWidth) {
 
-						case IsUnknownBit_t:
-							/*EMPTY*/
-							break;
+					const char *	In8 = Get8();
 
-						case Is8Bit_t: {
-								char	*	Out = nullptr;
-
-								if (Charset8To8(nullptr,
-								                ToFind,
-								                _InputCharset,
-								                Out)) {
-									cWidth = CharacterUnits(Out);
-									Cmp = memcmp(it.str8(), Out, cWidth);
-									delete Out;
-								}
-							}
-							break;
-
-						case Is16Bit_t: {
-								char16_t	*	Out = nullptr;
-
-								if (Charset8To16(nullptr,
-								                 ToFind,
-								                 _InputCharset,
-								                 Out)) {
-									cWidth = CharacterUnits(Out);
-									Cmp = memcmp(it.str16(), Out, cWidth);
-									delete Out;
-								}
-							}
-							break;
-
-						case Is32Bit_t: {
-								char32_t	*	Out = nullptr;
-
-								if (Charset8To32(nullptr,
-								                 ToFind,
-								                 _InputCharset,
-								                 Out)) {
-									cWidth = CharacterUnits(Out);
-									Cmp = memcmp(it.str32(), Out, cWidth);
-									delete Out;
-								}
-							}
-							break;
-
-						case IsWBit_t: {
-								wchar_t	*	Out = nullptr;
-
-								if (Charset8ToW(nullptr,
-								                ToFind,
-								                _InputCharset,
-								                Out)) {
-									cWidth = CharacterUnits(Out);
-									Cmp = memcmp(it.strW(), Out, cWidth);
-									delete Out;
-								}
-							}
-							break;
-					}
-
-					if (Cmp == 0) {
-						Results = it;
-						break;
-					}
-
-					it++;
-				}
-
-				return (Results);
-			}
-
-			String::const_iterator	&
-			String::strchr(const char16_t * const ToFind) const
-			{
-				const_iterator		&	Results = cend();
-
-				const_iterator		it = cbegin();
-				size_t		cWidth = 0;
-				int		Cmp = 0;
-
-				while (it != cend()) {
-
-					switch (_InputWidth) {
-
-						case IsUnknownBit_t:
-							/*EMPTY*/
-							break;
-
-						case Is8Bit_t: {
-								char	*	Out = nullptr;
-
-								if (Charset16To8(nullptr,
-								                 ToFind,
-								                 _InputCharset,
-								                 Out)) {
-									cWidth = CharacterUnits(Out);
-									Cmp = memcmp(it.str8(), Out, cWidth);
-								}
-
-								delete Out;
-							}
-							break;
-
-						case Is16Bit_t: {
-								char16_t	*	Out = nullptr;
-
-								if (Charset16To16(nullptr,
-								                  ToFind,
-								                  _InputCharset,
-								                  Out)) {
-									cWidth = CharacterUnits(Out);
-									Cmp = memcmp(it.str16(), Out, cWidth);
-								}
-
-								delete Out;
-							}
-							break;
-
-						case Is32Bit_t: {
-								char32_t	*	Out = nullptr;
-
-								if (Charset16To32(nullptr,
-								                  ToFind,
-								                  _InputCharset,
-								                  Out)) {
-									cWidth = CharacterUnits(Out);
-									Cmp = memcmp(it.str32(), Out, cWidth);
-								}
-
-								delete Out;
-							}
-							break;
-
-						case IsWBit_t: {
-								wchar_t	*	Out = nullptr;
-
-								if (Charset16ToW(nullptr,
-								                 ToFind,
-								                 _InputCharset,
-								                 Out)) {
-									cWidth = CharacterUnits(Out);
-									Cmp = memcmp(it.strW(), Out, cWidth);
-								}
-
-								delete Out;
-							}
-							break;
-					}
-
-					if (Cmp == 0) {
-						Results = it;
-						break;
-					}
-
-					it++;
-				}
-
-				return (Results);
-			}
-
-			String::const_iterator	&
-			String::strchr(const char32_t * const ToFind) const
-			{
-				const_iterator		&	Results = cend();
-
-				const_iterator		it = cbegin();
-				size_t		cWidth = 0;
-				int		Cmp = 0;
-
-				while (it != cend()) {
-
-					switch (_InputWidth) {
-
-						case IsUnknownBit_t:
-							/*EMPTY*/
-							break;
-
-						case Is8Bit_t: {
-								char	*	Out = nullptr;
-
-								if (Charset32To8(nullptr,
-								                 ToFind,
-								                 _InputCharset,
-								                 Out)) {
-									cWidth = CharacterUnits(Out);
-									Cmp = memcmp(it.str8(), Out, cWidth);
-								}
-
-								delete Out;
-							}
-							break;
-
-						case Is16Bit_t: {
-								char16_t	*	Out = nullptr;
-
-								if (Charset32To16(nullptr,
-								                  ToFind,
-								                  _InputCharset,
-								                  Out)) {
-									cWidth = CharacterUnits(Out);
-									Cmp = memcmp(it.str16(), Out, cWidth);
-								}
-
-								delete Out;
-							}
-							break;
-
-						case Is32Bit_t: {
-								char32_t	*	Out = nullptr;
-
-								if (Charset32To32(nullptr,
-								                  ToFind,
-								                  _InputCharset,
-								                  Out)) {
-									cWidth = CharacterUnits(Out);
-									Cmp = memcmp(it.str32(), Out, cWidth);
-								}
-
-								delete Out;
-							}
-							break;
-
-						case IsWBit_t: {
-								wchar_t	*	Out = nullptr;
-
-								if (Charset32ToW(nullptr,
-								                 ToFind,
-								                 _InputCharset,
-								                 Out)) {
-									cWidth = CharacterUnits(Out);
-									Cmp = memcmp(it.strW(), Out, cWidth);
-								}
-
-								delete Out;
-							}
-							break;
-					}
-
-					if (Cmp == 0) {
-						Results = it;
-						break;
-					}
-
-					it++;
-				}
-
-				return (Results);
-			}
-
-			String::const_iterator	&
-			String::strchr(const wchar_t * const ToFind) const
-			{
-				const_iterator		&	Results = cend();
-
-				const_iterator		it = cbegin();
-				size_t		cWidth = 0;
-				int		Cmp = 0;
-
-				while (it != cend()) {
-
-					switch (_InputWidth) {
-
-						case IsUnknownBit_t:
-							/*EMPTY*/
-							break;
-
-						case Is8Bit_t: {
-								char	*	Out = nullptr;
-
-								if (CharsetWTo8(nullptr,
-								                ToFind,
-								                _InputCharset,
-								                Out)) {
-									cWidth = CharacterUnits(Out);
-									Cmp = memcmp(it.str8(), Out, cWidth);
-								}
-
-								delete Out;
-							}
-							break;
-
-						case Is16Bit_t: {
-								char16_t	*	Out = nullptr;
-
-								if (CharsetWTo16(nullptr,
-								                 ToFind,
-								                 _InputCharset,
-								                 Out)) {
-									cWidth = CharacterUnits(Out);
-									Cmp = memcmp(it.str16(), Out, cWidth);
-								}
-
-								delete Out;
-							}
-							break;
-
-						case Is32Bit_t: {
-								char32_t	*	Out = nullptr;
-
-								if (CharsetWTo32(nullptr,
-								                 ToFind,
-								                 _InputCharset,
-								                 Out)) {
-									cWidth = CharacterUnits(Out);
-									Cmp = memcmp(it.str32(), Out, cWidth);
-								}
-
-								delete Out;
-							}
-							break;
-
-						case IsWBit_t: {
-								wchar_t	*	Out = nullptr;
-
-								if (CharsetWToW(nullptr,
-								                ToFind,
-								                _InputCharset,
-								                Out)) {
-									cWidth = CharacterUnits(Out);
-									Cmp = memcmp(it.strW(), Out, cWidth);
-								}
-
-								delete Out;
-							}
-							break;
-					}
-
-					if (Cmp == 0) {
-						Results = it;
-						break;
-					}
-
-					it++;
-				}
-
-				return (Results);
-			}
-
-			char	*
-			String::strchr(const char * const InStr, char CharToFind)
-			{
-				char		*	Results = nullptr;
-
-				if (InStr != nullptr) {
-					const char	*	Ptr = InStr;
-
-					while (*Ptr != 0) {
-						if (*Ptr == CharToFind) {
-							Results = (char *)Ptr;
+					while (it != cend()) {
+						if (*it == ToFind) {
+							Results = it;
 							break;
 						}
 
-						Ptr++;
+						it++;
 					}
+
+					return (Results);
 				}
 
-				return (Results);
-			}
+				String::const_iterator	&
+				String::strchr(const char16_t * const ToFind) const {
+					const_iterator		&	Results = cend();
 
-			char	*
-			String::strchr(const char * const InStr,
-			               const char * const CharToFind)
-			{
-				char	*	Results = nullptr;
+					const_iterator		it = cbegin();
+					size_t		cWidth = 0;
+					int		Cmp = 0;
 
-				if (InStr != nullptr && CharToFind != nullptr) {
-					if (*CharToFind != 0) {
-						size_t	Width = CharacterUnits(CharToFind);
-						size_t	Offset;
-						size_t	Len = strlen(CharToFind);
+					while (it != cend()) {
 
-						for (Offset = 0; Offset < (Len - Width); Offset++) {
-							if (memcmp(&InStr[Offset], CharToFind, Width) == 0) {
-								Results = (char *)&InStr[Offset];
+						switch (_InputWidth) {
+
+							case IsUnknownBit_t:
+								/*EMPTY*/
+								break;
+
+							case Is8Bit_t: {
+									char	*	Out = nullptr;
+
+									if (Charset16To8(nullptr,
+									                 ToFind,
+									                 _InputCharset,
+									                 Out)) {
+										cWidth = CharacterUnits(Out);
+										Cmp = memcmp(it.str8(), Out, cWidth);
+									}
+
+									delete Out;
+								}
+								break;
+
+							case Is16Bit_t: {
+									char16_t	*	Out = nullptr;
+
+									if (Charset16To16(nullptr,
+									                  ToFind,
+									                  _InputCharset,
+									                  Out)) {
+										cWidth = CharacterUnits(Out);
+										Cmp = memcmp(it.str16(), Out, cWidth);
+									}
+
+									delete Out;
+								}
+								break;
+
+							case Is32Bit_t: {
+									char32_t	*	Out = nullptr;
+
+									if (Charset16To32(nullptr,
+									                  ToFind,
+									                  _InputCharset,
+									                  Out)) {
+										cWidth = CharacterUnits(Out);
+										Cmp = memcmp(it.str32(), Out, cWidth);
+									}
+
+									delete Out;
+								}
+								break;
+
+							case IsWBit_t: {
+									wchar_t	*	Out = nullptr;
+
+									if (Charset16ToW(nullptr,
+									                 ToFind,
+									                 _InputCharset,
+									                 Out)) {
+										cWidth = CharacterUnits(Out);
+										Cmp = memcmp(it.strW(), Out, cWidth);
+									}
+
+									delete Out;
+								}
+								break;
+						}
+
+						if (Cmp == 0) {
+							Results = it;
+							break;
+						}
+
+						it++;
+					}
+
+					return (Results);
+				}
+
+				String::const_iterator	&
+				String::strchr(const char32_t * const ToFind) const {
+					const_iterator		&	Results = cend();
+
+					const_iterator		it = cbegin();
+					size_t		cWidth = 0;
+					int		Cmp = 0;
+
+					while (it != cend()) {
+
+						switch (_InputWidth) {
+
+							case IsUnknownBit_t:
+								/*EMPTY*/
+								break;
+
+							case Is8Bit_t: {
+									char	*	Out = nullptr;
+
+									if (Charset32To8(nullptr,
+									                 ToFind,
+									                 _InputCharset,
+									                 Out)) {
+										cWidth = CharacterUnits(Out);
+										Cmp = memcmp(it.str8(), Out, cWidth);
+									}
+
+									delete Out;
+								}
+								break;
+
+							case Is16Bit_t: {
+									char16_t	*	Out = nullptr;
+
+									if (Charset32To16(nullptr,
+									                  ToFind,
+									                  _InputCharset,
+									                  Out)) {
+										cWidth = CharacterUnits(Out);
+										Cmp = memcmp(it.str16(), Out, cWidth);
+									}
+
+									delete Out;
+								}
+								break;
+
+							case Is32Bit_t: {
+									char32_t	*	Out = nullptr;
+
+									if (Charset32To32(nullptr,
+									                  ToFind,
+									                  _InputCharset,
+									                  Out)) {
+										cWidth = CharacterUnits(Out);
+										Cmp = memcmp(it.str32(), Out, cWidth);
+									}
+
+									delete Out;
+								}
+								break;
+
+							case IsWBit_t: {
+									wchar_t	*	Out = nullptr;
+
+									if (Charset32ToW(nullptr,
+									                 ToFind,
+									                 _InputCharset,
+									                 Out)) {
+										cWidth = CharacterUnits(Out);
+										Cmp = memcmp(it.strW(), Out, cWidth);
+									}
+
+									delete Out;
+								}
+								break;
+						}
+
+						if (Cmp == 0) {
+							Results = it;
+							break;
+						}
+
+						it++;
+					}
+
+					return (Results);
+				}
+
+				String::const_iterator	&
+				String::strchr(const wchar_t * const ToFind) const {
+					const_iterator		&	Results = cend();
+
+					const_iterator		it = cbegin();
+					size_t		cWidth = 0;
+					int		Cmp = 0;
+
+					while (it != cend()) {
+
+						switch (_InputWidth) {
+
+							case IsUnknownBit_t:
+								/*EMPTY*/
+								break;
+
+							case Is8Bit_t: {
+									char	*	Out = nullptr;
+
+									if (CharsetWTo8(nullptr,
+									                ToFind,
+									                _InputCharset,
+									                Out)) {
+										cWidth = CharacterUnits(Out);
+										Cmp = memcmp(it.str8(), Out, cWidth);
+									}
+
+									delete Out;
+								}
+								break;
+
+							case Is16Bit_t: {
+									char16_t	*	Out = nullptr;
+
+									if (CharsetWTo16(nullptr,
+									                 ToFind,
+									                 _InputCharset,
+									                 Out)) {
+										cWidth = CharacterUnits(Out);
+										Cmp = memcmp(it.str16(), Out, cWidth);
+									}
+
+									delete Out;
+								}
+								break;
+
+							case Is32Bit_t: {
+									char32_t	*	Out = nullptr;
+
+									if (CharsetWTo32(nullptr,
+									                 ToFind,
+									                 _InputCharset,
+									                 Out)) {
+										cWidth = CharacterUnits(Out);
+										Cmp = memcmp(it.str32(), Out, cWidth);
+									}
+
+									delete Out;
+								}
+								break;
+
+							case IsWBit_t: {
+									wchar_t	*	Out = nullptr;
+
+									if (CharsetWToW(nullptr,
+									                ToFind,
+									                _InputCharset,
+									                Out)) {
+										cWidth = CharacterUnits(Out);
+										Cmp = memcmp(it.strW(), Out, cWidth);
+									}
+
+									delete Out;
+								}
+								break;
+						}
+
+						if (Cmp == 0) {
+							Results = it;
+							break;
+						}
+
+						it++;
+					}
+
+					return (Results);
+				}
+
+				char	*
+				String::strchr(const char * const InStr, char CharToFind) {
+					char		*	Results = nullptr;
+
+					if (InStr != nullptr) {
+						const char	*	Ptr = InStr;
+
+						while (*Ptr != 0) {
+							if (*Ptr == CharToFind) {
+								Results = (char *)Ptr;
 								break;
 							}
+
+							Ptr++;
 						}
 					}
+
+					return (Results);
 				}
 
-				return (Results);
-			}
+				char	*
+				String::strchr(const char * const InStr,
+				               const char * const CharToFind) {
+					char	*	Results = nullptr;
 
-			char	*
-			String::strchr(const char * const InStr,
-			               char16_t CharToFind)
-			{
-				char	*	Results = nullptr;
+					if (InStr != nullptr && CharToFind != nullptr) {
+						if (*CharToFind != 0) {
+							size_t	Width = CharacterUnits(CharToFind);
+							size_t	Offset;
+							size_t	Len = strlen(CharToFind);
 
-				if (InStr != nullptr) {
-					char	*	Out = nullptr;
-					char16_t		Tmp[2];
-
-					Tmp[0] = CharToFind;
-					Tmp[1] = 0;
-
-					if (Charset16To8(nullptr,
-					                 Tmp,
-					                 nullptr,
-					                 Out)) {
-						Results = strchr(InStr, Out);
-						delete Out;
+							for (Offset = 0; Offset < (Len - Width); Offset++) {
+								if (memcmp(&InStr[Offset], CharToFind, Width) == 0) {
+									Results = (char *)&InStr[Offset];
+									break;
+								}
+							}
+						}
 					}
+
+					return (Results);
 				}
 
-				return (Results);
-			}
+				char	*
+				String::strchr(const char * const InStr,
+				               char16_t CharToFind) {
+					char	*	Results = nullptr;
 
-			char	*
-			String::strchr(const char * const InStr,
-			               const char16_t * const CharToFind)
-			{
-				char	*	Results = nullptr;
-
-				if (InStr != nullptr && CharToFind != nullptr) {
-					if (*CharToFind != 0) {
+					if (InStr != nullptr) {
 						char	*	Out = nullptr;
+						char16_t		Tmp[2];
+
+						Tmp[0] = CharToFind;
+						Tmp[1] = 0;
 
 						if (Charset16To8(nullptr,
-						                 CharToFind,
+						                 Tmp,
 						                 nullptr,
 						                 Out)) {
-
-							size_t	Width = CharacterUnits(Out);
-							size_t	Offset;
-							size_t	Len = strlen(Out);
-
-							for (Offset = 0; Offset < (Len - Width); Offset++) {
-								if (memcmp(&InStr[Offset], Out, Width) == 0) {
-									Results = (char *)&InStr[Offset];
-									break;
-								}
-							}
-
+							Results = strchr(InStr, Out);
 							delete Out;
 						}
 					}
+
+					return (Results);
 				}
 
-				return (Results);
-			}
+				char	*
+				String::strchr(const char * const InStr,
+				               const char16_t * const CharToFind) {
+					char	*	Results = nullptr;
 
-			char	*
-			String::strchr(const char * const InStr,
-			               char32_t CharToFind)
-			{
-				char	*	Results = nullptr;
+					if (InStr != nullptr && CharToFind != nullptr) {
+						if (*CharToFind != 0) {
+							char	*	Out = nullptr;
 
-				if (InStr != nullptr) {
-					char	*	Out = nullptr;
-					char32_t		Tmp[2];
+							if (Charset16To8(nullptr,
+							                 CharToFind,
+							                 nullptr,
+							                 Out)) {
 
-					Tmp[0] = CharToFind;
-					Tmp[1] = 0;
+								size_t	Width = CharacterUnits(Out);
+								size_t	Offset;
+								size_t	Len = strlen(Out);
 
-					if (Charset32To8(nullptr,
-					                 Tmp,
-					                 nullptr,
-					                 Out)) {
-						Results = strchr(InStr, Out);
-						delete Out;
+								for (Offset = 0; Offset < (Len - Width); Offset++) {
+									if (memcmp(&InStr[Offset], Out, Width) == 0) {
+										Results = (char *)&InStr[Offset];
+										break;
+									}
+								}
+
+								delete Out;
+							}
+						}
 					}
+
+					return (Results);
 				}
 
-				return (Results);
-			}
+				char	*
+				String::strchr(const char * const InStr,
+				               char32_t CharToFind) {
+					char	*	Results = nullptr;
 
-			char	*
-			String::strchr(const char * const InStr,
-			               const char32_t * const CharToFind)
-			{
-				char	*	Results = nullptr;
-
-				if (InStr != nullptr && CharToFind != nullptr) {
-					if (*CharToFind != 0) {
+					if (InStr != nullptr) {
 						char	*	Out = nullptr;
+						char32_t		Tmp[2];
+
+						Tmp[0] = CharToFind;
+						Tmp[1] = 0;
 
 						if (Charset32To8(nullptr,
-						                 CharToFind,
+						                 Tmp,
 						                 nullptr,
 						                 Out)) {
-
-							size_t	Width = CharacterUnits(Out);
-							size_t	Offset;
-							size_t	Len = strlen(Out);
-
-							for (Offset = 0; Offset < (Len - Width); Offset++) {
-								if (memcmp(&InStr[Offset], Out, Width) == 0) {
-									Results = (char *)&InStr[Offset];
-									break;
-								}
-							}
-
+							Results = strchr(InStr, Out);
 							delete Out;
 						}
 					}
+
+					return (Results);
 				}
 
-				return (Results);
-			}
+				char	*
+				String::strchr(const char * const InStr,
+				               const char32_t * const CharToFind) {
+					char	*	Results = nullptr;
 
-			char	*
-			String::strchr(const char * const InStr,
-			               wchar_t CharToFind)
-			{
-				char	*	Results = nullptr;
+					if (InStr != nullptr && CharToFind != nullptr) {
+						if (*CharToFind != 0) {
+							char	*	Out = nullptr;
 
-				if (InStr != nullptr) {
-					char	*	Out = nullptr;
-					wchar_t		Tmp[2];
+							if (Charset32To8(nullptr,
+							                 CharToFind,
+							                 nullptr,
+							                 Out)) {
 
-					Tmp[0] = CharToFind;
-					Tmp[1] = 0;
+								size_t	Width = CharacterUnits(Out);
+								size_t	Offset;
+								size_t	Len = strlen(Out);
 
-					if (CharsetWTo8(nullptr,
-					                Tmp,
-					                nullptr,
-					                Out)) {
-						Results = strchr(InStr, Out);
-						delete Out;
+								for (Offset = 0; Offset < (Len - Width); Offset++) {
+									if (memcmp(&InStr[Offset], Out, Width) == 0) {
+										Results = (char *)&InStr[Offset];
+										break;
+									}
+								}
+
+								delete Out;
+							}
+						}
 					}
+
+					return (Results);
 				}
 
-				return (Results);
-			}
+				char	*
+				String::strchr(const char * const InStr,
+				               wchar_t CharToFind) {
+					char	*	Results = nullptr;
 
-			char	*
-			String::strchr(const char * const InStr,
-			               const wchar_t * const CharToFind)
-			{
-				char	*	Results = nullptr;
-
-				if (InStr != nullptr && CharToFind != nullptr) {
-					if (*CharToFind != 0) {
+					if (InStr != nullptr) {
 						char	*	Out = nullptr;
+						wchar_t		Tmp[2];
+
+						Tmp[0] = CharToFind;
+						Tmp[1] = 0;
 
 						if (CharsetWTo8(nullptr,
-						                CharToFind,
+						                Tmp,
 						                nullptr,
 						                Out)) {
-
-							size_t	Width = CharacterUnits(Out);
-							size_t	Offset;
-							size_t	Len = strlen(Out);
-
-							for (Offset = 0; Offset < (Len - Width); Offset++) {
-								if (memcmp(&InStr[Offset], Out, Width) == 0) {
-									Results = (char *)&InStr[Offset];
-									break;
-								}
-							}
-
+							Results = strchr(InStr, Out);
 							delete Out;
 						}
 					}
+
+					return (Results);
 				}
 
-				return (Results);
-			}
+				char	*
+				String::strchr(const char * const InStr,
+				               const wchar_t * const CharToFind) {
+					char	*	Results = nullptr;
 
-			char16_t	*
-			String::strchr(const char16_t * const InStr,
-			               char CharToFind)
-			{
-				char16_t	*	Results = nullptr;
+					if (InStr != nullptr && CharToFind != nullptr) {
+						if (*CharToFind != 0) {
+							char	*	Out = nullptr;
 
-				if (InStr != nullptr) {
-					char16_t	*	Out = nullptr;
-					char		Tmp[2];
+							if (CharsetWTo8(nullptr,
+							                CharToFind,
+							                nullptr,
+							                Out)) {
 
-					Tmp[0] = CharToFind;
-					Tmp[1] = 0;
+								size_t	Width = CharacterUnits(Out);
+								size_t	Offset;
+								size_t	Len = strlen(Out);
 
-					if (Charset8To16(nullptr,
-					                 Tmp,
-					                 nullptr,
-					                 Out)) {
-						Results = strchr(InStr, Out);
-						delete Out;
+								for (Offset = 0; Offset < (Len - Width); Offset++) {
+									if (memcmp(&InStr[Offset], Out, Width) == 0) {
+										Results = (char *)&InStr[Offset];
+										break;
+									}
+								}
+
+								delete Out;
+							}
+						}
 					}
+
+					return (Results);
 				}
 
-				return (Results);
-			}
+				char16_t	*
+				String::strchr(const char16_t * const InStr,
+				               char CharToFind) {
+					char16_t	*	Results = nullptr;
 
-			char16_t	*
-			String::strchr(const char16_t * const InStr,
-			               const char * const CharToFind)
-			{
-				char16_t	*	Results = nullptr;
-
-				if (InStr != nullptr && CharToFind != nullptr) {
-					if (*CharToFind != 0) {
+					if (InStr != nullptr) {
 						char16_t	*	Out = nullptr;
+						char		Tmp[2];
+
+						Tmp[0] = CharToFind;
+						Tmp[1] = 0;
 
 						if (Charset8To16(nullptr,
-						                 CharToFind,
+						                 Tmp,
 						                 nullptr,
 						                 Out)) {
+							Results = strchr(InStr, Out);
+							delete Out;
+						}
+					}
 
-							size_t	Width = CharacterUnits(Out);
+					return (Results);
+				}
+
+				char16_t	*
+				String::strchr(const char16_t * const InStr,
+				               const char * const CharToFind) {
+					char16_t	*	Results = nullptr;
+
+					if (InStr != nullptr && CharToFind != nullptr) {
+						if (*CharToFind != 0) {
+							char16_t	*	Out = nullptr;
+
+							if (Charset8To16(nullptr,
+							                 CharToFind,
+							                 nullptr,
+							                 Out)) {
+
+								size_t	Width = CharacterUnits(Out);
+								size_t	Offset;
+								size_t	Len = strlen(Out);
+
+								for (Offset = 0; Offset < (Len - Width); Offset++) {
+									if (memcmp(&InStr[Offset], Out, Width) == 0) {
+										Results = (char16_t *)&InStr[Offset];
+										break;
+									}
+								}
+
+								delete Out;
+							}
+						}
+					}
+
+					return (Results);
+				}
+
+				char16_t	*
+				String::strchr(const char16_t * const InStr,
+				               char16_t CharToFind) {
+					char16_t		*	Results = nullptr;
+
+					if (InStr != nullptr) {
+						const char16_t	*	Ptr = InStr;
+
+						while (*Ptr != 0) {
+							if (*Ptr == CharToFind) {
+								Results = (char16_t *)Ptr;
+								break;
+							}
+
+							Ptr++;
+						}
+					}
+
+					return (Results);
+				}
+
+				char16_t	*
+				String::strchr(const char16_t * const InStr,
+				               const char16_t * const CharToFind) {
+					char16_t	*	Results = nullptr;
+
+					if (InStr != nullptr && CharToFind != nullptr) {
+						if (*CharToFind != 0) {
+							size_t	Width = CharacterUnits(CharToFind);
 							size_t	Offset;
-							size_t	Len = strlen(Out);
+							size_t	Len = strlen(CharToFind);
 
 							for (Offset = 0; Offset < (Len - Width); Offset++) {
-								if (memcmp(&InStr[Offset], Out, Width) == 0) {
+								if (memcmp(&InStr[Offset], CharToFind, Width) == 0) {
 									Results = (char16_t *)&InStr[Offset];
 									break;
 								}
 							}
-
-							delete Out;
 						}
 					}
+
+					return (Results);
 				}
+				char16_t	*
+				String::strchr(const char16_t * const InStr,
+				               char32_t CharToFind) {
+					char16_t	*	Results = nullptr;
 
-				return (Results);
-			}
-
-			char16_t	*
-			String::strchr(const char16_t * const InStr,
-			               char16_t CharToFind)
-			{
-				char16_t		*	Results = nullptr;
-
-				if (InStr != nullptr) {
-					const char16_t	*	Ptr = InStr;
-
-					while (*Ptr != 0) {
-						if (*Ptr == CharToFind) {
-							Results = (char16_t *)Ptr;
-							break;
-						}
-
-						Ptr++;
-					}
-				}
-
-				return (Results);
-			}
-
-			char16_t	*
-			String::strchr(const char16_t * const InStr,
-			               const char16_t * const CharToFind)
-			{
-				char16_t	*	Results = nullptr;
-
-				if (InStr != nullptr && CharToFind != nullptr) {
-					if (*CharToFind != 0) {
-						size_t	Width = CharacterUnits(CharToFind);
-						size_t	Offset;
-						size_t	Len = strlen(CharToFind);
-
-						for (Offset = 0; Offset < (Len - Width); Offset++) {
-							if (memcmp(&InStr[Offset], CharToFind, Width) == 0) {
-								Results = (char16_t *)&InStr[Offset];
-								break;
-							}
-						}
-					}
-				}
-
-				return (Results);
-			}
-			char16_t	*
-			String::strchr(const char16_t * const InStr,
-			               char32_t CharToFind)
-			{
-				char16_t	*	Results = nullptr;
-
-				if (InStr != nullptr) {
-					char16_t	*	Out = nullptr;
-					char32_t		Tmp[2];
-
-					Tmp[0] = CharToFind;
-					Tmp[1] = 0;
-
-					if (Charset32To16(nullptr,
-					                  Tmp,
-					                  nullptr,
-					                  Out)) {
-						Results = strchr(InStr, Out);
-						delete Out;
-					}
-				}
-
-				return (Results);
-			}
-
-			char16_t	*
-			String::strchr(const char16_t * const InStr,
-			               const char32_t * const CharToFind)
-			{
-				char16_t	*	Results = nullptr;
-
-				if (InStr != nullptr && CharToFind != nullptr) {
-					if (*CharToFind != 0) {
+					if (InStr != nullptr) {
 						char16_t	*	Out = nullptr;
+						char32_t		Tmp[2];
+
+						Tmp[0] = CharToFind;
+						Tmp[1] = 0;
 
 						if (Charset32To16(nullptr,
-						                  CharToFind,
+						                  Tmp,
 						                  nullptr,
 						                  Out)) {
-
-							size_t	Width = CharacterUnits(Out);
-							size_t	Offset;
-							size_t	Len = strlen(Out);
-
-							for (Offset = 0; Offset < (Len - Width); Offset++) {
-								if (memcmp(&InStr[Offset], Out, Width) == 0) {
-									Results = (char16_t *)&InStr[Offset];
-									break;
-								}
-							}
-
+							Results = strchr(InStr, Out);
 							delete Out;
 						}
 					}
+
+					return (Results);
 				}
 
-				return (Results);
-			}
+				char16_t	*
+				String::strchr(const char16_t * const InStr,
+				               const char32_t * const CharToFind) {
+					char16_t	*	Results = nullptr;
 
-			char16_t	*
-			String::strchr(const char16_t * const InStr,
-			               wchar_t CharToFind)
-			{
-				char16_t	*	Results = nullptr;
+					if (InStr != nullptr && CharToFind != nullptr) {
+						if (*CharToFind != 0) {
+							char16_t	*	Out = nullptr;
 
-				if (InStr != nullptr) {
-					char16_t	*	Out = nullptr;
-					wchar_t		Tmp[2];
+							if (Charset32To16(nullptr,
+							                  CharToFind,
+							                  nullptr,
+							                  Out)) {
 
-					Tmp[0] = CharToFind;
-					Tmp[1] = 0;
+								size_t	Width = CharacterUnits(Out);
+								size_t	Offset;
+								size_t	Len = strlen(Out);
 
-					if (CharsetWTo16(nullptr,
-					                 Tmp,
-					                 nullptr,
-					                 Out)) {
-						Results = strchr(InStr, Out);
-						delete Out;
+								for (Offset = 0; Offset < (Len - Width); Offset++) {
+									if (memcmp(&InStr[Offset], Out, Width) == 0) {
+										Results = (char16_t *)&InStr[Offset];
+										break;
+									}
+								}
+
+								delete Out;
+							}
+						}
 					}
+
+					return (Results);
 				}
 
-				return (Results);
-			}
+				char16_t	*
+				String::strchr(const char16_t * const InStr,
+				               wchar_t CharToFind) {
+					char16_t	*	Results = nullptr;
 
-			char16_t	*
-			String::strchr(const char16_t * const InStr,
-			               const wchar_t * const CharToFind)
-			{
-				char16_t	*	Results = nullptr;
-
-				if (InStr != nullptr && CharToFind != nullptr) {
-					if (*CharToFind != 0) {
+					if (InStr != nullptr) {
 						char16_t	*	Out = nullptr;
+						wchar_t		Tmp[2];
+
+						Tmp[0] = CharToFind;
+						Tmp[1] = 0;
 
 						if (CharsetWTo16(nullptr,
-						                 CharToFind,
+						                 Tmp,
 						                 nullptr,
 						                 Out)) {
-
-							size_t	Width = CharacterUnits(Out);
-							size_t	Offset;
-							size_t	Len = strlen(Out);
-
-							for (Offset = 0; Offset < (Len - Width); Offset++) {
-								if (memcmp(&InStr[Offset], Out, Width) == 0) {
-									Results = (char16_t *)&InStr[Offset];
-									break;
-								}
-							}
-
+							Results = strchr(InStr, Out);
 							delete Out;
 						}
 					}
+
+					return (Results);
 				}
 
-				return (Results);
-			}
+				char16_t	*
+				String::strchr(const char16_t * const InStr,
+				               const wchar_t * const CharToFind) {
+					char16_t	*	Results = nullptr;
 
-			char32_t	*
-			String::strchr(const char32_t * const InStr,
-			               char CharToFind)
-			{
-				char32_t	*	Results = nullptr;
+					if (InStr != nullptr && CharToFind != nullptr) {
+						if (*CharToFind != 0) {
+							char16_t	*	Out = nullptr;
 
-				if (InStr != nullptr) {
-					char32_t	*	Out = nullptr;
-					char		Tmp[2];
+							if (CharsetWTo16(nullptr,
+							                 CharToFind,
+							                 nullptr,
+							                 Out)) {
 
-					Tmp[0] = CharToFind;
-					Tmp[1] = 0;
+								size_t	Width = CharacterUnits(Out);
+								size_t	Offset;
+								size_t	Len = strlen(Out);
 
-					if (Charset8To32(nullptr,
-					                 Tmp,
-					                 nullptr,
-					                 Out)) {
-						Results = strchr(InStr, Out[0]);
-						delete Out;
+								for (Offset = 0; Offset < (Len - Width); Offset++) {
+									if (memcmp(&InStr[Offset], Out, Width) == 0) {
+										Results = (char16_t *)&InStr[Offset];
+										break;
+									}
+								}
+
+								delete Out;
+							}
+						}
 					}
+
+					return (Results);
 				}
 
-				return (Results);
-			}
+				char32_t	*
+				String::strchr(const char32_t * const InStr,
+				               char CharToFind) {
+					char32_t	*	Results = nullptr;
 
-			char32_t	*
-			String::strchr(const char32_t * const InStr,
-			               const char * const CharToFind)
-			{
-				char32_t	*	Results = nullptr;
-
-				if (InStr != nullptr && CharToFind != nullptr) {
-					if (*CharToFind != 0) {
+					if (InStr != nullptr) {
 						char32_t	*	Out = nullptr;
+						char		Tmp[2];
+
+						Tmp[0] = CharToFind;
+						Tmp[1] = 0;
 
 						if (Charset8To32(nullptr,
-						                 CharToFind,
+						                 Tmp,
 						                 nullptr,
 						                 Out)) {
-
-							size_t	Width = CharacterUnits(Out);
-							size_t	Offset;
-							size_t	Len = strlen(Out);
-
-							for (Offset = 0; Offset < (Len - Width); Offset++) {
-								if (memcmp(&InStr[Offset], Out, Width) == 0) {
-									Results = (char32_t *)&InStr[Offset];
-									break;
-								}
-							}
-
+							Results = strchr(InStr, Out[0]);
 							delete Out;
 						}
 					}
+
+					return (Results);
 				}
 
-				return (Results);
-			}
+				char32_t	*
+				String::strchr(const char32_t * const InStr,
+				               const char * const CharToFind) {
+					char32_t	*	Results = nullptr;
 
-			char32_t	*
-			String::strchr(const char32_t * const InStr,
-			               char16_t CharToFind)
-			{
-				char32_t	*	Results = nullptr;
+					if (InStr != nullptr && CharToFind != nullptr) {
+						if (*CharToFind != 0) {
+							char32_t	*	Out = nullptr;
 
-				if (InStr != nullptr) {
-					char32_t	*	Out = nullptr;
-					char16_t		Tmp[2];
+							if (Charset8To32(nullptr,
+							                 CharToFind,
+							                 nullptr,
+							                 Out)) {
 
-					Tmp[0] = CharToFind;
-					Tmp[1] = 0;
+								size_t	Width = CharacterUnits(Out);
+								size_t	Offset;
+								size_t	Len = strlen(Out);
 
-					if (Charset16To32(nullptr,
-					                  Tmp,
-					                  nullptr,
-					                  Out)) {
-						Results = strchr(InStr, Out[0]);
-						delete Out;
+								for (Offset = 0; Offset < (Len - Width); Offset++) {
+									if (memcmp(&InStr[Offset], Out, Width) == 0) {
+										Results = (char32_t *)&InStr[Offset];
+										break;
+									}
+								}
+
+								delete Out;
+							}
+						}
 					}
+
+					return (Results);
 				}
 
-				return (Results);
-			}
+				char32_t	*
+				String::strchr(const char32_t * const InStr,
+				               char16_t CharToFind) {
+					char32_t	*	Results = nullptr;
 
-			char32_t	*
-			String::strchr(const char32_t * const InStr,
-			               const char16_t * const CharToFind)
-			{
-				char32_t	*	Results = nullptr;
-
-				if (InStr != nullptr && CharToFind != nullptr) {
-					if (*CharToFind != 0) {
+					if (InStr != nullptr) {
 						char32_t	*	Out = nullptr;
+						char16_t		Tmp[2];
+
+						Tmp[0] = CharToFind;
+						Tmp[1] = 0;
 
 						if (Charset16To32(nullptr,
-						                  CharToFind,
+						                  Tmp,
 						                  nullptr,
 						                  Out)) {
-
-							size_t	Width = CharacterUnits(Out);
-							size_t	Offset;
-							size_t	Len = strlen(Out);
-
-							for (Offset = 0; Offset < (Len - Width); Offset++) {
-								if (memcmp(&InStr[Offset], Out, Width) == 0) {
-									Results = (char32_t *)&InStr[Offset];
-									break;
-								}
-							}
-
+							Results = strchr(InStr, Out[0]);
 							delete Out;
 						}
 					}
+
+					return (Results);
 				}
 
-				return (Results);
-			}
+				char32_t	*
+				String::strchr(const char32_t * const InStr,
+				               const char16_t * const CharToFind) {
+					char32_t	*	Results = nullptr;
 
-			char32_t	*
-			String::strchr(const char32_t * const InStr,
-			               char32_t CharToFind)
-			{
-				char32_t		*	Results = nullptr;
+					if (InStr != nullptr && CharToFind != nullptr) {
+						if (*CharToFind != 0) {
+							char32_t	*	Out = nullptr;
 
-				if (InStr != nullptr) {
-					const char32_t	*	Ptr = InStr;
+							if (Charset16To32(nullptr,
+							                  CharToFind,
+							                  nullptr,
+							                  Out)) {
 
-					while (*Ptr != 0) {
-						if (*Ptr == CharToFind) {
-							Results = (char32_t *)Ptr;
-							break;
-						}
+								size_t	Width = CharacterUnits(Out);
+								size_t	Offset;
+								size_t	Len = strlen(Out);
 
-						Ptr++;
-					}
-				}
-
-				return (Results);
-			}
-
-			char32_t	*
-			String::strchr(const char32_t * const InStr,
-			               const char32_t * const CharToFind)
-			{
-				char32_t	*	Results = nullptr;
-
-				if (InStr != nullptr && CharToFind != nullptr) {
-					Results = strchr(InStr, CharToFind[0]);
-				}
-
-				return (Results);
-			}
-
-			char32_t	*
-			String::strchr(const char32_t * const InStr,
-			               wchar_t CharToFind)
-			{
-				char32_t	*	Results = nullptr;
-
-				if (InStr != nullptr) {
-					char32_t	*	Out = nullptr;
-					wchar_t		Tmp[2];
-
-					Tmp[0] = CharToFind;
-					Tmp[1] = 0;
-
-					if (CharsetWTo32(nullptr,
-					                 Tmp,
-					                 nullptr,
-					                 Out)) {
-						Results = strchr(InStr, Out[0]);
-						delete Out;
-					}
-				}
-
-				return (Results);
-			}
-
-			char32_t	*
-			String::strchr(const char32_t * const InStr,
-			               const wchar_t * const CharToFind)
-			{
-				char32_t	*	Results = nullptr;
-
-				if (InStr != nullptr && CharToFind != nullptr) {
-					if (*CharToFind != 0) {
-						char32_t	*	Out = nullptr;
-
-						if (CharsetWTo32(nullptr,
-						                 CharToFind,
-						                 nullptr,
-						                 Out)) {
-
-							size_t	Width = CharacterUnits(Out);
-							size_t	Offset;
-							size_t	Len = strlen(Out);
-
-							for (Offset = 0; Offset < (Len - Width); Offset++) {
-								if (memcmp(&InStr[Offset], Out, Width) == 0) {
-									Results = (char32_t *)&InStr[Offset];
-									break;
+								for (Offset = 0; Offset < (Len - Width); Offset++) {
+									if (memcmp(&InStr[Offset], Out, Width) == 0) {
+										Results = (char32_t *)&InStr[Offset];
+										break;
+									}
 								}
+
+								delete Out;
 							}
-
-							delete Out;
 						}
 					}
+
+					return (Results);
 				}
 
-				return (Results);
-			}
+				char32_t	*
+				String::strchr(const char32_t * const InStr,
+				               char32_t CharToFind) {
+					char32_t		*	Results = nullptr;
 
-			wchar_t	*
-			String::strchr(const wchar_t * const InStr, char CharToFind)
-			{
-				wchar_t	*	Results = nullptr;
+					if (InStr != nullptr) {
+						const char32_t	*	Ptr = InStr;
 
-				if (InStr != nullptr) {
-					wchar_t	*	Out = nullptr;
-					char		Tmp[2];
-
-					Tmp[0] = CharToFind;
-					Tmp[1] = 0;
-
-					if (Charset8ToW(nullptr,
-					                Tmp,
-					                nullptr,
-					                Out)) {
-						Results = strchr(InStr, Out[0]);
-						delete Out;
-					}
-				}
-
-				return (Results);
-			}
-
-			wchar_t	*
-			String::strchr(const wchar_t * const InStr,
-			               const char * const CharToFind)
-			{
-				wchar_t	*	Results = nullptr;
-
-				if (InStr != nullptr && CharToFind != nullptr) {
-					if (*CharToFind != 0) {
-						wchar_t	*	Out = nullptr;
-
-						if (Charset8ToW(nullptr,
-						                CharToFind,
-						                nullptr,
-						                Out)) {
-
-							size_t	Width = CharacterUnits(Out);
-							size_t	Offset;
-							size_t	Len = strlen(Out);
-
-							for (Offset = 0; Offset < (Len - Width); Offset++) {
-								if (memcmp(&InStr[Offset], Out, Width) == 0) {
-									Results = (wchar_t *)&InStr[Offset];
-									break;
-								}
-							}
-
-							delete Out;
-						}
-					}
-				}
-
-				return (Results);
-			}
-
-			wchar_t	*
-			String::strchr(const wchar_t * const InStr,
-			               char16_t CharToFind)
-			{
-				wchar_t	*	Results = nullptr;
-
-				if (InStr != nullptr) {
-					wchar_t	*	Out = nullptr;
-					char16_t		Tmp[2];
-
-					Tmp[0] = CharToFind;
-					Tmp[1] = 0;
-
-					if (Charset16ToW(nullptr,
-					                 Tmp,
-					                 nullptr,
-					                 Out)) {
-						Results = strchr(InStr, Out[0]);
-						delete Out;
-					}
-				}
-
-				return (Results);
-			}
-
-			wchar_t	*
-			String::strchr(const wchar_t * const InStr,
-			               const char16_t * const CharToFind)
-			{
-				wchar_t	*	Results = nullptr;
-
-				if (InStr != nullptr && CharToFind != nullptr) {
-					if (*CharToFind != 0) {
-						wchar_t	*	Out = nullptr;
-
-						if (Charset16ToW(nullptr,
-						                 CharToFind,
-						                 nullptr,
-						                 Out)) {
-
-							size_t	Width = CharacterUnits(Out);
-							size_t	Offset;
-							size_t	Len = strlen(Out);
-
-							for (Offset = 0; Offset < (Len - Width); Offset++) {
-								if (memcmp(&InStr[Offset], Out, Width) == 0) {
-									Results = (wchar_t *)&InStr[Offset];
-									break;
-								}
-							}
-
-							delete Out;
-						}
-					}
-				}
-
-				return (Results);
-			}
-
-			wchar_t	*
-			String::strchr(const wchar_t * const InStr,
-			               char32_t CharToFind)
-			{
-				wchar_t	*	Results = nullptr;
-
-				if (InStr != nullptr) {
-					wchar_t	*	Out = nullptr;
-					char32_t		Tmp[2];
-
-					Tmp[0] = CharToFind;
-					Tmp[1] = 0;
-
-					if (Charset32ToW(nullptr,
-					                 Tmp,
-					                 nullptr,
-					                 Out)) {
-						Results = strchr(InStr, Out[0]);
-						delete Out;
-					}
-				}
-
-				return (Results);
-			}
-
-			wchar_t	*
-			String::strchr(const wchar_t * const InStr,
-			               const char32_t * const CharToFind)
-			{
-				wchar_t	*	Results = nullptr;
-
-				if (InStr != nullptr && CharToFind != nullptr) {
-					if (*CharToFind != 0) {
-						wchar_t	*	Out = nullptr;
-
-						if (Charset32ToW(nullptr,
-						                 CharToFind,
-						                 nullptr,
-						                 Out)) {
-
-							size_t	Width = CharacterUnits(Out);
-							size_t	Offset;
-							size_t	Len = strlen(Out);
-
-							for (Offset = 0; Offset < (Len - Width); Offset++) {
-								if (memcmp(&InStr[Offset], Out, Width) == 0) {
-									Results = (wchar_t *)&InStr[Offset];
-									break;
-								}
-							}
-
-							delete Out;
-						}
-					}
-				}
-
-				return (Results);
-			}
-
-			wchar_t	*
-			String::strchr(const wchar_t * const InStr,
-			               wchar_t CharToFind)
-			{
-				wchar_t		*	Results = nullptr;
-
-				if (InStr != nullptr) {
-					const wchar_t	*	Ptr = InStr;
-
-					while (*Ptr != 0) {
-						if (*Ptr == CharToFind) {
-							Results = (wchar_t *)Ptr;
-							break;
-						}
-
-						Ptr++;
-					}
-				}
-
-				return (Results);
-			}
-
-			wchar_t	*
-			String::strchr(const wchar_t * const InStr,
-			               const wchar_t * const CharToFind)
-			{
-				wchar_t	*	Results = nullptr;
-
-				if (InStr != nullptr && CharToFind != nullptr) {
-					if (*CharToFind != 0) {
-						size_t	Width = CharacterUnits(CharToFind);
-						size_t	Offset;
-						size_t	Len = strlen(CharToFind);
-
-						for (Offset = 0; Offset < (Len - Width); Offset++) {
-							if (memcmp(&InStr[Offset], CharToFind, Width) == 0) {
-								Results = (wchar_t *)&InStr[Offset];
+						while (*Ptr != 0) {
+							if (*Ptr == CharToFind) {
+								Results = (char32_t *)Ptr;
 								break;
 							}
+
+							Ptr++;
 						}
 					}
+
+					return (Results);
 				}
 
-				return (Results);
-			}
+				char32_t	*
+				String::strchr(const char32_t * const InStr,
+				               const char32_t * const CharToFind) {
+					char32_t	*	Results = nullptr;
 
+					if (InStr != nullptr && CharToFind != nullptr) {
+						Results = strchr(InStr, CharToFind[0]);
+					}
+
+					return (Results);
+				}
+
+				char32_t	*
+				String::strchr(const char32_t * const InStr,
+				               wchar_t CharToFind) {
+					char32_t	*	Results = nullptr;
+
+					if (InStr != nullptr) {
+						char32_t	*	Out = nullptr;
+						wchar_t		Tmp[2];
+
+						Tmp[0] = CharToFind;
+						Tmp[1] = 0;
+
+						if (CharsetWTo32(nullptr,
+						                 Tmp,
+						                 nullptr,
+						                 Out)) {
+							Results = strchr(InStr, Out[0]);
+							delete Out;
+						}
+					}
+
+					return (Results);
+				}
+
+				char32_t	*
+				String::strchr(const char32_t * const InStr,
+				               const wchar_t * const CharToFind) {
+					char32_t	*	Results = nullptr;
+
+					if (InStr != nullptr && CharToFind != nullptr) {
+						if (*CharToFind != 0) {
+							char32_t	*	Out = nullptr;
+
+							if (CharsetWTo32(nullptr,
+							                 CharToFind,
+							                 nullptr,
+							                 Out)) {
+
+								size_t	Width = CharacterUnits(Out);
+								size_t	Offset;
+								size_t	Len = strlen(Out);
+
+								for (Offset = 0; Offset < (Len - Width); Offset++) {
+									if (memcmp(&InStr[Offset], Out, Width) == 0) {
+										Results = (char32_t *)&InStr[Offset];
+										break;
+									}
+								}
+
+								delete Out;
+							}
+						}
+					}
+
+					return (Results);
+				}
+
+				wchar_t	*
+				String::strchr(const wchar_t * const InStr, char CharToFind) {
+					wchar_t	*	Results = nullptr;
+
+					if (InStr != nullptr) {
+						wchar_t	*	Out = nullptr;
+						char		Tmp[2];
+
+						Tmp[0] = CharToFind;
+						Tmp[1] = 0;
+
+						if (Charset8ToW(nullptr,
+						                Tmp,
+						                nullptr,
+						                Out)) {
+							Results = strchr(InStr, Out[0]);
+							delete Out;
+						}
+					}
+
+					return (Results);
+				}
+
+				wchar_t	*
+				String::strchr(const wchar_t * const InStr,
+				               const char * const CharToFind) {
+					wchar_t	*	Results = nullptr;
+
+					if (InStr != nullptr && CharToFind != nullptr) {
+						if (*CharToFind != 0) {
+							wchar_t	*	Out = nullptr;
+
+							if (Charset8ToW(nullptr,
+							                CharToFind,
+							                nullptr,
+							                Out)) {
+
+								size_t	Width = CharacterUnits(Out);
+								size_t	Offset;
+								size_t	Len = strlen(Out);
+
+								for (Offset = 0; Offset < (Len - Width); Offset++) {
+									if (memcmp(&InStr[Offset], Out, Width) == 0) {
+										Results = (wchar_t *)&InStr[Offset];
+										break;
+									}
+								}
+
+								delete Out;
+							}
+						}
+					}
+
+					return (Results);
+				}
+
+				wchar_t	*
+				String::strchr(const wchar_t * const InStr,
+				               char16_t CharToFind) {
+					wchar_t	*	Results = nullptr;
+
+					if (InStr != nullptr) {
+						wchar_t	*	Out = nullptr;
+						char16_t		Tmp[2];
+
+						Tmp[0] = CharToFind;
+						Tmp[1] = 0;
+
+						if (Charset16ToW(nullptr,
+						                 Tmp,
+						                 nullptr,
+						                 Out)) {
+							Results = strchr(InStr, Out[0]);
+							delete Out;
+						}
+					}
+
+					return (Results);
+				}
+
+				wchar_t	*
+				String::strchr(const wchar_t * const InStr,
+				               const char16_t * const CharToFind) {
+					wchar_t	*	Results = nullptr;
+
+					if (InStr != nullptr && CharToFind != nullptr) {
+						if (*CharToFind != 0) {
+							wchar_t	*	Out = nullptr;
+
+							if (Charset16ToW(nullptr,
+							                 CharToFind,
+							                 nullptr,
+							                 Out)) {
+
+								size_t	Width = CharacterUnits(Out);
+								size_t	Offset;
+								size_t	Len = strlen(Out);
+
+								for (Offset = 0; Offset < (Len - Width); Offset++) {
+									if (memcmp(&InStr[Offset], Out, Width) == 0) {
+										Results = (wchar_t *)&InStr[Offset];
+										break;
+									}
+								}
+
+								delete Out;
+							}
+						}
+					}
+
+					return (Results);
+				}
+
+				wchar_t	*
+				String::strchr(const wchar_t * const InStr,
+				               char32_t CharToFind) {
+					wchar_t	*	Results = nullptr;
+
+					if (InStr != nullptr) {
+						wchar_t	*	Out = nullptr;
+						char32_t		Tmp[2];
+
+						Tmp[0] = CharToFind;
+						Tmp[1] = 0;
+
+						if (Charset32ToW(nullptr,
+						                 Tmp,
+						                 nullptr,
+						                 Out)) {
+							Results = strchr(InStr, Out[0]);
+							delete Out;
+						}
+					}
+
+					return (Results);
+				}
+
+				wchar_t	*
+				String::strchr(const wchar_t * const InStr,
+				               const char32_t * const CharToFind) {
+					wchar_t	*	Results = nullptr;
+
+					if (InStr != nullptr && CharToFind != nullptr) {
+						if (*CharToFind != 0) {
+							wchar_t	*	Out = nullptr;
+
+							if (Charset32ToW(nullptr,
+							                 CharToFind,
+							                 nullptr,
+							                 Out)) {
+
+								size_t	Width = CharacterUnits(Out);
+								size_t	Offset;
+								size_t	Len = strlen(Out);
+
+								for (Offset = 0; Offset < (Len - Width); Offset++) {
+									if (memcmp(&InStr[Offset], Out, Width) == 0) {
+										Results = (wchar_t *)&InStr[Offset];
+										break;
+									}
+								}
+
+								delete Out;
+							}
+						}
+					}
+
+					return (Results);
+				}
+
+				wchar_t	*
+				String::strchr(const wchar_t * const InStr,
+				               wchar_t CharToFind) {
+					wchar_t		*	Results = nullptr;
+
+					if (InStr != nullptr) {
+						const wchar_t	*	Ptr = InStr;
+
+						while (*Ptr != 0) {
+							if (*Ptr == CharToFind) {
+								Results = (wchar_t *)Ptr;
+								break;
+							}
+
+							Ptr++;
+						}
+					}
+
+					return (Results);
+				}
+
+				wchar_t	*
+				String::strchr(const wchar_t * const InStr,
+				               const wchar_t * const CharToFind) {
+					wchar_t	*	Results = nullptr;
+
+					if (InStr != nullptr && CharToFind != nullptr) {
+						if (*CharToFind != 0) {
+							size_t	Width = CharacterUnits(CharToFind);
+							size_t	Offset;
+							size_t	Len = strlen(CharToFind);
+
+							for (Offset = 0; Offset < (Len - Width); Offset++) {
+								if (memcmp(&InStr[Offset], CharToFind, Width) == 0) {
+									Results = (wchar_t *)&InStr[Offset];
+									break;
+								}
+							}
+						}
+					}
+
+					return (Results);
+				}
+
+			}
 		}
 	}
-}

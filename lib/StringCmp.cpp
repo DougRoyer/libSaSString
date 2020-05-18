@@ -37,6 +37,7 @@
 
 #include <SaS/String/CopyRightNotice.h>
 #include <SaS/String/StringCache.hpp>
+#include <SaS/String/ROString.hpp>
 
 namespace SoftwareAndServices {
 	namespace Library {
@@ -7116,7 +7117,7 @@ namespace SoftwareAndServices {
 
 				} else {
 
-					String	*	Copy = Two.ToCharset(Current8BitCharset,
+					String	*	Copy = Two.ToCharset(Current8BitCharset(),
 					                                 Is8Bit_t);
 
 					Results = strcmp(One.c_str(), Copy->Get8());

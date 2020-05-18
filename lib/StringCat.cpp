@@ -37,6 +37,7 @@
 
 #include <SaS/String/CopyRightNotice.h>
 #include <SaS/String/StringCache.hpp>
+#include <SaS/String/ROString.hpp>
 
 namespace SoftwareAndServices {
 	namespace Library {
@@ -161,13 +162,13 @@ namespace SoftwareAndServices {
 			String::strcat8(char * ToString,
 			                const String & FromString)
 			{
-				char	*	Results = ToString;
+				char *	Results = ToString;
 
 				if (!FromString.IsReadOnly()) {
 					strcat8(ToString, FromString.Get8());
 
 				} else {
-					switch (FromString.InputWidth()) {
+					switch (FromString._RO->Width) {
 
 						case IsUnknownBit_t:
 							/*EMPTY*/
@@ -336,7 +337,7 @@ namespace SoftwareAndServices {
 					strcat16(ToString, FromString.Get16());
 
 				} else {
-					switch (FromString.InputWidth()) {
+					switch (FromString._RO->Width) {
 
 						case IsUnknownBit_t:
 							/*EMPTY*/
@@ -505,7 +506,7 @@ namespace SoftwareAndServices {
 					strcat32(ToString, FromString.Get32());
 
 				} else {
-					switch (FromString.InputWidth()) {
+					switch (FromString._RO->Width) {
 
 						case IsUnknownBit_t:
 							/*EMPTY*/
@@ -676,7 +677,7 @@ namespace SoftwareAndServices {
 					strcatW(ToString, FromString.Get32());
 
 				} else {
-					switch (FromString.InputWidth()) {
+					switch (FromString._RO->Width) {
 
 						case IsUnknownBit_t:
 							/*EMPTY*/
@@ -850,7 +851,7 @@ namespace SoftwareAndServices {
 					strncat8(ToString, FromString.Get8(), Len);
 
 				} else {
-					switch (FromString.InputWidth()) {
+					switch (FromString._RO->Width) {
 
 						case IsUnknownBit_t:
 							/*EMPTY*/
@@ -1034,7 +1035,7 @@ namespace SoftwareAndServices {
 
 
 				} else {
-					switch (FromString.InputWidth()) {
+					switch (FromString._RO->Width) {
 
 						case IsUnknownBit_t:
 							/*EMPTY*/
@@ -1216,7 +1217,7 @@ namespace SoftwareAndServices {
 					strncat32(ToString, FromString.Get32(), Len);
 
 				} else {
-					switch (FromString.InputWidth()) {
+					switch (FromString._RO->Width) {
 
 						case IsUnknownBit_t:
 							/*EMPTY*/
@@ -1398,7 +1399,7 @@ namespace SoftwareAndServices {
 					strncatW(ToString, FromString.GetW(), Len);
 
 				} else {
-					switch (FromString.InputWidth()) {
+					switch (FromString._RO->Width) {
 
 						case IsUnknownBit_t:
 							/*EMPTY*/
@@ -1560,6 +1561,7 @@ namespace SoftwareAndServices {
 			String	&
 			String::Append(const ROString & Str, size_t Len)
 			{
+
 				if (Len > Str.Length()) {
 					Len = Str.Length();
 				}

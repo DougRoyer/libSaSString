@@ -1,7 +1,7 @@
 //
 // BEGIN_SOFTWARE_AND_SERVICES_COPYRIGHT
 //
-// Copyright (C) 2010-2019 Software and Services LLC, All Rights Reserved.
+// Copyright (C) 2010-2020 Software and Services LLC, All Rights Reserved.
 //
 // NOTICE:
 //
@@ -44,6 +44,7 @@
 #define _MB_CAPABLE 1
 
 #include <SaS/String/StringCache.hpp>
+#include <SaS/String/ROString.hpp>
 #include <SaS/Common/Error.hpp>
 
 #include <stdio.h>

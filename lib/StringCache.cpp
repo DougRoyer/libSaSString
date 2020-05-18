@@ -510,7 +510,7 @@ namespace SoftwareAndServices {
 				return;
 			}
 
-			const char	*
+			const char	* const
 			StringCache::Add(const char * str, size_t Len)
 			{
 				const char	*	Results = nullptr;
@@ -564,7 +564,7 @@ namespace SoftwareAndServices {
 				return (Results);
 			}
 
-			const char16_t	*
+			const char16_t	* const
 			StringCache::Add(const char16_t * str, size_t Len)
 			{
 				const char16_t	*	Results = nullptr;
@@ -618,7 +618,7 @@ namespace SoftwareAndServices {
 				return (Results);
 			}
 
-			const char32_t	*
+			const char32_t	* const
 			StringCache::Add(const char32_t * str, size_t Len)
 			{
 				const char32_t	* Results = nullptr;
@@ -672,7 +672,7 @@ namespace SoftwareAndServices {
 				return (Results);
 			}
 
-			const wchar_t	*
+			const wchar_t	* const
 			StringCache::Add(const wchar_t * str, size_t Len)
 			{
 				const wchar_t	* Results = nullptr;
@@ -724,6 +724,30 @@ namespace SoftwareAndServices {
 				StringCacheDatumW::itemCount++;
 
 				return (Results);
+			}
+
+			const char	* const
+			StringCache::Add(const std::string & str, size_t Len)
+			{
+				return (Add(str.c_str(), Len));
+			}
+
+			const char16_t	* const
+			StringCache::Add(const std::u16string & str, size_t Len)
+			{
+				return (Add(str.c_str(), Len));
+			}
+
+			const char32_t	* const
+			StringCache::Add(const std::u32string & str, size_t Len)
+			{
+				return (Add(str.c_str(), Len));
+			}
+
+			const wchar_t	* const
+			StringCache::Add(const std::wstring & str, size_t Len)
+			{
+				return (Add(str.c_str(), Len));
 			}
 
 			uint64_t

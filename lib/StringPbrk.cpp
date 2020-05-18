@@ -31,6 +31,7 @@
 // END_DOUGLAS_MARK_ROYER_COPYRIGHT
 //
 #include <SaS/String/StringCache.hpp>
+#include <SaS/String/ROString.hpp>
 #include <sys/param.h>
 #include <algorithm>
 #include <ostream>

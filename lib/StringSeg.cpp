@@ -638,6 +638,56 @@ namespace SoftwareAndServices {
 				return;
 			}
 
+			const char * const
+			String::StringSeg::Charset(locale_t ALocale)
+			{
+				return (_LangInfoLoad(CODESET, ALocale));
+			}
+
+			const char * const
+			String::StringSeg::_LangInfoLoad(nl_item Item, locale_t ALocale)
+			{
+				const char *	Results = nullptr;
+
+				lconv		*		Info = nullptr;
+				std::pair
+				< std::multimap<locale_t, std::map<nl_item, char *>>::iterator,
+				std::multimap<locale_t, std::map<nl_item, char *>>::iterator>
+				LocaleMatch;
+
+				std::multimap<locale_t, std::map<nl_item, char *>>::iterator	ItemMatch;
+				std::map<nl_item, char *>::iterator		ItemIt;
+				bool	Found = false;
+
+				LocaleMatch = _LangInfo.equal_range(ALocale);
+
+				for (ItemMatch = LocaleMatch.first; ItemMatch != LocaleMatch.second; ItemMatch++) {
+					ItemIt = ItemMatch->second.find(Item);
+
+					if (ItemIt != ItemMatch->second.end()) {
+						Results = ItemIt->second;
+						Found = true;
+						break;
+					}
+				}
+
+				if (!Found) {
+					// Load from system, and store in cache.
+					//
+					char	*	Answer = nl_langinfo_l(Item, ALocale);
+
+					if (Answer != nullptr) {
+						// It should never be nullptr.
+						//
+						const char	*	Value = StringCache::Add(Answer);
+						std::make_pair(Item, Value);
+					}
+
+				}
+
+				return (Results);
+			}
+
 		}
 	}
 }

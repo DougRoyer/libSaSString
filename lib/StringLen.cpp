@@ -37,6 +37,7 @@
 
 #include <SaS/String/CopyRightNotice.h>
 #include <SaS/String/StringCache.hpp>
+#include <SaS/String/ROString.hpp>
 
 namespace SoftwareAndServices {
 	namespace Library {

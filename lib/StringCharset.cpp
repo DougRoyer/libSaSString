@@ -53,6 +53,7 @@
 #include <unicode/ucnv.h>
 #endif
 
+#include <langinfo.h>
 
 namespace SoftwareAndServices {
 	namespace Library {
@@ -162,8 +163,8 @@ namespace SoftwareAndServices {
 
 
 				/**
-				* List of open objects.
-				*/
+				 * List of open objects.
+				 */
 				static std::vector<IconvCache *>	Existing;
 			};
 
@@ -1572,411 +1573,369 @@ namespace SoftwareAndServices {
 			String::ToCharset(const char * ToCharset,
 			                  CharacterUnitWidth_e Width) const
 			{
-				String		*	Results = nullptr;
+				String		*	Results = new String();
 
-				if (strcasecmp(_InputCharset, ToCharset) == 0) {
-					Results = new String(*this);
+				// Search through all segments, and convert them
+				// to ToCharset.
+				//
+				std::vector<StringSeg *>::const_iterator	It;
+				StringSeg	*	InSeg = nullptr;
+				StringSeg	*	OutSeg = nullptr;
+				const char	*	CSName  = nullptr;
 
-				} else {
+				for (It = _Segments.begin(); It != _Segments.end(); It++) {
+					InSeg = *It;
 
-					switch (_InputWidth) {
+					if (InSeg != nullptr) {
 
-						case IsUnknownBit_t:
-							/*EMPTY*/
-							break;
+						CSName = Charset(InSeg->Locale);
 
-						case Is8Bit_t: {
-								switch (Width) {
+						if (strcmp(ToCharset, CSName) == 0) {
+							OutSeg = new StringSeg(*InSeg);
+							Results->_Segments.push_back(OutSeg);
 
-									case IsUnknownBit_t:
-										/*EMPTY*/
-										break;
+						} else {
+							switch (InSeg->Width) {
 
-									case Is8Bit_t: {
-											// From 8 to 8
-											//
-											char	*	Out = nullptr;
+								case IsUnknownBit_t:
+									/*EMPTY*/
+									break;
 
-											if (String::Charset8To8(nullptr,
-											                        Get8(),
-											                        ToCharset,
-											                        Out)) {
+								case Is8Bit_t: {
+										switch (Width) {
 
-												if (Out != nullptr) {
-													Results = new String(Out, ToCharset, Width);
-													delete Out;
+											case IsUnknownBit_t:
+												/*EMPTY*/
+												break;
+
+											case Is8Bit_t: {
+													// From 8 to 8
+													//
+													char	*	Out = nullptr;
+
+													if (String::Charset8To8(nullptr,
+													                        Get8(),
+													                        ToCharset,
+													                        Out)) {
+
+														if (Out != nullptr) {
+															OutSeg = new StringSeg(Out);
+															Results->_Segments.push_back(OutSeg);
+															delete Out;
+														}
+													}
 												}
-											}
-										}
-										break;
+												break;
 
-									case Is16Bit_t: {
-											// From 8 to 16
-											//
-											char16_t	*	Out = nullptr;
+											case Is16Bit_t: {
+													// From 8 to 16
+													//
+													char16_t	*	Out = nullptr;
 
-											if (String::Charset8To16(nullptr,
-											                         Get8(),
-											                         ToCharset,
-											                         Out)) {
-												if (Out != nullptr) {
-													Results = new String(Out, ToCharset, Width);
-													delete Out;
+													if (String::Charset8To16(nullptr,
+													                         Get8(),
+													                         ToCharset,
+													                         Out)) {
+														if (Out != nullptr) {
+															OutSeg = new StringSeg(Out);
+															Results->_Segments.push_back(OutSeg);
+															delete Out;
+														}
+													}
 												}
-											}
-										}
-										break;
+												break;
 
-									case Is32Bit_t: {
-											// From 8 to 32
-											//
-											char32_t	*	Out = nullptr;
+											case Is32Bit_t: {
+													// From 8 to 32
+													//
+													char32_t	*	Out = nullptr;
 
-											if (String::Charset8To32(nullptr,
-											                         Get8(),
-											                         ToCharset,
-											                         Out)) {
-												if (Out != nullptr) {
-													Results = new String(Out, ToCharset, Width);
-													delete Out;
+													if (String::Charset8To32(nullptr,
+													                         Get8(),
+													                         ToCharset,
+													                         Out)) {
+														if (Out != nullptr) {
+															OutSeg = new StringSeg(Out);
+															Results->_Segments.push_back(OutSeg);
+															delete Out;
+														}
+													}
 												}
-											}
-										}
-										break;
+												break;
 
-									case IsWBit_t: {
-											// From 8 to W
-											//
-											wchar_t	*	Out = nullptr;
+											case IsWBit_t: {
+													// From 8 to W
+													//
+													wchar_t	*	Out = nullptr;
 
-											if (String::Charset8ToW(nullptr,
-											                        Get8(),
-											                        ToCharset,
-											                        Out)) {
-												if (Out != nullptr) {
-													Results = new String(Out, ToCharset, Width);
-													delete Out;
+													if (String::Charset8ToW(nullptr,
+													                        Get8(),
+													                        ToCharset,
+													                        Out)) {
+														if (Out != nullptr) {
+															OutSeg = new StringSeg(Out);
+															Results->_Segments.push_back(OutSeg);
+															delete Out;
+														}
+													}
 												}
-											}
+												break;
 										}
-										break;
-								}
+									}
+									break;
+
+								case Is16Bit_t: {
+										switch (Width) {
+
+											case IsUnknownBit_t:
+												/*EMPTY*/
+												break;
+
+											case Is8Bit_t: {
+													// From 16 to 8
+													//
+													char	*	Out = nullptr;
+
+													if (String::Charset16To8(nullptr,
+													                         Get16(),
+													                         ToCharset,
+													                         Out)) {
+														if (Out != nullptr) {
+															OutSeg = new StringSeg(Out);
+															Results->_Segments.push_back(OutSeg);
+															delete Out;
+														}
+													}
+												}
+												break;
+
+											case Is16Bit_t: {
+													// From 16 to 16
+													//
+													char16_t	*	Out = nullptr;
+
+													if (String::Charset16To16(nullptr,
+													                          Get16(),
+													                          nullptr,
+													                          Out)) {
+														if (Out != nullptr) {
+															OutSeg = new StringSeg(Out);
+															Results->_Segments.push_back(OutSeg);
+															delete Out;
+														}
+													}
+												}
+												break;
+
+											case Is32Bit_t: {
+													// From 16 to 32
+													//
+													char32_t	*	Out = nullptr;
+
+													if (String::Charset16To32(nullptr,
+													                          Get16(),
+													                          ToCharset,
+													                          Out)) {
+														if (Out != nullptr) {
+															OutSeg = new StringSeg(Out);
+															Results->_Segments.push_back(OutSeg);
+															delete Out;
+														}
+													}
+												}
+												break;
+
+											case IsWBit_t: {
+													// From 16 to W
+													//
+													wchar_t	*	Out = nullptr;
+
+													if (String::Charset16ToW(nullptr,
+													                         Get16(),
+													                         ToCharset,
+													                         Out)) {
+														if (Out != nullptr) {
+															OutSeg = new StringSeg(Out);
+															Results->_Segments.push_back(OutSeg);
+															delete Out;
+														}
+													}
+												}
+												break;
+										}
+									}
+									break;
+
+								case Is32Bit_t: {
+										switch (Width) {
+
+											case IsUnknownBit_t:
+												/*EMPTY*/
+												break;
+
+											case Is8Bit_t: {
+													// From 32 to 8
+													//
+													char	*	Out = nullptr;
+
+													if (String::Charset32To8(nullptr,
+													                         Get32(),
+													                         ToCharset,
+													                         Out)) {
+														if (Out != nullptr) {
+															OutSeg = new StringSeg(Out);
+															Results->_Segments.push_back(OutSeg);
+															delete Out;
+														}
+													}
+												}
+												break;
+
+											case Is16Bit_t: {
+													// From 32 to 16
+													//
+													char16_t	*	Out = nullptr;
+
+													if (String::Charset32To16(nullptr,
+													                          Get32(),
+													                          ToCharset,
+													                          Out)) {
+														if (Out != nullptr) {
+															OutSeg = new StringSeg(Out);
+															Results->_Segments.push_back(OutSeg);
+															delete Out;
+														}
+													}
+												}
+												break;
+
+											case Is32Bit_t: {
+													// From 32 to 32
+													//
+													char32_t	*	Out = nullptr;
+
+													if (String::Charset32To32(nullptr,
+													                          Get32(),
+													                          ToCharset,
+													                          Out)) {
+														if (Out != nullptr) {
+															OutSeg = new StringSeg(Out);
+															Results->_Segments.push_back(OutSeg);
+															delete Out;
+														}
+													}
+												}
+												break;
+
+											case IsWBit_t: {
+													// From 32 to W
+													//
+													wchar_t	*	Out = nullptr;
+
+													if (String::Charset32ToW(nullptr,
+													                         Get32(),
+													                         ToCharset,
+													                         Out)) {
+														if (Out != nullptr) {
+															OutSeg = new StringSeg(Out);
+															Results->_Segments.push_back(OutSeg);
+															delete Out;
+														}
+													}
+												}
+												break;
+										}
+									}
+									break;
+
+								case IsWBit_t: {
+										switch (Width) {
+
+											case IsUnknownBit_t:
+												/*EMPTY*/
+												break;
+
+											case Is8Bit_t: {
+													// From W to 8
+													//
+													char	*	Out = nullptr;
+
+													if (String::CharsetWTo8(nullptr,
+													                        GetW(),
+													                        ToCharset,
+													                        Out)) {
+														if (Out != nullptr) {
+															OutSeg = new StringSeg(Out);
+															Results->_Segments.push_back(OutSeg);
+															delete Out;
+														}
+													}
+												}
+												break;
+
+											case Is16Bit_t: {
+													// From W to 16
+													//
+													char16_t	*	Out = nullptr;
+
+													if (String::CharsetWTo16(nullptr,
+													                         GetW(),
+													                         ToCharset,
+													                         Out)) {
+														if (Out != nullptr) {
+															OutSeg = new StringSeg(Out);
+															Results->_Segments.push_back(OutSeg);
+															delete Out;
+														}
+													}
+												}
+												break;
+
+											case Is32Bit_t: {
+													// From W to 32
+													//
+													char32_t	*	Out = nullptr;
+
+													if (String::CharsetWTo32(nullptr,
+													                         GetW(),
+													                         ToCharset,
+													                         Out)) {
+														if (Out != nullptr) {
+															OutSeg = new StringSeg(Out);
+															Results->_Segments.push_back(OutSeg);
+															delete Out;
+														}
+													}
+												}
+												break;
+
+											case IsWBit_t: {
+													// From W to W
+													//
+													wchar_t	*	Out = nullptr;
+
+													if (String::CharsetWToW(nullptr,
+													                        GetW(),
+													                        ToCharset,
+													                        Out)) {
+														if (Out != nullptr) {
+															OutSeg = new StringSeg(Out);
+															Results->_Segments.push_back(OutSeg);
+															delete Out;
+														}
+													}
+												}
+												break;
+										}
+									}
+									break;
 							}
-							break;
 
-						case Is16Bit_t: {
-								switch (Width) {
-
-									case IsUnknownBit_t:
-										/*EMPTY*/
-										break;
-
-									case Is8Bit_t: {
-											// From 16 to 8
-											//
-											char	*	Out = nullptr;
-
-											if (String::Charset16To8(nullptr,
-											                         Get16(),
-											                         ToCharset,
-											                         Out)) {
-												if (Out != nullptr) {
-													Results = new String(Out, ToCharset, Width);
-													delete Out;
-												}
-											}
-										}
-										break;
-
-									case Is16Bit_t: {
-											// From 16 to 16
-											//
-											char16_t	*	Out = nullptr;
-
-											if (String::Charset16To16(nullptr,
-											                          Get16(),
-											                          nullptr,
-											                          Out)) {
-												if (Out != nullptr) {
-													Results = new String(Out, ToCharset, Width);
-													delete Out;
-												}
-											}
-										}
-										break;
-
-									case Is32Bit_t: {
-											// From 16 to 32
-											//
-											char32_t	*	Out = nullptr;
-
-											if (String::Charset16To32(nullptr,
-											                          Get16(),
-											                          ToCharset,
-											                          Out)) {
-												if (Out != nullptr) {
-													Results = new String(Out, ToCharset, Width);
-													delete Out;
-												}
-											}
-										}
-										break;
-
-									case IsWBit_t: {
-											// From 16 to W
-											//
-											wchar_t	*	Out = nullptr;
-
-											if (String::Charset16ToW(nullptr,
-											                         Get16(),
-											                         ToCharset,
-											                         Out)) {
-												if (Out != nullptr) {
-													Results = new String(Out, ToCharset, Width);
-													delete Out;
-												}
-											}
-										}
-										break;
-								}
-							}
-							break;
-
-						case Is32Bit_t: {
-								switch (Width) {
-
-									case IsUnknownBit_t:
-										/*EMPTY*/
-										break;
-
-									case Is8Bit_t: {
-											// From 32 to 8
-											//
-											char	*	Out = nullptr;
-
-											if (String::Charset32To8(nullptr,
-											                         Get32(),
-											                         ToCharset,
-											                         Out)) {
-												if (Out != nullptr) {
-													Results = new String(Out, ToCharset, Width);
-													delete Out;
-												}
-											}
-										}
-										break;
-
-									case Is16Bit_t: {
-											// From 32 to 16
-											//
-											char16_t	*	Out = nullptr;
-
-											if (String::Charset32To16(nullptr,
-											                          Get32(),
-											                          ToCharset,
-											                          Out)) {
-												if (Out != nullptr) {
-													Results = new String(Out, ToCharset, Width);
-													delete Out;
-												}
-											}
-										}
-										break;
-
-									case Is32Bit_t: {
-											// From 32 to 32
-											//
-											char32_t	*	Out = nullptr;
-
-											if (String::Charset32To32(nullptr,
-											                          Get32(),
-											                          ToCharset,
-											                          Out)) {
-												if (Out != nullptr) {
-													Results = new String(Out, ToCharset, Width);
-													delete Out;
-												}
-											}
-										}
-										break;
-
-									case IsWBit_t: {
-											// From 32 to W
-											//
-											wchar_t	*	Out = nullptr;
-
-											if (String::Charset32ToW(nullptr,
-											                         Get32(),
-											                         ToCharset,
-											                         Out)) {
-												if (Out != nullptr) {
-													Results = new String(Out, ToCharset, Width);
-													delete Out;
-												}
-											}
-										}
-										break;
-								}
-							}
-							break;
-
-						case IsWBit_t: {
-								switch (Width) {
-
-									case IsUnknownBit_t:
-										/*EMPTY*/
-										break;
-
-									case Is8Bit_t: {
-											// From W to 8
-											//
-											char	*	Out = nullptr;
-
-											if (String::CharsetWTo8(nullptr,
-											                        GetW(),
-											                        ToCharset,
-											                        Out)) {
-												if (Out != nullptr) {
-													Results = new String(Out, ToCharset, Width);
-													delete Out;
-												}
-											}
-										}
-										break;
-
-									case Is16Bit_t: {
-											// From W to 16
-											//
-											char16_t	*	Out = nullptr;
-
-											if (String::CharsetWTo16(nullptr,
-											                         GetW(),
-											                         ToCharset,
-											                         Out)) {
-												if (Out != nullptr) {
-													Results = new String(Out, ToCharset, Width);
-													delete Out;
-												}
-											}
-										}
-										break;
-
-									case Is32Bit_t: {
-											// From W to 32
-											//
-											char32_t	*	Out = nullptr;
-
-											if (String::CharsetWTo32(nullptr,
-											                         GetW(),
-											                         ToCharset,
-											                         Out)) {
-												if (Out != nullptr) {
-													Results = new String(Out, ToCharset, Width);
-													delete Out;
-												}
-											}
-										}
-										break;
-
-									case IsWBit_t: {
-											// From W to W
-											//
-											wchar_t	*	Out = nullptr;
-
-											if (String::CharsetWToW(nullptr,
-											                        GetW(),
-											                        ToCharset,
-											                        Out)) {
-												if (Out != nullptr) {
-													Results = new String(Out, ToCharset, Width);
-													delete Out;
-												}
-											}
-										}
-										break;
-								}
-							}
-							break;
+						}
 					}
-
 				}
-
 
 				return (Results);
-			}
-
-			bool
-			String::Charset(const char * const CSName,
-			                CharacterUnitWidth_e Width)
-			{
-				InputCharset(CSName, Width);
-				OutputCharset(CSName, Width);
-
-				return (true);
-			}
-
-			void
-			String::InputCharset(const char * const CSName,
-			                     CharacterUnitWidth_e Width)
-			{
-				if (_InputCharset != nullptr) {
-					StringCache::Remove(_InputCharset);
-				}
-
-				if (CSName != nullptr) {
-					_InputCharset = StringCache::Add(CSName);
-
-				} else {
-					_InputCharset = StringCache::Add(Utf8_s);
-				}
-
-				_InputWidth = Width;
-
-				return;
-			}
-
-			void
-			String::OutputCharset(const char * const CSName,
-			                      CharacterUnitWidth_e Width)
-			{
-				if (_OutputCharset != nullptr) {
-					StringCache::Remove(_OutputCharset);
-				}
-
-				if (CSName != nullptr) {
-					_OutputCharset = StringCache::Add(CSName);
-
-				} else {
-					_OutputCharset = StringCache::Add(Utf8_s);
-				}
-
-				_OutputWidth = Width;
-
-				return;
-			}
-
-			const char	*
-			String::InputCharset() const
-			{
-				return (_InputCharset);
-			}
-
-			CharacterUnitWidth_e
-			String::InputWidth() const
-			{
-				return (_InputWidth);
-			}
-
-			const char	*
-			String::OutputCharset() const
-			{
-				return (_OutputCharset);
-			}
-
-			CharacterUnitWidth_e
-			String::OutputWidth() const
-			{
-				return (_OutputWidth);
 			}
 
 		}

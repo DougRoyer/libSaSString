@@ -40,6 +40,7 @@
 //
 
 #include <SaS/String/StringCache.hpp>
+#include <SaS/String/ROString.hpp>
 
 namespace SoftwareAndServices {
 	namespace Library {
@@ -49,25 +50,52 @@ namespace SoftwareAndServices {
 			 * ------------ String::iterator
 			 */
 
-			String::iterator::iterator()
+			String::IteratorBase::IteratorBase()
 			{
-				_Width = Is8Bit_t;
+				memset(&_It, 0, sizeof(_It));
 				_Direction = ItForward_t;
+				_Segments = nullptr;
+				_SegmentsOffset = 0;
+				_AllocatedSegments = false;
+
+				return;
+			}
+
+			String::IteratorBase::~IteratorBase()
+			{
+				_Direction = ItForward_t;
+				_SegmentsOffset = 0;
+
+				if (_Segments != nullptr) {
+					if (_AllocatedSegments) {
+						delete _Segments->at(0);
+						delete _Segments;
+						_AllocatedSegments = false;
+					}
+
+					_Segments = nullptr;
+				}
+
 				memset(&_It, 0, sizeof(_It));
 
 				return;
 			}
 
+			String::iterator::iterator()
+			{
+				/*EMPTY*/
+				return;
+			}
+
 			String::iterator::iterator(const iterator & From)
 			{
-				_Width = From._Width;
 				_Direction = From._Direction;
+				_Segments = From._Segments;
+				_SegmentsOffset = From._SegmentsOffset;
 
-				switch (_Width) {
+				StringSeg	*	Seg = _Segments->at(_SegmentsOffset);
 
-					case IsUnknownBit_t:
-						memset(&_It, 0, sizeof(_It));
-						break;
+				switch (Seg->Width) {
 
 					case Is8Bit_t:
 						_It.It8 = new iteratorType<char>();
@@ -101,43 +129,14 @@ namespace SoftwareAndServices {
 				return;
 			}
 
-			String::iterator::iterator(String::iterator::pointer Ptr,
-			                           size_t Len,
-			                           CharacterUnitWidth_e cWidth)
-			{
-				_Width = cWidth;
-				_Direction = ItForward_t;
-
-				switch (_Width) {
-
-					case IsUnknownBit_t:
-						memset(&_It, 0, sizeof(_It));
-						break;
-
-					case Is8Bit_t:
-						_It.It8 = new iteratorType<char>((const char *)Ptr, Len);
-						break;
-
-					case Is16Bit_t:
-						_It.It16 = new iteratorType<char16_t>((char16_t *)Ptr, Len);
-						break;
-
-					case Is32Bit_t:
-						_It.It32 = new iteratorType<char32_t>((char32_t *)Ptr, Len);
-						break;
-
-					case IsWBit_t:
-						_It.ItW = new iteratorType<wchar_t>((wchar_t *)Ptr, Len);
-						break;
-				}
-
-				return;
-			}
-
 			String::iterator::iterator(const char * Ptr, size_t Len)
 			{
-				_Width = Is8Bit_t;
+				StringSeg	*	Seg = new StringSeg(Ptr, Len);
+
 				_Direction = ItForward_t;
+				_Segments = new std::vector<StringSeg *>();
+				_Segments->push_back(Seg);
+				_AllocatedSegments = true;
 				_It.It8 = new iteratorType<char>((const char *)Ptr, Len);
 
 				return;
@@ -145,92 +144,39 @@ namespace SoftwareAndServices {
 
 			String::iterator::iterator(const char16_t * Ptr, size_t Len)
 			{
-				_Width = Is16Bit_t;
+				StringSeg	*	Seg = new StringSeg(Ptr, Len);
+
 				_Direction = ItForward_t;
-				_It.It16 = new iteratorType<char16_t>((const char16_t *)Ptr,
-				                                      Len);
+				_Segments = new std::vector<StringSeg *>();
+				_Segments->push_back(Seg);
+				_AllocatedSegments = true;
+				_It.It16 = new iteratorType<char16_t>((const char16_t *)Ptr, Len);
 
 				return;
 			}
 
 			String::iterator::iterator(const char32_t * Ptr, size_t Len)
 			{
-				_Width = Is32Bit_t;
+				StringSeg	*	Seg = new StringSeg(Ptr, Len);
+
 				_Direction = ItForward_t;
-				_It.It32 = new iteratorType<char32_t>((const char32_t *)Ptr,
-				                                      Len);
+				_Segments = new std::vector<StringSeg *>();
+				_Segments->push_back(Seg);
+				_AllocatedSegments = true;
+				_It.It32 = new iteratorType<char32_t>((const char32_t *)Ptr, Len);
 
 				return;
 			}
 
 			String::iterator::iterator(const wchar_t * Ptr, size_t Len)
 			{
-				_Width = IsWBit_t;
+				StringSeg	*	Seg = new StringSeg(Ptr, Len);
+
 				_Direction = ItForward_t;
-				_It.ItW = new iteratorType<wchar_t>((const wchar_t *)Ptr,
-				                                    Len);
-
-				return;
-			}
-
-			String::iterator::iterator(pointer Start,
-			                           pointer Ptr,
-			                           size_t Len,
-			                           CharacterUnitWidth_e cWidth)
-			{
-				_Width = cWidth;
-				_Direction = ItForward_t;
-
-				if (Ptr < Start) {
-					Ptr = Start;
-				}
-
-				switch (_Width) {
-
-					case IsUnknownBit_t:
-						memset(&_It, 0, sizeof(_It));
-						break;
-
-					case Is8Bit_t:
-						if ((char *)Ptr > ((char *)Start + Len)) {
-							Ptr = (char *)Start + Len;
-						}
-
-						_It.It8 = new iteratorType<char>((char *)Start,
-						                                 (char *)Ptr,
-						                                 Len);
-						break;
-
-					case Is16Bit_t:
-						if ((char16_t *)Ptr > ((char16_t *)Start + Len)) {
-							Ptr = (char16_t *)Start + Len;
-						}
-
-						_It.It16 = new iteratorType<char16_t>((char16_t *)Start,
-						                                      (char16_t *)Ptr,
-						                                      Len);
-						break;
-
-					case Is32Bit_t:
-						if ((char32_t *)Ptr > ((char32_t *)Start + Len)) {
-							Ptr = (char32_t *)Start + Len;
-						}
-
-						_It.It32 = new iteratorType<char32_t>((char32_t *)Start,
-						                                      (char32_t *)Ptr,
-						                                      Len);
-						break;
-
-					case IsWBit_t:
-						if ((wchar_t *)Ptr > ((wchar_t *)Start + Len)) {
-							Ptr = (wchar_t *)Start + Len;
-						}
-
-						_It.ItW = new iteratorType<wchar_t>((wchar_t *)Start,
-						                                    (wchar_t *)Ptr,
-						                                    Len);
-						break;
-				}
+				_Segments = new std::vector<StringSeg *>();
+				_Segments->push_back(Seg);
+				_AllocatedSegments = true;
+				_It.ItW = new iteratorType<wchar_t>((const wchar_t *)Ptr, Len);
 
 				return;
 			}
@@ -239,11 +185,16 @@ namespace SoftwareAndServices {
 			                           const char * Ptr,
 			                           size_t Len)
 			{
-				_Width = Is8Bit_t;
+				StringSeg	*	Seg = new StringSeg(Start, Len);
+
 				_Direction = ItForward_t;
-				_It.It8 = new iteratorType<char>((char *)Start,
-				                                 (char *)Ptr,
+				_Segments = new std::vector<StringSeg *>();
+				_Segments->push_back(Seg);
+				_AllocatedSegments = true;
+				_It.It8 = new iteratorType<char>((const char *)Start,
+				                                 Ptr,
 				                                 Len);
+
 				return;
 			}
 
@@ -251,11 +202,16 @@ namespace SoftwareAndServices {
 			                           const char16_t * Ptr,
 			                           size_t Len)
 			{
-				_Width = Is16Bit_t;
+				StringSeg	*	Seg = new StringSeg(Start, Len);
+
 				_Direction = ItForward_t;
-				_It.It16 = new iteratorType<char16_t>((char16_t *)Start,
-				                                      (char16_t *)Ptr,
+				_Segments = new std::vector<StringSeg *>();
+				_Segments->push_back(Seg);
+				_AllocatedSegments = true;
+				_It.It16 = new iteratorType<char16_t>((const char16_t *)Start,
+				                                      Ptr,
 				                                      Len);
+
 				return;
 			}
 
@@ -263,11 +219,16 @@ namespace SoftwareAndServices {
 			                           const char32_t * Ptr,
 			                           size_t Len)
 			{
-				_Width = Is32Bit_t;
+				StringSeg	*	Seg = new StringSeg(Start, Len);
+
 				_Direction = ItForward_t;
-				_It.It32 = new iteratorType<char32_t>((char32_t *)Start,
-				                                      (char32_t *)Ptr,
+				_Segments = new std::vector<StringSeg *>();
+				_Segments->push_back(Seg);
+				_AllocatedSegments = true;
+				_It.It32 = new iteratorType<char32_t>((const char32_t *)Start,
+				                                      Ptr,
 				                                      Len);
+
 				return;
 			}
 
@@ -275,46 +236,62 @@ namespace SoftwareAndServices {
 			                           const wchar_t * Ptr,
 			                           size_t Len)
 			{
-				_Width = IsWBit_t;
+				StringSeg	*	Seg = new StringSeg(Start, Len);
+
 				_Direction = ItForward_t;
-				_It.ItW = new iteratorType<wchar_t>((wchar_t *)Start,
-				                                    (wchar_t *)Ptr,
+				_Segments = new std::vector<StringSeg *>();
+				_Segments->push_back(Seg);
+				_AllocatedSegments = true;
+				_It.ItW = new iteratorType<wchar_t>((const wchar_t *)Start,
+				                                    Ptr,
 				                                    Len);
+
 				return;
 			}
 
 			CharacterUnitWidth_e
 			String::iterator::Width() const
 			{
-				return (_Width);
+				return (_Segments->at(_SegmentsOffset)->Width);
 			}
 
 			String::iterator::self_type
-			String::iterator::operator=(const self_type & Other)
+			String::iterator::operator=(const self_type & From)
 			{
-				_Width = Other._Width;
-				_Direction = Other._Direction;
+				_Direction = From._Direction;
+				_Segments = From._Segments;
+				_SegmentsOffset = From._SegmentsOffset;
 
-				switch (_Width) {
+				StringSeg	*	Seg = _Segments->at(_SegmentsOffset);
 
-					case IsUnknownBit_t:
-						memset(&_It, 0, sizeof(_It));
-						break;
+				switch (Seg->Width) {
 
 					case Is8Bit_t:
-						_It.It8 = new iteratorType<char>(*Other._It.It8);
+						_It.It8 = new iteratorType<char>();
+						_It.It8->_First = From._It.It8->_First;
+						_It.It8->_Ptr = From._It.It8->_Ptr;
+						_It.It8->_Last = From._It.It8->_Last;
 						break;
 
 					case Is16Bit_t:
-						_It.It16 = new iteratorType<char16_t>(*Other._It.It16);
+						_It.It16 = new iteratorType<char16_t>();
+						_It.It16->_First = From._It.It16->_First;
+						_It.It16->_Ptr = From._It.It16->_Ptr;
+						_It.It16->_Last = From._It.It16->_Last;
 						break;
 
 					case Is32Bit_t:
-						_It.It32 = new iteratorType<char32_t>(*Other._It.It32);
+						_It.It32 = new iteratorType<char32_t>();
+						_It.It32->_First = From._It.It32->_First;
+						_It.It32->_Ptr = From._It.It32->_Ptr;
+						_It.It32->_Last = From._It.It32->_Last;
 						break;
 
 					case IsWBit_t:
-						_It.ItW = new iteratorType<wchar_t>(*Other._It.ItW);
+						_It.ItW = new iteratorType<wchar_t>();
+						_It.ItW->_First = From._It.ItW->_First;
+						_It.ItW->_Ptr = From._It.ItW->_Ptr;
+						_It.ItW->_Last = From._It.ItW->_Last;
 						break;
 				}
 
@@ -322,77 +299,330 @@ namespace SoftwareAndServices {
 			}
 
 			void
-			String::IteratorBase::_Inc(int64_t CharCount)
+			String::IteratorBase::_Inc(int64_t UnitCount)
 			{
-				// Can't go past last.
-				//
-				if (_It.It8->_Ptr < _It.It8->_Last) {
-					if (_It.It8->_Ptr + CharCount > _It.It8->_Last) {
-						_It.It8->_Ptr = _It.It8->_Last;
+				StringSeg	*	Seg = _Segments->at(_SegmentsOffset);
 
-					} else {
-						int64_t			ToGo = CharCount;
+				size_t			OneCharUnits = 0;
+				size_t			ToGo = CharCount;
+				size_t			InCurrent = 0;
 
-						while (ToGo-- > 0) {
-							size_t		Units = 0;
+				do {
+					switch (Seg->Width) {
 
-							switch (_Width) {
+						case Is8Bit_t:
 
-								case IsUnknownBit_t:
-									/*EMPTY*/
-									break;
+							OneCharUnits = strwidth(_It.It8->_Ptr, 1);
 
-								case Is8Bit_t:
-									Units = CharacterUnits(*_It.It8->_Ptr);
+							// Two possibilities here (1) this segment contain the entire character,
+							// (2) the single character is split across segments.
+							//
+							// (2) can happen with somone appends by character units,
+							// and not characters. Hopefully the rest is not an
+							// invalid character or missing.
+							//
+							if (_It.It8->_Ptr + OneCharUnits < _It.It8->_Last ) {
+								// Fits.
+								// Advanced 1 character that is OneCharUnits wide.
+								//
+								_It.It8->_Ptr += OneCharUnits;
+								ToGo--;
+								// Done
+								//
+								continue;
 
-									if (_It.It8->_Ptr + Units <= _It.It8->_Last) {
-										(*_It.It8) += Units;
+							} else if (_It.It8->_Ptr + OneCharUnits == _It.It8->_Last ) {
+								ToGo--;
+
+								if ((_SegmentsOffset + 1) < _Segments->size()) {
+									_SegmentsOffset++;
+									// Done
+									//
+									Seg = _Segments->at(_SegmentsOffset);
+									_It.It8->_First = Seg->Str.s8;
+									_It.It8->_Ptr = Seg->Str.s8;
+									_It.It8->_Last = Seg->Str.s8 + Seg->StrUnits - 1;
+
+								} else {
+									_It.It8->_Ptr = _It.It8->_Last;
+								}
+
+								continue;
+
+							} else {
+								// Does not fit in this segment. Some of it
+								// is in the next segment.
+								//
+								InCurrent = (_It.It8->_Last - _It.It8->_Ptr);
+
+								if (OneCharUnits > InCurrent) {
+
+									// Go to the next segment, if exists.
+									//
+									if ((_SegmentsOffset + 1) < _Segments->size()) {
+										_SegmentsOffset++;
+										Seg = _Segments->at(_SegmentsOffset);
+
+										// Skip them
+										//
+										_It.It8->_First = Seg->Str.s8;
+										_It.It8->_Ptr = Seg->Str.s8 + (OneCharUnits - InCurrent);
+										_It.It8->_Last = Seg->Str.s8 + Seg->StrUnits - 1;
 
 									} else {
+										// No more segments.
+										//
 										_It.It8->_Ptr = _It.It8->_Last;
+
+										// Nothing else to do, end loop.
+										//
+										continue;
 									}
 
-									break;
-
-								case Is16Bit_t:
-									Units = CharacterUnits(*_It.It16->_Ptr);
-
-									if (_It.It16->_Ptr + Units <= _It.It16->_Last) {
-										(*_It.It16) += Units;
-
-									} else {
-										_It.It16->_Ptr = _It.It16->_Last;
-									}
-
-									break;
-
-								case Is32Bit_t:
-									Units = CharacterUnits(*_It.It32->_Ptr);
-
-									if (_It.It32->_Ptr + Units <= _It.It32->_Last) {
-										(*_It.It32) += Units;
-
-									} else {
-										_It.It32->_Ptr = _It.It32->_Last;
-									}
-
-									break;
-
-								case IsWBit_t:
-									Units = CharacterUnits(*_It.ItW->_Ptr);
-
-									if (_It.ItW->_Ptr + Units <= _It.ItW->_Last) {
-										(*_It.ItW) += Units;
-
-									} else {
-										_It.ItW->_Ptr = _It.ItW->_Last;
-									}
-
-									break;
+								} else {
+									// It was all in this segment, move forward.
+									//
+									_It.It8->_Ptr += InCurrent;
+								}
 							}
-						}
+
+							break;
+
+						case Is16Bit_t:
+
+							OneCharUnits = strwidth(_It.It16->_Ptr, 1);
+
+							// Two possibilities here (1) this segment contain the entire character,
+							// (2) the single character is split across segments.
+							//
+							// (2) can happen with somone appends by character units,
+							// and not characters. Hopefully the rest is not an
+							// invalid character or missing.
+							//
+							if (_It.It16->_Ptr + OneCharUnits < _It.It16->_Last ) {
+								// Fits.
+								// Advanced 1 character that is OneCharUnits wide.
+								//
+								_It.It16->_Ptr += OneCharUnits;
+								ToGo--;
+								// Done
+								//
+								continue;
+
+							} else if (_It.It16->_Ptr + OneCharUnits == _It.It16->_Last ) {
+								ToGo--;
+
+								if ((_SegmentsOffset + 1) < _Segments->size()) {
+									_SegmentsOffset++;
+									// Done
+									//
+									Seg = _Segments->at(_SegmentsOffset);
+									_It.It16->_First = Seg->Str.s16;
+									_It.It16->_Ptr = Seg->Str.s16;
+									_It.It16->_Last = Seg->Str.s16 + Seg->StrUnits - 1;
+
+								} else {
+									_It.It16->_Ptr = _It.It16->_Last;
+								}
+
+								continue;
+
+							} else {
+								// Does not fit in this segment. Some of it
+								// is in the next segment.
+								//
+								InCurrent = (_It.It16->_Last - _It.It16->_Ptr);
+
+								if (OneCharUnits > InCurrent) {
+
+									// Go to the next segment, if exists.
+									//
+									if ((_SegmentsOffset + 1) < _Segments->size()) {
+										_SegmentsOffset++;
+										Seg = _Segments->at(_SegmentsOffset);
+
+										// Skip them
+										//
+										_It.It16->_First = Seg->Str.s16;
+										_It.It16->_Ptr = Seg->Str.s16 + (OneCharUnits - InCurrent);
+										_It.It16->_Last = Seg->Str.s16 + Seg->StrUnits - 1;
+
+									} else {
+										// No more segments.
+										//
+										_It.It16->_Ptr = _It.It16->_Last;
+
+										// Nothing else to do, end loop.
+										//
+										continue;
+									}
+
+								} else {
+									// It was all in this segment, move forward.
+									//
+									_It.It16->_Ptr += InCurrent;
+								}
+							}
+
+							break;
+
+						case Is32Bit_t:
+
+							OneCharUnits = strwidth(_It.It32->_Ptr, 1);
+
+							// Two possibilities here (1) this segment contain the entire character,
+							// (2) the single character is split across segments.
+							//
+							// (2) can happen with somone appends by character units,
+							// and not characters. Hopefully the rest is not an
+							// invalid character or missing.
+							//
+							if (_It.It32->_Ptr + OneCharUnits < _It.It32->_Last ) {
+								// Fits.
+								// Advanced 1 character that is OneCharUnits wide.
+								//
+								_It.It32->_Ptr += OneCharUnits;
+								ToGo--;
+								// Done
+								//
+								continue;
+
+							} else if (_It.It32->_Ptr + OneCharUnits == _It.It32->_Last ) {
+								ToGo--;
+
+								if ((_SegmentsOffset + 1) < _Segments->size()) {
+									_SegmentsOffset++;
+									// Done
+									//
+									Seg = _Segments->at(_SegmentsOffset);
+									_It.It32->_First = Seg->Str.s32;
+									_It.It32->_Ptr = Seg->Str.s32;
+									_It.It32->_Last = Seg->Str.s32 + Seg->StrUnits - 1;
+
+								} else {
+									_It.It32->_Ptr = _It.It32->_Last;
+								}
+
+								continue;
+
+							} else {
+								// Does not fit in this segment. Some of it
+								// is in the next segment.
+								//
+								InCurrent = (_It.It32->_Last - _It.It32->_Ptr);
+
+								if (OneCharUnits > InCurrent) {
+
+									// Go to the next segment, if exists.
+									//
+									if ((_SegmentsOffset + 1) < _Segments->size()) {
+										_SegmentsOffset++;
+										Seg = _Segments->at(_SegmentsOffset);
+
+										// Skip them
+										//
+										_It.It32->_First = Seg->Str.s32;
+										_It.It32->_Ptr = Seg->Str.s32 + (OneCharUnits - InCurrent);
+										_It.It32->_Last = Seg->Str.s32 + Seg->StrUnits - 1;
+
+									} else {
+										// No more segments.
+										//
+										_It.It32->_Ptr = _It.It32->_Last;
+
+										// Nothing else to do, end loop.
+										//
+										continue;
+									}
+
+								} else {
+									// It was all in this segment, move forward.
+									//
+									_It.It32->_Ptr += InCurrent;
+								}
+							}
+
+							break;
+
+						case IsWBit_t:
+
+							OneCharUnits = strwidth(_It.ItW->_Ptr, 1);
+
+							// Two possibilities here (1) this segment contain the entire character,
+							// (2) the single character is split across segments.
+							//
+							// (2) can happen with somone appends by character units,
+							// and not characters. Hopefully the rest is not an
+							// invalid character or missing.
+							//
+							if (_It.ItW->_Ptr + OneCharUnits < _It.ItW->_Last ) {
+								// Fits.
+								// Advanced 1 character that is OneCharUnits wide.
+								//
+								_It.ItW->_Ptr += OneCharUnits;
+								ToGo--;
+								// Done
+								//
+								continue;
+
+							} else if (_It.ItW->_Ptr + OneCharUnits == _It.ItW->_Last ) {
+								ToGo--;
+
+								if ((_SegmentsOffset + 1) < _Segments->size()) {
+									_SegmentsOffset++;
+									// Done
+									//
+									Seg = _Segments->at(_SegmentsOffset);
+									_It.ItW->_First = Seg->Str.sW;
+									_It.ItW->_Ptr = Seg->Str.sW;
+									_It.ItW->_Last = Seg->Str.sW + Seg->StrUnits - 1;
+
+								} else {
+									_It.ItW->_Ptr = _It.ItW->_Last;
+								}
+
+								continue;
+
+							} else {
+								// Does not fit in this segment. Some of it
+								// is in the next segment.
+								//
+								InCurrent = (_It.ItW->_Last - _It.ItW->_Ptr);
+
+								if (OneCharUnits > InCurrent) {
+
+									// Go to the next segment, if exists.
+									//
+									if ((_SegmentsOffset + 1) < _Segments->size()) {
+										_SegmentsOffset++;
+										Seg = _Segments->at(_SegmentsOffset);
+
+										// Skip them
+										//
+										_It.ItW->_First = Seg->Str.sW;
+										_It.ItW->_Ptr = Seg->Str.sW + (OneCharUnits - InCurrent);
+										_It.ItW->_Last = Seg->Str.sW + Seg->StrUnits - 1;
+
+									} else {
+										// No more segments.
+										//
+										_It.ItW->_Ptr = _It.ItW->_Last;
+
+										// Nothing else to do, end loop.
+										//
+										continue;
+									}
+
+								} else {
+									// It was all in this segment, move forward.
+									//
+									_It.ItW->_Ptr += InCurrent;
+								}
+							}
+
+							break;
 					}
-				}
+				} while (_SegmentsOffset < (_Segments->size() - 1));
 
 				return;
 			}
@@ -400,111 +630,29 @@ namespace SoftwareAndServices {
 			void
 			String::IteratorBase::_Dec(int64_t CharCount)
 			{
-				// If we can back up (_Ptr is just a pointer).
+				// Back up CharCount characters.
+				// When backing up, with any charset, means that we can not backup
+				// one character unit width, as charsets exists where it is not
+				// always possible to determine just by looking at the previsous
+				// character unit, the width of the previous character.
 				//
-				if (_It.It8->_Ptr > _It.It8->_First) {
-					if (_It.It8->_Ptr - CharCount < _It.It8->_First) {
-						_It.It8->_Ptr = _It.It8->_First;
+				StringSeg	*	Seg = _Segments->at(_SegmentsOffset);
 
-					} else {
-						// Get the number of total characters (not character width
-						// objects) from start to current position, LenToHere.
-						//
-						// Backup to start, count forward LenToHere-CharCount characters
-						//
-						size_t					Units = 0;
+				// Can't back up before the first segment.
+				//
+				if (_SegmentsOffset == 0) {
 
-						switch (_Width) {
+					// Can't back up before the first character in first segment.
+					//
+					if (_It.It8->_Ptr > _It.It8->_First) {
 
-							case IsUnknownBit_t:
-								/*EMPTY*/
-								break;
-
-							case Is8Bit_t: {
-									ROString				SubString(_It.It8->_First,
-									                                  _It.It8->_Ptr - _It.It8->_First);
-									size_t					LenToHere = SubString.Length();
-									const_iterator	Current = SubString.cbegin();
-									size_t					ToGo = LenToHere - CharCount;
-
-									_It.It8->_Ptr = Current._It.It8->_Ptr;
-
-									while (ToGo-- > 0) {
-										Units = CharacterUnits(*Current._It.It8->_Ptr);
-										(*Current._It.It8) += Units;
-										_It.It8->_Ptr = Current._It.It8->_Ptr;
-
-										if (Current == SubString.cend()) {
-											break;
-										}
-									}
-								}
-								break;
-
-							case Is16Bit_t: {
-									ROString				SubString(_It.It16->_First,
-									                                  _It.It16->_Ptr - _It.It16->_First);
-									size_t					LenToHere = SubString.Length();
-									const_iterator	Current = SubString.cbegin();
-									size_t					ToGo = LenToHere - CharCount;
-
-									_It.It16->_Ptr = Current._It.It16->_Ptr;
-
-									while (ToGo-- > 0) {
-										Units = CharacterUnits(*Current._It.It16->_Ptr);
-										(*Current._It.It16) += Units;
-										_It.It16->_Ptr = Current._It.It16->_Ptr;
-
-										if (Current == SubString.cend()) {
-											break;
-										}
-									}
-								}
-								break;
-
-							case Is32Bit_t: {
-									ROString				SubString(_It.It32->_First,
-									                                  _It.It32->_Ptr - _It.It32->_First);
-									size_t					LenToHere = SubString.Length();
-									const_iterator	Current = SubString.cbegin();
-									size_t					ToGo = LenToHere - CharCount;
-
-									_It.It32->_Ptr = Current._It.It32->_Ptr;
-
-									while (ToGo-- > 0) {
-										Units = CharacterUnits(*Current._It.It32->_Ptr);
-										(*Current._It.It32) += Units;
-										_It.It32->_Ptr = Current._It.It32->_Ptr;
-
-										if (Current == SubString.cend()) {
-											break;
-										}
-									}
-								}
-								break;
-
-							case IsWBit_t: {
-									ROString				SubString(_It.ItW->_First,
-									                                  _It.ItW->_Ptr - _It.ItW->_First);
-									size_t					LenToHere = SubString.Length();
-									const_iterator	Current = SubString.cbegin();
-									size_t					ToGo = LenToHere - CharCount;
-
-									_It.ItW->_Ptr = Current._It.ItW->_Ptr;
-
-									while (ToGo-- > 0) {
-										Units = CharacterUnits(*Current._It.ItW->_Ptr);
-										(*Current._It.ItW) += Units;
-										_It.ItW->_Ptr = Current._It.ItW->_Ptr;
-
-										if (Current == SubString.cend()) {
-											break;
-										}
-									}
-								}
-								break;
-						}
 					}
+
+				} else {
+					// Go from the start of the string, and find the start of the
+					// previous character.
+					//
+
 				}
 
 				return;
@@ -513,8 +661,6 @@ namespace SoftwareAndServices {
 			String::iterator::self_type
 			String::iterator::operator++()
 			{
-				size_t		Units = CharacterUnits(*this);
-
 				if (_Direction == ItForward_t) {
 					_Inc(1);
 
@@ -524,7 +670,6 @@ namespace SoftwareAndServices {
 
 				return (*this);
 			}
-
 
 			String::iterator::self_type
 			String::iterator::operator++(int /*NOTUSED*/)
