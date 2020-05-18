@@ -48,7 +48,6 @@
 #include <SaS/Common/instance.hpp>
 #include <SaS/String/String.hpp>
 #include <SaS/Common/XdrSerialize.hpp>
-#include <SaS/String/ROString.hpp>
 #include <SaS/Common/File.hpp>
 
 #include <inttypes.h>
@@ -69,11 +68,13 @@ namespace SoftwareAndServices {
 			 * Once in the cache, it can have more references to it.
 			 *  it can have referenced removed from it.
 			 *  it can be deleted, when the reference count reaches zero.
-			 * IT CAN NOT BE altered!
+			 *
+			 * @note
+			 * DO NOT change the value of the returned string.
 			 *
 			 * When you are done with the strings in the cache - DO NOT DELETE
-			 * or FREE them.Call StringCache::remove() to keep the reference
-			 * count accurate.This StromgCache is for commonly used read-only
+			 * or FREE them. Call StringCache::Remove() to keep the reference
+			 * count accurate. This StrimgCache is for commonly used read-only
 			 * strings.
 			 */
 			class StringCache
@@ -174,28 +175,6 @@ namespace SoftwareAndServices {
 					StringCache(const std::wstring & ToAdd, size_t Len = 0);
 
 					/**
-					 * String Cache - Constructor.
-					 *
-					 * @param ToAdd A string to add to the cache.
-					 * The string will be copied, then placed into the cache.
-					 *
-					 * @param Len Optional. When provided, only Len characters
-					 * will be added.
-					 */
-					StringCache(const String & ToAdd, size_t Len = 0);
-
-					/**
-					 * String Cache - Constructor.
-					 *
-					 * @param ToAdd A string to add to the cache.
-					 * The string will be copied, then placed into the cache.
-					 *
-					 * @param Len Optional. When provided, only Len characters
-					 * will be added.
-					 */
-					StringCache(const ROString & ToAdd, size_t Len = 0);
-
-					/**
 					 * String Cache - Destructor.
 					 */
 					virtual ~StringCache();
@@ -210,8 +189,8 @@ namespace SoftwareAndServices {
 					 *
 					 * @return The pointer to use when referencing this string.
 					 */
-					static const char	*	Add(const char * StringToCache,
-					                            size_t Len = 0);
+					static const char	*	const Add(const char * StringToCache,
+					                                  size_t Len = 0);
 
 					/**
 					 * Add or get a reference to an entry in the cache.
@@ -223,8 +202,8 @@ namespace SoftwareAndServices {
 					 *
 					 * @return The pointer to use when referencing this string.
 					 */
-					static const char16_t	*	Add(const char16_t * StringToCache,
-					                                size_t Len = 0);
+					static const char16_t	*	const Add(const char16_t * StringToCache,
+					                                      size_t Len = 0);
 
 					/**
 					 * Add or get a reference to an entry in the cache.
@@ -236,8 +215,8 @@ namespace SoftwareAndServices {
 					 *
 					 * @return The pointer to use when referencing this string.
 					 */
-					static const char32_t	*	Add(const char32_t * StringToCache,
-					                                size_t Len = 0);
+					static const char32_t	*	const Add(const char32_t * StringToCache,
+					                                      size_t Len = 0);
 
 					/**
 					 * Add or get a reference to an entry in the cache.
@@ -249,8 +228,60 @@ namespace SoftwareAndServices {
 					 *
 					 * @return The pointer to use when referencing this string.
 					 */
-					static const wchar_t	*	Add(const wchar_t * StringToCache,
-					                                size_t Len = 0);
+					static const wchar_t	*	const Add(const wchar_t * StringToCache,
+					                                      size_t Len = 0);
+
+					/**
+					 * Add or get a reference to an entry in the cache.
+					 *
+					 * @param StringToCache The string to add and get the reference to.
+					 *
+					 * @param Len Optional. When provided, only Len characters
+					 * will be added.
+					 *
+					 * @return The pointer to use when referencing this string.
+					 */
+					static const char	*	const Add(const std::string & StringToCache,
+					                                  size_t Len = 0);
+
+					/**
+					 * Add or get a reference to an entry in the cache.
+					 *
+					 * @param StringToCache The string to add and get the reference to.
+					 *
+					 * @param Len Optional. When provided, only Len characters
+					 * will be added.
+					 *
+					 * @return The pointer to use when referencing this string.
+					 */
+					static const char16_t	*	const Add(const std::u16string & StringToCache,
+					                                      size_t Len = 0);
+
+					/**
+					 * Add or get a reference to an entry in the cache.
+					 *
+					 * @param StringToCache The string to add and get the reference to.
+					 *
+					 * @param Len Optional. When provided, only Len characters
+					 * will be added.
+					 *
+					 * @return The pointer to use when referencing this string.
+					 */
+					static const char32_t	*	const Add(const std::u32string & StringToCache,
+					                                      size_t Len = 0);
+
+					/**
+					 * Add or get a reference to an entry in the cache.
+					 *
+					 * @param StringToCache The string to add and get the reference to.
+					 *
+					 * @param Len Optional. When provided, only Len characters
+					 * will be added.
+					 *
+					 * @return The pointer to use when referencing this string.
+					 */
+					static const wchar_t	*	const Add(const std::wstring & StringToCache,
+					                                      size_t Len = 0);
 
 					/**
 					 * Decrement the reference count to the string. Remove it

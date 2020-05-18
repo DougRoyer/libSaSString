@@ -74,8 +74,7 @@ namespace SoftwareAndServices {
 					 *
 					 * @param Start the pointer to the start of the string.
 					 *
-					 * @param Len The number of 8-bit character units in the string.
-					 * When Len == 0, then the entire string is included.
+					 * @param Len The number of character units to use.
 					 */
 					ROString(const char * const Start, size_t Len = 0);
 
@@ -84,8 +83,7 @@ namespace SoftwareAndServices {
 					 *
 					 * @param Start the pointer to the start of the string.
 					 *
-					 * @param Len The number of 16-bit character units in the string.
-					 * When Len == 0, then the entire string is included.
+					 * @param Len The number of character units to use.
 					 */
 					ROString(const char16_t * const Start, size_t Len = 0);
 
@@ -94,8 +92,7 @@ namespace SoftwareAndServices {
 					 *
 					 * @param Start the pointer to the start of the string.
 					 *
-					 * @param Len The number of 32-bit character units in the string.
-					 * When Len == 0, then the entire string is included.
+					 * @param Len The number of character units to use.
 					 */
 					ROString(const char32_t * const Start, size_t Len = 0);
 
@@ -104,8 +101,7 @@ namespace SoftwareAndServices {
 					 *
 					 * @param Start the pointer to the start of the string.
 					 *
-					 * @param Len The number of 32-bit character units in the string.
-					 * When Len == 0, then the entire string is included.
+					 * @param Len The number of character units to use.
 					 */
 					ROString(const wchar_t * const Start, size_t Len = 0);
 
@@ -114,8 +110,7 @@ namespace SoftwareAndServices {
 					 *
 					 * @param Start the pointer to the start of the string.
 					 *
-					 * @param Len The number of 32-bit character units in the string.
-					 * When Len == 0, then the entire string is included.
+					 * @param Len The number of character units to use.
 					 */
 					ROString(const std::string & Start, size_t Len = 0);
 
@@ -124,8 +119,7 @@ namespace SoftwareAndServices {
 					 *
 					 * @param Start the pointer to the start of the string.
 					 *
-					 * @param Len The number of 32-bit character units in the string.
-					 * When Len == 0, then the entire string is included.
+					 * @param Len The number of character units to use.
 					 */
 					ROString(const std::u16string & Start, size_t Len = 0);
 
@@ -134,8 +128,7 @@ namespace SoftwareAndServices {
 					 *
 					 * @param Start the pointer to the start of the string.
 					 *
-					 * @param Len The number of 32-bit character units in the string.
-					 * When Len == 0, then the entire string is included.
+					 * @param Len The number of character units to use.
 					 */
 					ROString(const std::u32string & Start, size_t Len = 0);
 
@@ -144,8 +137,7 @@ namespace SoftwareAndServices {
 					 *
 					 * @param Start the pointer to the start of the string.
 					 *
-					 * @param Len The number of 32-bit character units in the string.
-					 * When Len == 0, then the entire string is included.
+					 * @param Len The number of character units to use.
 					 */
 					ROString(const std::wstring & Start, size_t Len = 0);
 
@@ -154,8 +146,7 @@ namespace SoftwareAndServices {
 					 *
 					 * @param Init Wrap Init as ROString.
 					 *
-					 * @param Len The number of 32-bit character units in the string.
-					 * When Len == 0, then the entire string is included.
+					 * @param Len The number of character units to use.
 					 */
 					ROString(const String & Init, size_t Len = 0);
 
@@ -164,8 +155,7 @@ namespace SoftwareAndServices {
 					 *
 					 * @param Init Wrap Init as ROString.
 					 *
-					 * @param Len The number of 32-bit character units in the string.
-					 * When Len == 0, then the entire string is included.
+					 * @param Len The number of character units to use.
 					 */
 					ROString(const ROString & Init, size_t Len = 0);
 
@@ -174,8 +164,7 @@ namespace SoftwareAndServices {
 					 *
 					 * @param Init Wrap Init as ROString.
 					 *
-					 * @param Len The number of 32-bit character units in the string.
-					 * When Len == 0, then the entire string is included.
+					 * @param Len The number of character units to use.
 					 */
 					ROString(const_iterator & Init, size_t Len);
 
@@ -184,8 +173,7 @@ namespace SoftwareAndServices {
 					 *
 					 * @param Init Wrap Init as ROString.
 					 *
-					 * @param Len The number of 32-bit character units in the string.
-					 * When Len == 0, then the entire string is included.
+					 * @param Len The number of character units to use.
 					 */
 					ROString(iterator & Init, size_t Len = 0);
 
@@ -197,27 +185,12 @@ namespace SoftwareAndServices {
 					 * @param It The position in the string to have as the start
 					 * position.
 					 *
-					 * @param Len The number of 32-bit character units in the string.
-					 * When Len == 0, then the entire string to the end is included.
+					 * @param Len The number of character units to use.
 					 */
 					ROString(const String & Init,
 					         String::const_iterator & It,
 					         size_t Len);
 
-					/**
-					 * Constructor - Copy Constructor.
-					 *
-					 * @param Init Wrap Init as ROString.
-					 *
-					 * @param It The position in the string to have as the start
-					 * position.
-					 *
-					 * @param Len The number of 32-bit character units in the string.
-					 * When Len == 0, then the entire string to the end is included.
-					 */
-					ROString(const String * Init,
-					         String::const_iterator & It,
-					         size_t Len);
 
 					/**
 					 * Constructor - Copy Constructor.
@@ -227,27 +200,12 @@ namespace SoftwareAndServices {
 					 * @param It The position in the string to have as the start
 					 * position.
 					 *
-					 * @param Len The number of 32-bit character units in the string.
-					 * When Len == 0, then the entire string to the end is included.
+					 * @param Len The number of character units to use.
 					 */
 					ROString(const ROString & Init,
 					         String::const_iterator & It,
 					         size_t Len);
 
-					/**
-					 * Constructor - Copy Constructor.
-					 *
-					 * @param Init Wrap Init as ROString.
-					 *
-					 * @param It The position in the string to have as the start
-					 * position.
-					 *
-					 * @param Len The number of 32-bit character units in the string.
-					 * When Len == 0, then the entire string to the end is included.
-					 */
-					ROString(const ROString * Init,
-					         String::const_iterator & It,
-					         size_t Len);
 
 					/**
 					 * Create a ROString by mapping a file to memory.

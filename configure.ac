@@ -178,6 +178,8 @@ AC_CONFIG_FILES([Makefile
 		include/Makefile
 		lib/Makefile
 		Utilities/Makefile
+		Utilities/MakeUTF/Makefile
+		Utilities/ParseCharmap/Makefile
 		Documentation/Makefile
 		])
 AM_CONDITIONAL([HAVE_DOXYGEN],

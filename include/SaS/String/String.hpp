@@ -46,6 +46,7 @@
 #include <SaS/Common/XdrSerialize.hpp>
 #include <SaS/Common/File.hpp>
 #include <string>
+#include <map>
 
 #ifdef WIN32
 #pragma warning (disable : 4251)
@@ -78,6 +79,7 @@ namespace SoftwareAndServices {
 #include <iterator>
 #include <type_traits>
 #include <stdarg.h>
+#include <langinfo.h>
 
 using namespace SoftwareAndServices::Library::Common;
 
@@ -118,180 +120,6 @@ namespace SoftwareAndServices {
 				IsWBit_t	= 4
 			};
 
-			/**
-			 * The 8-bit Locale default.
-			 */
-			extern locale_t		Default8BitLocale;
-
-			/**
-			 * The 16-bit Locale default.
-			 */
-			extern locale_t		Default16BitLocale;
-
-			/**
-			 * The 32-bit Locale default.
-			 */
-			extern locale_t		Default32BitLocale;
-
-			/**
-			 * The W-bit (wchar_t) Locale default.
-			 */
-			extern locale_t		DefaultWBitLocale;
-
-			/**
-			 * The 8-bit Locale.
-			 */
-			extern locale_t		Current8BitLocale;
-
-			/**
-			 * The 16-bit Locale.
-			 */
-			extern locale_t		Current16BitLocale;
-
-			/**
-			 * The 32-bit Locale.
-			 */
-			extern locale_t		Current32BitLocale;
-
-			/**
-			 * The W-bit (wchar_t) Locale.
-			 */
-			extern locale_t		CurrentWBitLocale;
-
-			/**
-			 * The 8-bit Charset default.
-			 */
-			extern const char	* const	Default8BitCharset;
-
-			/**
-			 * The 16-bit Charset default.
-			 */
-			extern const char	* const	Default16BitCharset;
-
-			/**
-			 * The 32-bit Charset default.
-			 */
-			extern const char	* const	Default32BitCharset;
-
-			/**
-			 * The wchar_t Charset default.
-			 */
-			extern const char	* const	DefaultWBitCharset;
-
-			/**
-			 * The 8-bit Charset.
-			 * A StringCache pointer.
-			 */
-			extern const char	 *	Current8BitCharset;
-
-			/**
-			 * The 16-bit Charset.
-			 * A StringCache pointer.
-			 */
-			extern const char	 *	Current16BitCharset;
-
-			/**
-			 * The 32-bit Charset.
-			 * A StringCache pointer.
-			 */
-			extern const char	 *	Current32BitCharset;
-
-			/**
-			 * The wchar_t Charset.
-			 * A StringCache pointer.
-			 */
-			extern const char	 *	CurrentWBitCharset;
-
-			/**
-			 * The minimum width of the Default8BitCharset
-			 * in octets.
-			 */
-			extern CharacterUnitWidth_e	const Default8BitWidth;
-
-			/**
-			 * The minimum width of the Default16BitCharset
-			 * in octets.
-			 */
-			extern CharacterUnitWidth_e	const Default16BitWidth;
-
-			/**
-			 * The minimum width of the Default32BitCharset
-			 * in octets.
-			 */
-			extern CharacterUnitWidth_e	const Default32BitWidth;
-
-			/**
-			 * The minimum width of the DefaultWBitCharset
-			 * in octets.
-			 */
-			extern CharacterUnitWidth_e	const DefaultWBitWidth;
-
-			/**
-			 * The minimum width of the Current8BitCharset
-			 * in octets.
-			 */
-			extern CharacterUnitWidth_e	const Current8BitWidth;
-
-			/**
-			 * The minimum width of the Current16BitCharset
-			 * in octets.
-			 */
-			extern CharacterUnitWidth_e	const Current16BitWidth;
-
-			/**
-			 * The minimum width of the Current32BitCharset
-			 * in octets.
-			 */
-			extern CharacterUnitWidth_e	const Current32BitWidth;
-
-			/**
-			 * The minimum width of the CurrentWBitCharset
-			 * in octets.
-			 */
-			extern CharacterUnitWidth_e	const CurrentWBitWidth;
-
-			/**
-			 * Used all over the place, make a constant.
-			 * Is set to "UTF-8".
-			 */
-			extern const char * const	Utf8_s;
-
-			/**
-			 * Used all over the place, make a constant.
-			 * Is set to "UTF-16".
-			 */
-			extern const char * const	Utf16_s;
-
-			/**
-			 * Used all over the place, make a constant.
-			 * Is set to "UTF-16LE".
-			 */
-			extern const char * const	Utf16LE_s;
-
-			/**
-			 * Used all over the place, make a constant.
-			 * Is set to "UTF-16BE".
-			 */
-			extern const char * const	Utf16BE_s;
-
-			/**
-			 * Used all over the place, make a constant.
-			 * Is set to "UTF-32".
-			 */
-			extern const char * const	Utf32_s;
-
-			/**
-			 * Used all over the place, make a constant.
-			 * Is set to "UTF-32LE".
-			 */
-			extern const char * const	Utf32LE_s;
-
-			/**
-			 * Used all over the place, make a constant.
-			 * Is set to "UTF-32BE".
-			 */
-			extern const char * const	Utf32BE_s;
-
 			// Forward ref.
 			//
 			class ROString;
@@ -313,387 +141,95 @@ namespace SoftwareAndServices {
 					 * String: Default Constructor
 					 * Create an empty String object.
 					 *
-					 * The charset will be set to CurrentCharset.
-					 * The character width will be set to CurrentCharsetWidth.
-					 * Call Charset() on this object, before appending any text
-					 * to set to another charset and width.
+					 * The locale will be set to Current8BitLocale.
 					 *
 					 * You can still append any other charset and width to
 					 * this object.
-					 *
-					 * @see Charset()
-					 * @see OutputCharset()
-					 * @see InputCharset()
 					 */
 					String();
-
-					/**
-					 * String: Constructor
-					 * Create an empty String object.
-					 *
-					 * Sets the default input and output, charset and
-					 * character width.
-					 *
-					 * You can still append any other charset and width to
-					 * this object.
-					 *
-					 * You can still Get8(), Get16(). Get32(), or GetW() from
-					 * this object, no matter the default charset.
-					 *
-					 * @param Charset the default charset for this object.
-					 * -If Charset is nullptr and CharsetWidth does not equal IsUnknownBit_t,
-					 * then the default charset for CharsetWidth will be used.
-					 * -If Charset is nullptr and CharsetWidth is IsUnknownBit_t,
-					 * Then Charset will be set to Current8BitCharset and
-					 * CharsetWidth will be set to Is8Bit_t.
-					 * -If Charset is not nullptr and CharsetWidth
-					* is IsUnknownBit_t, then Charset will be set to Is8Bit_t.
-					 *
-					 * @param CharsetWidth the default charset width for this object.
-					 *
-					 * @see Charset()
-					 * @see OutputCharset()
-					 * @see InputCharset()
-					 */
-					String(const char * const Charset,
-					       CharacterUnitWidth_e CharsetWidth);
-
-					/**
-					 * String: Constructor
-					 * Create an empty String object.
-					 *
-					 * Sets the default input and output, charset and
-					 * character width.
-					 *
-					 * You can still append any other charset and width to
-					 * this object.
-					 *
-					 * You can still Get8(), Get16(). Get32(), or GetW() from
-					 * this object, no matter the default charset.
-					 *
-					 * @param TheLocale An opened locale from setlocale.
-					 */
-					String(locale_t TheLocale);
 
 					/**
 					 * String: Copy Constructor
 					 * Create a String object from another String object.
 					 *
-					 * Sets the default input and output, charset and
-					 * character width.
-					 *
-					 * You can still append any other charset and width to
-					 * this object.
-					 *
-					 * You can still Get8(), Get16(). Get32(), or GetW() from
-					 * this object, no matter the default charset.
-					 *
-					 * @param Charset the default charset for this object.
-					 * -If Charset is nullptr and CharsetWidth is IsUnknownBit_t,
-					 * Then Charset will be set to ExistingStr.InputCharset() and
-					 * CharsetWidth will be set to ExistingStr.InputWidth().
-					 * -If Charset is nullptr and CharsetWidth does not equal IsUnknownBit_t,
-					 * then the default charset for CharsetWidth will be used.
-					 * -If Charset is not nullptr and CharsetWidth is IsUnknownBit_t,
-					 * then CharsetWidth will be set to Is8Bt_t.
-					 *
-					 * @param CharsetWidth the default charset width for this object.
-					 *
-					 * @see Charset()
-					 * @see OutputCharset()
-					 * @see InputCharset()
+					 * @param ExistingStr The string to copy from.
 					 */
-					String(const String & ExistingStr,
-					       const char * const Charset = nullptr,
-					       CharacterUnitWidth_e CharsetWidth = IsUnknownBit_t);
+					String(const String & ExistingStr);
 
 					/**
 					 * String: Copy Constructor
 					 * Create a String object from another ROString object.
 					 *
-					 * Sets the default input and output, charset and
-					 * character width.
-					 *
-					 * You can still append any other charset and width to
-					 * this object.
-					 *
-					 * You can still Get8(), Get16(). Get32(), or GetW() from
-					 * this object, no matter the default charset.
-					 *
-					 * @param Charset the default charset for this object.
-					 * -If Charset is nullptr and CharsetWidth is IsUnknownBit_t,
-					 * Then Charset will be set to ExistingStr.InputCharset() and
-					 * CharsetWidth will be set to ExistingStr.InputWidth().
-					 * -If Charset is nullptr and CharsetWidth does not equal IsUnknownBit_t,
-					 * then the default charset for CharsetWidth will be used.
-					 * -If Charset is not nullptr and CharsetWidth is IsUnknownBit_t,
-					 * then CharsetWidth will be set to Is8Bt_t.
-					 *
-					 * @param CharsetWidth the default charset width for this object.
-					 *
-					 * @see Charset()
-					 * @see OutputCharset()
-					 * @see InputCharset()
+					 * @param ExistingStr The string to copy from.
 					 */
-					String(const ROString & ExistingStr,
-					       const char * const Charset = nullptr,
-					       CharacterUnitWidth_e CharsetWidth = IsUnknownBit_t);
+					String(const ROString & ExistingStr);
 
 					/**
 					 * String: Constructor
 					 * Create a String object from and existing (char*) string.
 					 *
-					 * Sets the default input and output, charset and
-					 * character width.
-					 *
-					 * You can still append any other charset and width to
-					 * this object.
-					 *
-					 * You can still Get8(), Get16(). Get32(), or GetW() from
-					 * this object, no matter the default charset.
-					 *
-					 * @param Charset the default charset for this object.
-					 * -If Charset is nullptr and CharsetWidth is IsUnknownBit_t,
-					 * Then Charset will be set to Current8BitCharset and CharsetWidth
-					 * will be set to Is8Bit_t.
-					 * -If Charset is nullptr and CharsetWidth does not equal IsUnknownBit_t,
-					 * then the charset will be set to the current charset for CharsetWidth.
-					 * -If Charset is not nullptr and CharsetWidth is IsUnknownBit_t,
-					 * then CharsetWidth defaults to Current8BitCharset.
-					 *
-					 * @param CharsetWidth the default charset width for this object.
-					 *
-					 * @see Charset()
-					 * @see OutputCharset()
-					 * @see InputCharset()
+					 * @param ExistingStr The string to copy from.
 					 */
-					String(const char * const ExistingStr,
-					       const char * const Charset = nullptr,
-					       CharacterUnitWidth_e CharsetWidth = IsUnknownBit_t);
+					String(const char * const ExistingStr);
 
 					/**
 					 * String: Constructor
 					 * Create a String object from and existing (char16_t*) string.
 					 *
-					 * Sets the default input and output, charset and
-					 * character width.
-					 *
-					 * You can still append any other charset and width to
-					 * this object.
-					 *
-					 * You can still Get8(), Get16(). Get32(), or GetW() from
-					 * this object, no matter the default charset.
-					 *
-					 * @param Charset the default charset for this object.
-					 * -If Charset is nullptr and CharsetWidth is IsUnknownBit_t,
-					 * Then Charset will be set to Current16BitCharset and CharsetWidth
-					 * will be set to Is16Bit_t.
-					 * -If Charset is nullptr and CharsetWidth does not equal IsUnknownBit_t,
-					 * then the charset will be set to the current charset for CharsetWidth.
-					 * -If Charset is not nullptr and CharsetWidth is IsUnknownBit_t,
-					 * then CharsetWidth defaults to Current16BitCharset.
-					 *
-					 * @param CharsetWidth the default charset width for this object.
-					 *
-					 * @see Charset()
-					 * @see OutputCharset()
-					 * @see InputCharset()
+					 * @param ExistingStr The string to copy from.
 					 */
-					String(const char16_t * const ExistingStr,
-					       const char * const Charset = nullptr,
-					       CharacterUnitWidth_e CharsetWidth = IsUnknownBit_t);
+					String(const char16_t * const ExistingStr);
 
 					/**
 					 * String: Constructor
 					 * Create a String object from and existing (char32_t*) string.
 					 *
-					 * Sets the default input and output, charset and
-					 * character width.
-					 *
-					 * You can still append any other charset and width to
-					 * this object.
-					 *
-					 * You can still Get8(), Get16(). Get32(), or GetW() from
-					 * this object, no matter the default charset.
-					 *
-					 * @param Charset the default charset for this object.
-					 * -If Charset is nullptr and CharsetWidth is IsUnknownBit_t,
-					 * Then Charset will be set to Current32BitCharset and CharsetWidth
-					 * will be set to Is32Bit_t.
-					 * -If Charset is nullptr and CharsetWidth does not equal IsUnknownBit_t,
-					 * then the charset will be set to the current charset for CharsetWidth.
-					 * -If Charset is not nullptr and CharsetWidth is IsUnknownBit_t,
-					 * then CharsetWidth defaults to Current32BitCharset.
-					 *
-					 * @param CharsetWidth the default charset width for this object.
-					 *
-					 * @see Charset()
-					 * @see OutputCharset()
-					 * @see InputCharset()
+					 * @param ExistingStr The string to copy from.
 					 */
-					String(const char32_t * const ExistingStr,
-					       const char * const Charset = nullptr,
-					       CharacterUnitWidth_e CharsetWidth = IsUnknownBit_t);
+					String(const char32_t * const ExistingStr);
 
 					/**
 					 * String: Constructor
 					 * Create a String object from and existing (wchar_t*) string.
 					 *
-					 * Sets the default input and output, charset and
-					 * character width.
-					 *
-					 * You can still append any other charset and width to
-					 * this object.
-					 *
-					 * You can still Get8(), Get16(). Get32(), or GetW() from
-					 * this object, no matter the default charset.
-					 *
-					 * @param Charset the default charset for this object.
-					 * -If Charset is nullptr and CharsetWidth is IsUnknownBit_t,
-					 * Then Charset will be set to CurrentWBitCharset and CharsetWidth
-					 * will be set to IsWBit_t.
-					 * -If Charset is nullptr and CharsetWidth does not equal IsUnknownBit_t,
-					 * then the charset will be set to the current charset for CharsetWidth.
-					 * -If Charset is not nullptr and CharsetWidth is IsUnknownBit_t,
-					 * then CharsetWidth defaults to CurrentWBitCharset.
-					 *
-					 * @param CharsetWidth the default charset width for this object.
-					 *
-					 * @see Charset()
-					 * @see OutputCharset()
-					 * @see InputCharset()
+					 * @param ExistingStr The string to copy from.
 					 */
-					String(const wchar_t * const ExistingStr,
-					       const char * const Charset = nullptr,
-					       CharacterUnitWidth_e CharsetWidth = IsUnknownBit_t);
+					String(const wchar_t * const ExistingStr);
 
 					/**
 					 * String: Constructor
-					 * Create a String object from and existing (std::string) string.
+					 * Create a String object from and existin std::string.
 					 *
-					 * Sets the default input and output, charset and
-					 * character width.
-					 *
-					 * You can still append any other charset and width to
-					 * this object.
-					 *
-					 * You can still Get8(), Get16(). Get32(), or GetW() from
-					 * this object, no matter the default charset.
-					 *
-					 * @param Charset the default charset for this object.
-					 * -If Charset is nullptr and CharsetWidth is IsUnknownBit_t,
-					 * Then Charset will be set to Current8BitCharset and CharsetWidth
-					 * will be set to Is8Bit_t.
-					 * -If Charset is nullptr and CharsetWidth does not equal IsUnknownBit_t,
-					 * then the charset will be set to the current charset for CharsetWidth.
-					 * -If Charset is not nullptr and CharsetWidth is IsUnknownBit_t,
-					 * then CharsetWidth defaults to Current8BitCharset.
-					 *
-					 * @param CharsetWidth the default charset width for this object.
-					 *
-					 * @see Charset()
-					 * @see OutputCharset()
-					 * @see InputCharset()
+					 * @param ExistingStr The string to copy from.
 					 */
-					String(const std::string & ExistingStr,
-					       const char * const Charset = nullptr,
-					       CharacterUnitWidth_e CharsetWidth = IsUnknownBit_t);
+					String(const std::string & ExistingStr);
+
 
 					/**
 					 * String: Constructor
-					 * Create a String object from and existing (std::u16string) string.
+					 * Create a String object from and existing std::u16string.
 					 *
-					 * Sets the default input and output, charset and
-					 * character width.
-					 *
-					 * You can still append any other charset and width to
-					 * this object.
-					 *
-					 * You can still Get8(), Get16(). Get32(), or GetW() from
-					 * this object, no matter the default charset.
-					 *
-					 * @param Charset the default charset for this object.
-					 * -If Charset is nullptr and CharsetWidth is IsUnknownBit_t,
-					 * Then Charset will be set to Current16BitCharset and CharsetWidth
-					 * will be set to Is16Bit_t.
-					 * -If Charset is nullptr and CharsetWidth does not equal IsUnknownBit_t,
-					 * then the charset will be set to the current charset for CharsetWidth.
-					 * -If Charset is not nullptr and CharsetWidth is IsUnknownBit_t,
-					 * then CharsetWidth defaults to Current16BitCharset.
-					 *
-					 * @param CharsetWidth the default charset width for this object.
-					 *
-					 * @see Charset()
-					 * @see OutputCharset()
-					 * @see InputCharset()
+					 * @param ExistingStr The string to copy from.
 					 */
-					String(const std::u16string & ExistingStr,
-					       const char * const Charset = nullptr,
-					       CharacterUnitWidth_e CharsetWidth = IsUnknownBit_t);
+					String(const std::u16string & ExistingStr);
+
 
 					/**
 					 * String: Constructor
-					 * Create a String object from and existing (std::u32string) string.
+					 * Create a String object from and existing std::u32string.
 					 *
-					 * Sets the default input and output, charset and
-					 * character width.
-					 *
-					 * You can still append any other charset and width to
-					 * this object.
-					 *
-					 * You can still Get8(), Get16(). Get32(), or GetW() from
-					 * this object, no matter the default charset.
-					 *
-					 * @param Charset the default charset for this object.
-					 * -If Charset is nullptr and CharsetWidth is IsUnknownBit_t,
-					 * Then Charset will be set to Current32BitCharset and CharsetWidth
-					 * will be set to Is32Bit_t.
-					 * -If Charset is nullptr and CharsetWidth does not equal IsUnknownBit_t,
-					 * then the charset will be set to the current charset for CharsetWidth.
-					 * -If Charset is not nullptr and CharsetWidth is IsUnknownBit_t,
-					 * then CharsetWidth defaults to Current32BitCharset.
-					 *
-					 * @param CharsetWidth the default charset width for this object.
-					 *
-					 * @see Charset()
-					 * @see OutputCharset()
-					 * @see InputCharset()
+					 * @param ExistingStr The string to copy from.
 					 */
-					String(const std::u32string & ExistingString,
-					       const char * const Charset = nullptr,
-					       CharacterUnitWidth_e CharsetWidth = IsUnknownBit_t);
+					String(const std::u32string & ExistingStr);
+
 
 					/**
 					 * String: Constructor
-					 * Create a String object from and existing (std::wstring) string.
+					 * Create a String object from and existing std::wstring.
 					 *
-					 * Sets the default input and output, charset and
-					 * character width.
-					 *
-					 * You can still append any other charset and width to
-					 * this object.
-					 *
-					 * You can still Get8(), Get16(). Get32(), or GetW() from
-					 * this object, no matter the default charset.
-					 *
-					 * @param Charset the default charset for this object.
-					 * -If Charset is nullptr and CharsetWidth is IsUnknownBit_t,
-					 * Then Charset will be set to CurrentWBitCharset and CharsetWidth
-					 * will be set to IsWBit_t.
-					 * -If Charset is nullptr and CharsetWidth does not equal IsUnknownBit_t,
-					 * then the charset will be set to the current charset for CharsetWidth.
-					 * -If Charset is not nullptr and CharsetWidth is IsUnknownBit_t,
-					 * then CharsetWidth defaults to CurrentWBitCharset.
-					 *
-					 * @param CharsetWidth the default charset width for this object.
-					 *
-					 * @see Charset()
-					 * @see OutputCharset()
-					 * @see InputCharset()
+					 * @param ExistingStr The string to copy from.
 					 */
-					String(const std::wstring & ExistingString,
-					       const char * const Charset = nullptr,
-					       CharacterUnitWidth_e CharsetWidth = IsUnknownBit_t);
+					String(const std::wstring & ExistingStr);
 
 					/**
 					 * String: Destructor
@@ -701,76 +237,122 @@ namespace SoftwareAndServices {
 					virtual ~String();
 
 					/**
-					 * Set both InputCharste() and OutputCharset() for this object.
-					 *
-					 * @param CharsetName The name of the charset.
-					 *
-					 * @param CharsetWidth The width of character unit in octets.
-					 *
-					 * @return true when Charset and CharsetWidth are valid.
-					 *
-					 * @note
-					 * If never called on this object, or set at constructor time,
-					 * it will have been set to Current8BitCharset, and Current8Width.
+					 * @return the 8-bit default locale.
 					 */
-					bool	Charset(const char * CharsetName,
-					                CharacterUnitWidth_e CharsetWidth);
+					static const locale_t		Default8BitLocale();
 
 					/**
-					 * Set the input charset for this String.
-					 * Once set, the default output charset will be CharsetName.
+					 * Set the 8-bit default Locale.
 					 *
-					 * @param CharsetName The character set name to make the default
-					 * input charset for this object.
+					 * @param ID The locale_t to set as the default 8-bit locale.
 					 *
-					 * @param CharsetWidth The width of character unit in octets.
-					 * in this charset.
+					 * @return true when ID was accepted and non-zero.
 					 */
-					void	InputCharset(const char * const CharsetName,
-					                     CharacterUnitWidth_e CharsetWidth);
+					static bool		Default8BitLocale(locale_t ID);
 
 					/**
-					 * Set the output charset for this String.
-					 * Once set, the default output charset will be CharsetName.
-					 *
-					 * @param CharsetName The character set name to make the default
-					 * output charset for this object.
-					 *
-					 * @param CharsetWidth The width of character unit in octets.
-					 * in this charset.
+					 * @return the 16-bit default locale.
 					 */
-					void	OutputCharset(const char * const CharsetName,
-					                      CharacterUnitWidth_e CharsetWidth);
+					static const locale_t		Default16BitLocale();
 
 					/**
-					 * Get the current input charset name.
+					 * Set the 16-bit default Locale.
 					 *
-					 * @return The default input charset name.
-					 * A StringCache pointer.
+					 * @param ID The locale_t to set as the default 16-bit locale.
+					 *
+					 * @return true when ID was accepted and non-zero.
 					 */
-					const char	*	InputCharset() const;
+					static bool		Default16BitLocale(locale_t ID);
 
 					/**
-					 * Get the current input character width.
-					 *
-					 * @return The default input character width.
+					 * @return the 32-bit default locale.
 					 */
-					CharacterUnitWidth_e	InputWidth() const;
+					static const locale_t		Default32BitLocale();
 
 					/**
-					 * Get the current input charset name.
+					 * Set the 32-bit default Locale.
 					 *
-					 * @return The current input charset name.
-					 * A StringCache pointer.
+					 * @param ID The locale_t to set as the default 32-bit locale.
+					 *
+					 * @return true when ID was accepted and non-zero.
 					 */
-					const char	*	OutputCharset() const;
+					static bool		Default32BitLocale(locale_t ID);
 
 					/**
-					 * Get the current input character width.
-					 *
-					 * @return The current input character width.
+					 * @return the W-bit (wchar_t) default locale.
 					 */
-					CharacterUnitWidth_e	OutputWidth() const;
+					static const locale_t		DefaultWBitLocale();
+
+					/**
+					 * Set the W-bit default Locale.
+					 *
+					 * @param ID The locale_t to set as the default W-bit locale.
+					 *
+					 * @return true when ID was accepted and non-zero.
+					 */
+					static bool		DefaultWBitLocale(locale_t ID);
+
+					/**
+					 * Used all over the place, make a constant.
+					 * Is set to "UTF-8".
+					 */
+					static const char * const	Utf8_s;
+
+					/**
+					 * Used all over the place, make a constant.
+					 * Is set to "UTF-16".
+					 */
+					static const char * const	Utf16_s;
+
+					/**
+					 * Used all over the place, make a constant.
+					 * Is set to "UTF-16LE".
+					 */
+					static const char * const	Utf16LE_s;
+
+					/**
+					 * Used all over the place, make a constant.
+					 * Is set to "UTF-16BE".
+					 */
+					static const char * const	Utf16BE_s;
+
+					/**
+					 * Used all over the place, make a constant.
+					 * Is set to "UTF-32".
+					 */
+					static const char * const	Utf32_s;
+
+					/**
+					 * Used all over the place, make a constant.
+					 * Is set to "UTF-32LE".
+					 */
+					static const char * const	Utf32LE_s;
+
+					/**
+					 * Used all over the place, make a constant.
+					 * Is set to "UTF-32BE".
+					 */
+					static const char * const	Utf32BE_s;
+
+					/**
+					 * @return the current 8-bit Locale.
+					 */
+					static locale_t		Current8BitLocale();
+
+					/**
+					 * @return the 16-bit Locale.
+					 */
+					static locale_t		Current16BitLocale();
+
+					/**
+					 * @return the 32-bit Locale.
+					 */
+					static locale_t		Current32BitLocale();
+
+					/**
+					 * @return the W-bit (wchar_t) Locale.
+					 */
+					static locale_t		CurrentWBitLocale();
 
 					/**
 					 * Determine if this is a READ-ONLY string.
@@ -2009,11 +1591,25 @@ namespace SoftwareAndServices {
 							pointer	_Last;
 					};
 
+				protected:
+					class StringSeg;
+				public:
+
 					/**
 					 * @class IteratorBase
 					 */
 					class IteratorBase {
 						public:
+
+							/**
+							 * Iterator Base - Default Constructor.
+							 */
+							IteratorBase();
+
+							/**
+							 * Iterator Base - Destructor.
+							 */
+							~IteratorBase();
 
 							/**
 							 * Determine if this iterator is const_ type.
@@ -2046,6 +1642,7 @@ namespace SoftwareAndServices {
 							 * When 'F' is it a forward iterator.
 							 */
 							IteratorDirection		_Direction;
+
 							/**
 							 * Increment *this by CharCount characters.
 							 * DO NOT call this private method with a negative number.
@@ -2063,9 +1660,27 @@ namespace SoftwareAndServices {
 							void					_Dec(int64_t CharCount);
 
 							/**
-							 * The width of the character for this iterator.
+							 * Pointer to the StringSeg list.
+							 * When for a String (or ROString) object.
+							 * Otherwise nullptr.
 							 */
-							CharacterUnitWidth_e	_Width;
+							std::vector<StringSeg *>	*	_Segments;
+
+							/**
+							 * When true, _Segments was allocated by the iterator.
+							 * And when true, _Segments has exactly (1) entry.
+							 *
+							 * And will be deleted in the destructor.
+							 */
+							bool		_AllocatedSegments;
+
+
+							/**
+							 * Current _Segment object, or zero when
+							 * not a String (or ROString) object.
+							 */
+							uint64_t	_SegmentsOffset;
+
 
 							/**
 							 * The character type specific iterator.
@@ -2115,9 +1730,11 @@ namespace SoftwareAndServices {
 							 *
 							 * @param Width The character width.
 							 */
+							/*
+							 * REMOVE?
 							iterator(pointer Ptr, size_t Len,
-							         CharacterUnitWidth_e Width);
-
+								         CharacterUnitWidth_e Width);
+							*/
 
 							/**
 							 * iterator: Constructor.
@@ -2166,10 +1783,13 @@ namespace SoftwareAndServices {
 							 *
 							 * @param Width The character width.
 							 */
-							iterator(pointer Start,
-							         pointer Ptr,
-							         size_t Len,
-							         CharacterUnitWidth_e Width);
+							/*
+							REMOVE
+								iterator(pointer Start,
+								         pointer Ptr,
+								         size_t Len,
+								         CharacterUnitWidth_e Width);
+							*/
 
 							/**
 							 * iterator: Constructor.
@@ -2247,7 +1867,8 @@ namespace SoftwareAndServices {
 							};
 
 							/**
-							 * Get the width of this iterator.
+							 * Get the width of the character this iterator is currently
+							 * pointing to.
 							 *
 							 * @return The CharacterUnitWidth_e type for the contents.
 							 */
@@ -2599,6 +2220,7 @@ namespace SoftwareAndServices {
 
 							friend class String;
 							friend class ROString;
+
 					};
 
 					/**
@@ -5039,28 +4661,28 @@ namespace SoftwareAndServices {
 					 * or 4 octets in length. This method will return (1).
 					 *
 					 * When the UTF-8 single character is:
-					 * -One octet, CharacterLen() will return (1), Length()
+					 * -One octet, strwidth() will return (1), Length()
 					 * would return (1), and Octets8() will return (1).
-					 * -Two octets, CharacterLen() will return (1), Length()
+					 * -Two octets, strwidth() will return (1), Length()
 					 * would return (2), and Octets8() will return (2).
-					 * -Three octets, CharacterLen() will return (1), Length()
+					 * -Three octets, strwidth() will return (1), Length()
 					 * would return (3), and Octets8() will return (3).
-					 * -Four octets, CharacterLen() will return (1), Length()
+					 * -Four octets, strwidth() will return (1), Length()
 					 * would return (4), and Octets8() will return (4).
 					 *
 					 * When the UTF-16 single character is:
-					 * -Two octets, CharacterLen() will return (1), Length()
+					 * -Two octets, strwidth() will return (1), Length()
 					 * would return (1), and Octets8() will return (2).
-					 * -Four octets, CharacterLen() will return (1), Length()
+					 * -Four octets, strwidth() will return (1), Length()
 					 * would return (2), and Octets8() will return (4).
 					 *
 					 * When the UTF-32 single character is:
-					 * -Four octets, CharacterLen() will return (1), Length()
+					 * -Four octets, strwidth() will return (1), Length()
 					 * would return (1), and Octets8() will return (4).
 					 *
 					 * @return The number of character units in this String.
 					 *
-					 * @see CharacterLen() for the number of printable characters
+					 * @see strwidth() for the number of printable characters
 					 * in the string.
 					 *
 					 * @see Octets8()
@@ -5085,23 +4707,23 @@ namespace SoftwareAndServices {
 					 * or 4 octets in length. This method will return (1).
 					 *
 					 * When the UTF-8 single character is:
-					 * -One octet, CharacterLen() will return (1), Length()
+					 * -One octet, strwidth() will return (1), Length()
 					 * would return (1), and Octets8() will return (1).
-					 * -Two octets, CharacterLen() will return (1), Length()
+					 * -Two octets, strwidth() will return (1), Length()
 					 * would return (2), and Octets8() will return (2).
-					 * -Three octets, CharacterLen() will return (1), Length()
+					 * -Three octets, strwidth() will return (1), Length()
 					 * would return (3), and Octets8() will return (3).
-					 * -Four octets, CharacterLen() will return (1), Length()
+					 * -Four octets, strwidth() will return (1), Length()
 					 * would return (4), and Octets8() will return (4).
 					 *
 					 * When the UTF-16 single character is:
-					 * -Two octets, CharacterLen() will return (1), Length()
+					 * -Two octets, strwidth() will return (1), Length()
 					 * would return (1), and Octets8() will return (2).
-					 * -Four octets, CharacterLen() will return (1), Length()
+					 * -Four octets, strwidth() will return (1), Length()
 					 * would return (2), and Octets8() will return (4).
 					 *
 					 * When the UTF-32 single character is:
-					 * -Four octets, CharacterLen() will return (1), Length()
+					 * -Four octets, strwidth() will return (1), Length()
 					 * would return (1), and Octets8() will return (4).
 					 *
 					 * @return The number of pritable character units in this String.
@@ -5120,40 +4742,10 @@ namespace SoftwareAndServices {
 					 * @see OctetsW()
 					 * to get the number of 8-bit octets in the CurrentWBitCharset.
 					 */
-					size_t			CharacterLen() const;
+					size_t			strwidth() const;
 
 					/**
-					 * String.CharacterUnits() -
-					 * Get the number of character unit widths for the
-					 * first character in Str in the Current8BitCharset.
-					 *
-					 * @param It The iterator position where the character
-					 * is at.
-					 *
-					 * @return The number of character unit widths for
-					 * the first character in Str in the Current8BitCharset.
-					 * With 8-bit character widths, this will be the number
-					 * of octets the first characters consumes in Str.
-					 */
-					static size_t		CharacterUnits(const iterator & It);
-
-					/**
-					 * String.CharacterUnits() -
-					 * Get the number of character unit widths for the
-					 * first character in Str in the Current8BitCharset.
-					 *
-					 * @param It The iterator position where the character
-					 * is at.
-					 *
-					 * @return The number of character unit widths for
-					 * the first character in Str in the Current8BitCharset.
-					 * With 8-bit character widths, this will be the number
-					 * of octets the first characters consumes in Str.
-					 */
-					static size_t		CharacterUnits(const const_iterator & It);
-
-					/**
-					 * String.CharacterUnits() -
+					 * String.strwidth() -
 					 * Get the number of character unit widths for the
 					 * first character in Str in the Current8BitCharset.
 					 *
@@ -5165,10 +4757,11 @@ namespace SoftwareAndServices {
 					 * With 8-bit character widths, this will be the number
 					 * of octets the first characters consumes in Str.
 					 */
-					static size_t		CharacterUnits(const char OneItem);
+					static size_t		strwidth(const char OneItem,
+					                             locale_t InLocale = 0);
 
 					/**
-					 * String.CharacterUnits() -
+					 * String.strwidth() -
 					 * Get the number of character unit widths for the
 					 * first character in Str in the Current8BitCharset.
 					 *
@@ -5180,10 +4773,11 @@ namespace SoftwareAndServices {
 					 * With 8-bit character widths, this will be the number
 					 * of octets the first characters consumes in Str.
 					 */
-					static size_t		CharacterUnits(const char16_t OneItem);
+					static size_t		strwidth(const char16_t OneItem,
+					                             locale_t InLocale = 0);
 
 					/**
-					 * String.CharacterUnits() -
+					 * String.strwidth() -
 					 * Get the number of character unit widths for the
 					 * first character in Str in the Current8BitCharset.
 					 *
@@ -5195,10 +4789,11 @@ namespace SoftwareAndServices {
 					 * With 8-bit character widths, this will be the number
 					 * of octets the first characters consumes in Str.
 					 */
-					static size_t		CharacterUnits(const char32_t OneItem);
+					static size_t		strwidth(const char32_t OneItem,
+					                             locale_t InLocale = 0);
 
 					/**
-					 * String.CharacterUnits() -
+					 * String.strwidth() -
 					 * Get the number of character unit widths for the
 					 * first character in Str in the Current8BitCharset.
 					 *
@@ -5210,180 +4805,301 @@ namespace SoftwareAndServices {
 					 * With 8-bit character widths, this will be the number
 					 * of octets the first characters consumes in Str.
 					 */
-					static size_t		CharacterUnits(const wchar_t OneItem);
+					static size_t		strwidth(const wchar_t OneItem,
+					                             locale_t InLocale = 0);
+
 
 					/**
-					 * String.CharacterUnits() -
-					 * Get the number of character unit widths for the
-					 * first character in Str in the Current8BitCharset.
+					 * Get the number of characters in the string.
+					 * This is not the number of octets and not the number
+					 * of characters units. This also checks for
+					 * combining characters. So a single displayed multibyte
+					 * or combining characters count as one (1).
 					 *
-					 * @param Str The first character (not octet) in the string
-					 * will be tested.
+					 * @param FromIt The const_iterator to start checking at.
+					 * The locale used will be the one in FromIt.
 					 *
-					 * @return The number of character unit widths for
-					 * the first character in Str in the Current8BitCharset.
-					 * With 8-bit character widths, this will be the number
-					 * of octets the first characters consumes in Str.
+					 * @param Units The maximum number of character untits
+					 * to check. If Units ends mid character, it will continue
+					 * to the end of the string, or until the end of the
+					 * Units character, or combining character, whichever is less
+					 * and a complete display character.
+					 *
+					 * When zero (0) the entire string will be processed.
+					 *
+					 * @return The number of characters in FromStr.
 					 */
-					static size_t		CharacterUnits(const char * const Str);
+					size_t	    strwidth(const_iterator & FromIt,
+					                     size_t Units = 0) const;
 
 					/**
-					 * String.CharacterUnits() -
-					 * Get the number of character unit widths for the
-					 * first character in Str in the Current16BitCharset.
+					 * Get the number of characters in the string.
+					 * This is not the number of octets and not the number
+					 * of characters units. This also checks for
+					 * combining characters. So a single displayed multibyte
+					 * or combining characters count as one (1).
 					 *
-					 * @param Str The first character (not octet) in the string
-					 * will be tested.
+					 * @param FromIt The const_iterator to start checking at.
+					 * The locale used will be the one in FromIt.
 					 *
-					 * @return The number of character unit widths for
-					 * the first character in Str in the Current16BitCharset.
-					 * With 16-bit characters, each unit is two octets.
-					 * This method returns the number of character units,
-					 * typically 1 (2 octets) or 2 (4 octets).
+					 * @param Units The maximum number of character untits
+					 * to check. If Units ends mid character, it will continue
+					 * to the end of the string, or until the end of the
+					 * Units character, or combining character, whichever is less
+					 * and a complete display character.
+					 *
+					 * When zero (0) the entire string will be processed.
+					 *
+					 * @return The number of characters in FromStr.
 					 */
-					static size_t		CharacterUnits(const char16_t * const Str);
+					size_t	    strwidth(iterator & FromIt,
+					                     size_t Units = 0 ) const;
 
 					/**
-					 * String.CharacterUnits() -
-					 * Get the number of character unit widths for the
-					 * first character in Str in the Current32BitCharset.
+					 * Static method.
 					 *
-					 * @param Str The first character (not octet) in the string
-					 * will be tested.
+					 * Get the number of characters in the string.
+					 * This is not the number of octets and not the number
+					 * of characters units (unless all of the characters
+					 * are 1 character unit in length).
+					 * (char) character units are 1 octet in length each.
 					 *
-					 * @return The number of character unit widths for
-					 * the first character in Str in the Current32BitCharset.
-					 * With 32-bit characters, each unit is four octets.
-					 * This method returns the number of character units,
-					 * typically 1 (4 octets).
+					 * @param FromStr The string to test the length of.
+					 * When FromStr is nullptr, nothing is done, and zero (0)
+					 * is returned.
+					 * The locale will be the one returned from Current8BitLocale().
+					 *
+					 * @note
+					 * FromStr must be in the String::Current8Locale().
+					 *
+					 * @param Units The maximum number of character untits
+					 * to check. If Units ends mid character, it will continue
+					 * to the end of the string, or until the end of the
+					 * Units character, whichever is less.
+					 *
+					 * When zero (0) the entire string will be processed.
+					 *
+					 * @return The number of characters in FromStr.
 					 */
-					static size_t		CharacterUnits(const char32_t * const Str);
+					inline static size_t
+					strwidth(const char * const FromStr,
+					         size_t Units = 0) {
+						return (strwidth(FromStr, 0, Units));
+					}
 
 					/**
-					 * String.CharacterUnits() -
-					 * Get the number of character unit widths for the
-					 * first character in Str in the Current32BitCharset.
+					 * Static method.
 					 *
-					 * @param Str The first character (not octet) in the string
-					 * will be tested.
+					 * Get the number of characters in the string.
+					 * This is not the number of octets and not the number
+					 * of characters units (unless all of the characters
+					 * are 1 character unit in length).
+					 * (char) character units are 1 octet in length each.
 					 *
-					 * @return The number of character unit widths for
-					 * the first character in Str in the Current32BitCharset.
-					 * With 32-bit characters, each unit is four octets.
-					 * This method returns the number of character units,
-					 * typically 1 (4 octets).
+					 * @param FromStr The string to test the length of.
+					 * When FromStr is nullptr, nothing is done, and zero (0)
+					 * is returned.
+					 *
+					 * @param TheLocal The locale to use. When zero (0),
+					 * then Current8BitLocale() will be used.
+					 *
+					 * @param Units The maximum number of character untits
+					 * to check. If Units ends mid character, it will continue
+					 * to the end of the string, or until the end of the
+					 * Units character, whichever is less.
+					 *
+					 * When zero (0) the entire string will be processed.
+					 *
+					 * @note
+					 * FromStr must be in the String::Current8Locale.
+					 *
+					 * @return The number of characters in FromStr.
 					 */
-					static size_t		CharacterUnits(const wchar_t * const Str);
+					static size_t	    strwidth(const char * const FromStr,
+					                             locale_t TheLocale,
+					                             size_t Units = 0);
 
 					/**
-					 * String.CharacterUnits() -
-					 * Get the number of character unit widths for the
-					 * first character in Str in the Current32BitCharset.
+					 * Static method.
 					 *
-					 * @param Str The first character (not octet) in the string
-					 * will be tested.
+					 * Get the number of characters in the string.
+					 * This is not the number of octets and not the number
+					 * of characters units (unless all of the characters
+					 * are 1 character unit in length).
+					 * (char) character units are 1 octet in length each.
 					 *
-					 * @return The number of character unit widths for
-					 * the first character in Str in the Current32BitCharset.
-					 * With wchar_t characters, each unit is two or four octets
-					 * depending on the operating system.
+					 * @param FromStr The string to test the length of.
+					 * When FromStr is nullptr, nothing is done, and zero (0)
+					 * is returned.
 					 *
-					 * This method returns the number of character units.
-					 * -For (sizeof(wchar_t) == 2), then 1 (2 octets) or 2 (4 octets)
-					 * will be returned.
-					 * -For (sizeof(wchar_t) == 4), then 1 (4 octets) will be returned.
-					 * At the time of this implementation, it is beleived that no
-					 * 32-bit character takes more than 4 octets (1 character unit).
+					 * @param Units The maximum number of character untits
+					 * to check. If Units ends mid character, it will continue
+					 * to the end of the string, or until the end of the
+					 * Units character, whichever is less.
+					 *
+					 * @note
+					 * FromStr must be in the String::Current8Locale.
+					 *
+					 * @return The number of characters in FromStr.
+					 *
+					 * @see String::Set8Locale()
 					 */
-					static size_t		CharacterUnits(const std::string & Str);
+					static size_t	    strwidth(const std::string & FromStr,
+					                             size_t Units = 0);
 
 					/**
-					 * String.CharacterUnits() -
-					 * Get the number of character unit widths for the
-					 * first character in Str in the Current32BitCharset.
+					 * Static method.
 					 *
-					 * @param Str The first character (not octet) in the string
-					 * will be tested.
+					 * Get the number of characters in the string.
+					 * This is not the number of octets and not the number
+					 * of characters units (unless all of the characters
+					 * are 1 character unit in length).
+					 * (char16_t) character units are 2 octets in length each.
 					 *
-					 * @return The number of character unit widths for
-					 * the first character in Str in the Current32BitCharset.
-					 * With wchar_t characters, each unit is two or four octets
-					 * depending on the operating system.
+					 * @param FromStr The string to test the length of.
+					 * When FromStr is nullptr, nothing is done, and zero (0)
+					 * is returned.
 					 *
-					 * This method returns the number of character units.
-					 * -For (sizeof(wchar_t) == 2), then 1 (2 octets) or 2 (4 octets)
-					 * will be returned.
-					 * -For (sizeof(wchar_t) == 4), then 1 (4 octets) will be returned.
-					 * At the time of this implementation, it is beleived that no
-					 * 32-bit character takes more than 4 octets (1 character unit).
+					 * @param Units The maximum number of character untits
+					 * to check. If Units ends mid character, it will continue
+					 * to the end of the string, or until the end of the
+					 * Units character, whichever is less.
+					 *
+					 * @note
+					 * FromStr must be in the String::Current16Locale.
+					 *
+					 * @return The number of characters in FromStr.
+					 *
+					 * @see String::Set16Locale()
 					 */
-					static size_t		CharacterUnits(const std::u16string & Str);
+					static size_t	    strwidth(const std::u16string & FromStr,
+					                             size_t Units = 0);
 
 					/**
-					 * String.CharacterUnits() -
-					 * Get the number of character unit widths for the
-					 * first character in Str in the Current32BitCharset.
+					 * Static method.
 					 *
-					 * @param Str The first character (not octet) in the string
-					 * will be tested.
+					 * Get the number of characters in the string.
+					 * This is not the number of octets and not the number
+					 * of characters units (unless all of the characters
+					 * are 1 character unit in length).
+					 * (char32_t*) character units are 4 octets in length each.
 					 *
-					 * @return The number of character unit widths for
-					 * the first character in Str in the Current32BitCharset.
-					 * With wchar_t characters, each unit is two or four octets
-					 * depending on the operating system.
+					 * @param FromStr The string to test the length of.
+					 * When FromStr is nullptr, nothing is done, and zero (0)
+					 * is returned.
 					 *
-					 * This method returns the number of character units.
-					 * -For (sizeof(wchar_t) == 2), then 1 (2 octets) or 2 (4 octets)
-					 * will be returned.
-					 * -For (sizeof(wchar_t) == 4), then 1 (4 octets) will be returned.
-					 * At the time of this implementation, it is beleived that no
-					 * 32-bit character takes more than 4 octets (1 character unit).
+					 * @param Units The maximum number of character untits
+					 * to check. If Units ends mid character, it will continue
+					 * to the end of the string, or until the end of the
+					 * Units character, whichever is less.
+					 *
+					 * @note
+					 * FromStr must be in the String::Current32Locale.
+					 *
+					 * @return The number of characters in FromStr.
+					 *
+					 * @see String::Set32Locale()
 					 */
-					static size_t		CharacterUnits(const std::u32string & Str);
+					static size_t	    strwidth(const std::u32string & FromStr,
+					                             size_t Units = 0);
 
 					/**
-					 * String.CharacterUnits() -
-					 * Get the number of character unit widths for the
-					 * first character in Str in the Current32BitCharset.
+					 * Static method.
 					 *
-					 * @param Str The first character (not octet) in the string
-					 * will be tested.
+					 * Get the number of characters in the string.
+					 * This is not the number of octets and not the number
+					 * of characters units (unless all of the characters
+					 * are 1 character unit in length).
+					 * (wchar_t) character units are 2 octets in length
+					 * on systems where (__SIZEOF_WCHAR__ == 2) and 4 octets in length
+					 * on systems where (__SIZEOF_WCHAR__ == 4).
 					 *
-					 * @return The number of character unit widths for
-					 * the first character in Str in the Current32BitCharset.
-					 * With wchar_t characters, each unit is two or four octets
-					 * depending on the operating system.
+					 * @param FromStr The string to test the length of.
+					 * When FromStr is nullptr, nothing is done, and zero (0)
+					 * is returned.
 					 *
-					 * This method returns the number of character units.
-					 * -For (sizeof(wchar_t) == 2), then 1 (2 octets) or 2 (4 octets)
-					 * will be returned.
-					 * -For (sizeof(wchar_t) == 4), then 1 (4 octets) will be returned.
-					 * At the time of this implementation, it is beleived that no
-					 * 32-bit character takes more than 4 octets (1 character unit).
+					 * @param Units The maximum number of character untits
+					 * to check. If Units ends mid character, it will continue
+					 * to the end of the string, or until the end of the
+					 * Units character, whichever is less.
+					 *
+					 * @note
+					 * FromStr must be in the String::CurrentWLocale.
+					 *
+					 * @return The number of characters in FromStr.
+					 *
+					 * @see String::SetWLocale()
 					 */
-					static size_t		CharacterUnits(const std::wstring & Str);
+					static size_t	    strwidth(const std::wstring & FromStr,
+					                             size_t Units = 0);
 
 					/**
-					 * String.CharacterUnits() -
-					 * Get the number of character unit widths for the
-					 * first character in Str in the Current32BitCharset.
+					 * Static method.
 					 *
-					 * @param Str The first character (not octet) in the string
-					 * will be tested.
+					 * Get the number of characters in the string.
+					 * This is not the number of octets and not the number
+					 * of characters units (unless all of the characters
+					 * are 1 character unit in length).
 					 *
-					 * @return The number of character unit widths for
-					 * the first character in Str in the Current32BitCharset.
-					 * With wchar_t characters, each unit is two or four octets
-					 * depending on the operating system.
+					 * If CharacterWidth() returns Is8Bit_t, then:
+					 * -(char) character units are 1 octet in length each.
 					 *
-					 * This method returns the number of character units.
-					 * -For (sizeof(wchar_t) == 2), then 1 (2 octets) or 2 (4 octets)
-					 * will be returned.
-					 * -For (sizeof(wchar_t) == 4), then 1 (4 octets) will be returned.
-					 * At the time of this implementation, it is beleived that no
-					 * 32-bit character takes more than 4 octets (1 character unit).
+					 * If CharacterWidth() returns Is16Bit_t, then:
+					 * -(char16_t) character units are 2 octets in length each.
+					 *
+					 * If CharacterWidth() returns Is32Bit_t, then:
+					 * -(char32_t) character units are 4 octets in length each.
+					 *
+					 * wchar_t characters are stored in char16_t or char32_t
+					 * strings depending on the operaring systems wchar_t size.
+					 *
+					 * @param FromStr The string to test the length of.
+					 * When FromStr is nullptr, nothing is done, and zero (0)
+					 * is returned.
+					 *
+					 * @param Units The maximum number of character untits
+					 * to check. If Units ends mid character, it will continue
+					 * to the end of the string, or until the end of the
+					 * Units character, whichever is less.
+					 *
+					 * @return The number of characters in FromStr.
 					 */
-					static size_t		CharacterUnits(const String & Str);
+					static size_t	    strwidth(const String & FromStr,
+					                             size_t Units = 0);
+
+					/**
+					 * Static method.
+						 *
+						 * Get the number of characters in the string.
+						 * This is not the number of octets and not the number
+						 * of characters units (unless all of the characters
+						 * are 1 character unit in length).
+						 *
+						 * If CharacterWidth() returns Is8Bit_t, then:
+						 * -(char) character units are 1 octet in length each.
+						 *
+						 * If CharacterWidth() returns Is16Bit_t, then:
+						 * -(char16_t) character units are 2 octets in length each.
+						 *
+						 * If CharacterWidth() returns Is32Bit_t, then:
+						 * -(char32_t) character units are 4 octets in length each.
+						 *
+						 * wchar_t characters are stored in char16_t or char32_t
+						 * strings depending on the operaring systems wchar_t size.
+						 *
+						 * @param FromStr The string to test the length of.
+						 * When FromStr is nullptr, nothing is done, and zero (0)
+						 * is returned.
+					 *
+					 * @param Units The maximum number of character untits
+					 * to check. If Units ends mid character, it will continue
+					 * to the end of the string, or until the end of the
+					 * Units character, whichever is less.
+						 *
+						 * @return The number of characters in FromStr.
+						 */
+					static size_t	    strwidth(const ROString & FromStr,
+					                             size_t Units = 0);
 
 					/**
 					 * String.octets8() - Get the octet count of (char*) characters
@@ -17364,29 +17080,23 @@ namespace SoftwareAndServices {
 					/**
 					 * Static method.
 					 *
-					 * Get the number of character units in the string.
-					 * This is not the number of octets and is not
-					 * the number of characters.
+					 * Get the number of 8-bit octets in the string.
 					 *
 					 * @param FromStr The string to test the length of.
 					 * When FromStr is nullptr, nothing is done, and zero (0)
 					 * is returned.
 					 *
 					 * @note
-					 * FromStr must be in the String::Current16Locale.
+					 * FromStr must be in the String::Current8Locale.
 					 *
 					 * @return The number of octets in FromStr.
-					 *
-					 * @see String::Set8Locale()
 					 */
 					static size_t	    strlen(const char * const FromStr);
 
 					/**
 					 * Static method.
 					 *
-					 * Get the number of character units in the string.
-					 * This is not the number of octets and is not
-					 * the number of characters.
+					 * Get the number of char16_t values in the string.
 					 *
 					 * @param FromStr The string to test the length of.
 					 * When FromStr is nullptr, nothing is done, and zero (0)
@@ -17396,15 +17106,13 @@ namespace SoftwareAndServices {
 					 * FromStr must be in the String::Current16Locale.
 					 *
 					 * @return The number of octets in FromStr.
-					 *
-					 * @see String::Set16Locale()
 					 */
 					static size_t	    strlen(const char16_t * const FromStr);
 
 					/**
 					 * Static method.
 					 *
-					 * Get the number of octets in the string.
+					 * Get the number of char32_t values in the string.
 					 *
 					 * @param FromStr The string to test the length of.
 					 * When FromStr is nullptr, nothing is done, and zero (0)
@@ -17414,18 +17122,13 @@ namespace SoftwareAndServices {
 					 * FromStr must be in the String::Current32Locale.
 					 *
 					 * @return The number of octets in FromStr.
-					 *
-					 * @see String::Set32Locale()
 					 */
 					static size_t	    strlen(const char32_t * const FromStr);
 
 					/**
 					 * Static method.
 					 *
-					 * Get the number of characters units in the string.
-					 * This is not the number of octets and not the number
-					 * of characters (unless all of the characters
-					 * are 1 character unit in length).
+					 * Get the number of wchar_t values in the string.
 					 *
 					 * @param FromStr The string to test the length of.
 					 * When FromStr is nullptr, nothing is done, and zero (0)
@@ -17435,8 +17138,6 @@ namespace SoftwareAndServices {
 					 * FromStr must be in the String::CurrentWLocale.
 					 *
 					 * @return The number of wchar_t units in FromStr.
-					 *
-					 * @see String::SetWLocale()
 					 */
 					static size_t	    strlen(const wchar_t * const FromStr);
 
@@ -17444,16 +17145,59 @@ namespace SoftwareAndServices {
 					 * Static method.
 					 *
 					 * Get the number of characters units in the string.
-					 * This is not the number of octets and not the number
-					 * of characters (unless all of the characters
-					 * are 1 character unit in length).
+
+					 * A String object can be composed of multiple sized
+					 * (char, char16_t, char32_t, wchar_t) segments.
+					 * This returns the aggrate for each segment.
+					 *
+					 * If you want the number of secific sized character
+					 * units in the string, do one of the following:
+					 *
+					 * When FromStr.IsReadOnly() is false, do one of the
+					 * following:
+					 *
+					 * @code
+					 * strlen(FromStr.Get8());	// To get the number in (char).
+					 * strlen(FromStr.Get16());	// To get the number in (char16_t).
+					 * strlen(FromStr.Get32());	// To get the number in (char32_t).
+					 * strlen(FromStr.GetW());	// To get the number in (wchar_t).
+					 * @endcode
+					 *
+					 * When FromStr.IsReadonly() is true, then convert the
+					 * string to the desired charset, and do strlen().
+					 * Some variation of:
+					 *
+					 * @code
+					 *
+					 * // To get the number of character units in the current
+					 * // 8-bit charset:
+					 * String	*	Tmp = FromStr.ToCharset(Current8BitCharset);
+					 * size_t Len = strlen(Tmp->Get8());
+					 * delete Tmp;
+					 *
+					 * // To get the number of character units in the current
+					 * // 16-bit charset:
+					 * String	*	Tmp = FromStr.ToCharset(Current16BitCharset);
+					 * size_t Len = strlen(Tmp->Get16());
+					 * delete Tmp;
+					 *
+					 * // To get the number of character units in the current
+					 * // 32-bit charset:
+					 * String	*	Tmp = FromStr.ToCharset(Current32BitCharset);
+					 * size_t Len = strlen(Tmp->Get32());
+					 * delete Tmp;
+					 *
+					 * // To get the number of character units in the current
+					 * // (wchar_t)-bit charset:
+					 * String	*	Tmp = FromStr.ToCharset(CurrentWBitCharset);
+					 * size_t Len = strlen(Tmp->GetW());
+					 * delete Tmp;
+					 *
+					 * @endcode
 					 *
 					 * @param FromStr The string to test the length of.
 					 * When FromStr is nullptr, nothing is done, and zero (0)
 					 * is returned.
-					 *
-					 * @note
-					 * FromStr must be in the String::CurrentWLocale.
 					 *
 					 * @return The number of wchar_t units in FromStr.
 					 */
@@ -17462,305 +17206,88 @@ namespace SoftwareAndServices {
 					/**
 					 * Static method.
 					 *
-					 * Get the number of characters units in the string.
-					 * This is not the number of octets and not the number
-					 * of characters (unless all of the characters
-					 * are 1 character unit in length).
+					 * Get the number of characters units in the read only string.
+
+					 * A ROString object can be composed of multiple sized
+					 * (char, char16_t, char32_t, wchar_t) segments.
+					 * This returns the aggrate for each segment.
+					 *
+					 * If you want the number of secific sized character
+					 * units in the string, you could convert to a
+					 * String object in the desired charset.
+					 *
+					 * @note
+					 * An ROString contents can be a pointer to a memory mapped
+					 * file. So the contents could be HUGE. Think about
+					 * if you really need to convert such a string to a
+					 * different charset.
+					 *
+					 * @code
+					 *
+					 * // To get the number of character units in the current
+					 * // 8-bit charset:
+					 * String	*	Tmp = FromStr.ToCharset(Current8BitCharset);
+					 * size_t Len = strlen(Tmp->Get8());
+					 * delete Tmp;
+					 *
+					 * // To get the number of character units in the current
+					 * // 16-bit charset:
+					 * String	*	Tmp = FromStr.ToCharset(Current16BitCharset);
+					 * size_t Len = strlen(Tmp->Get16());
+					 * delete Tmp;
+					 *
+					 * // To get the number of character units in the current
+					 * // 32-bit charset:
+					 * String	*	Tmp = FromStr.ToCharset(Current32BitCharset);
+					 * size_t Len = strlen(Tmp->Get32());
+					 * delete Tmp;
+					 *
+					 * // To get the number of character units in the current
+					 * // (wchar_t)-bit charset:
+					 * String	*	Tmp = FromStr.ToCharset(CurrentWBitCharset);
+					 * size_t Len = strlen(Tmp->GetW());
+					 * delete Tmp;
+					 *
+					 * @endcode
+					 *
+					 * @note
+					 * An ROString contents can be a pointer to a memory mapped
+					 * file. So the contents could be HUGE. Think about
+					 * if you really need to convert such a string to a
+					 * different charset.
 					 *
 					 * @param FromStr The string to test the length of.
 					 * When FromStr is nullptr, nothing is done, and zero (0)
 					 * is returned.
-					 *
-					 * @note
-					 * FromStr must be in the String::CurrentWLocale.
 					 *
 					 * @return The number of wchar_t units in FromStr.
 					 */
 					static size_t	    strlen(const ROString & FromStr);
 
 					/**
-					 * Get the number of characters in the string.
-					 * This is not the number of octets and not the number
-					 * of characters units (unless all of the characters
-					 * are 1 character unit in length).
-					 * (char) character units are 1 octet in length each.
-					 *
-					 * @param FromIt The const_iterator to start checking at.
-					 *
-					 * @note
-					 * FromStr must be in the String::Current16Locale.
-					 *
-					 * @return The number of characters in FromStr.
-					 *
-					 * @see String::Set8Locale()
-					 */
-					size_t	    CharacterLen(const_iterator & FromIt) const;
-
-					/**
 					 * Static method.
-					 *
-					 * Get the number of characters in the string.
-					 * This is not the number of octets and not the number
-					 * of characters units (unless all of the characters
-					 * are 1 character unit in length).
-					 * (char) character units are 1 octet in length each.
-					 *
-					 * @param FromStr The string to test the length of.
-					 * When FromStr is nullptr, nothing is done, and zero (0)
-					 * is returned.
-					 *
-					 * @note
-					 * FromStr must be in the String::Current16Locale.
-					 *
-					 * @return The number of characters in FromStr.
-					 *
-					 * @see String::Set8Locale()
-					 */
-					static size_t	    CharacterLen(const char * const FromStr);
-
-					/**
-					 * Static method.
-					 *
-					 * Get the number of characters in the string.
-					 * This is not the number of octets and not the number
-					 * of characters units (unless all of the characters
-					 * are 1 character unit in length).
-					 * (char16_t*) character units are 2 octet in length each.
-					 *
-					 * @param FromStr The string to test the length of.
-					 * When FromStr is nullptr, nothing is done, and zero (0)
-					 * is returned.
-					 *
-					 * @note
-					 * FromStr must be in the String::Current16Locale.
-					 *
-					 * @return The number of characters in FromStr.
-					 *
-					 * @see String::Set16Locale()
-					 */
-					static size_t	    CharacterLen(const char16_t * const
-					                                 FromStr);
-
-					/**
-					 * Static method.
-					 *
-					 * Get the number of characters in the string.
-					 * This is not the number of octets and not the number
-					 * of characters units (unless all of the characters
-					 * are 1 character unit in length).
-					 * (char32_t) character units are 4 octet in length each.
-					 *
-					 * @param FromStr The string to test the length of.
-					 * When FromStr is nullptr, nothing is done, and zero (0)
-					 * is returned.
-					 *
-					 * @note
-					 * FromStr must be in the String::Current32Locale.
-					 *
-					 * @return The number of characters in FromStr.
-					 *
-					 * @see String::Set32Locale()
-					 */
-					static size_t	    CharacterLen(const char32_t * const
-					                                 FromStr);
-
-					/**
-					 * Static method.
-					 *
-					 * Get the number of characters in the string.
-					 * This is not the number of octets and not the number
-					 * of characters units (unless all of the characters
-					 * are 1 character unit in length).
-					 * (wchar_t) character units are 2 octets in length
-					 * on systems where (__SIZEOF_WCHAR__ == 2) and 4 octets in length
-					 * on systems where (__SIZEOF_WCHAR__ == 4).
-					 *
-					 * @param FromStr The string to test the length of.
-					 * When FromStr is nullptr, nothing is done, and zero (0)
-					 * is returned.
-					 *
-					 * @note
-					 * FromStr must be in the String::Current32Locale.
-					 *
-					 * @return The number of characters in FromStr.
-					 *
-					 * @see String::Set32Locale()
-					 */
-					static size_t	    CharacterLen(const wchar_t * const
-					                                 FromStr);
-
-					/**
-					 * Static method.
-					 *
-					 * Get the number of characters in the string.
-					 * This is not the number of octets and not the number
-					 * of characters units (unless all of the characters
-					 * are 1 character unit in length).
-					 * (char) character units are 1 octet in length each.
-					 *
-					 * @param FromStr The string to test the length of.
-					 * When FromStr is nullptr, nothing is done, and zero (0)
-					 * is returned.
-					 *
-					 * @note
-					 * FromStr must be in the String::Current8Locale.
-					 *
-					 * @return The number of characters in FromStr.
-					 *
-					 * @see String::Set8Locale()
-					 */
-					static size_t	    CharacterLen(const std::string & FromStr);
-
-					/**
-					 * Static method.
-					 *
-					 * Get the number of characters in the string.
-					 * This is not the number of octets and not the number
-					 * of characters units (unless all of the characters
-					 * are 1 character unit in length).
-					 * (char16_t) character units are 2 octets in length each.
-					 *
-					 * @param FromStr The string to test the length of.
-					 * When FromStr is nullptr, nothing is done, and zero (0)
-					 * is returned.
-					 *
-					 * @note
-					 * FromStr must be in the String::Current16Locale.
-					 *
-					 * @return The number of characters in FromStr.
-					 *
-					 * @see String::Set16Locale()
-					 */
-					static size_t	    CharacterLen(const std::u16string &
-					                                 FromStr);
-
-					/**
-					 * Static method.
-					 *
-					 * Get the number of characters in the string.
-					 * This is not the number of octets and not the number
-					 * of characters units (unless all of the characters
-					 * are 1 character unit in length).
-					 * (char32_t*) character units are 4 octets in length each.
-					 *
-					 * @param FromStr The string to test the length of.
-					 * When FromStr is nullptr, nothing is done, and zero (0)
-					 * is returned.
-					 *
-					 * @note
-					 * FromStr must be in the String::Current32Locale.
-					 *
-					 * @return The number of characters in FromStr.
-					 *
-					 * @see String::Set32Locale()
-					 */
-					static size_t	    CharacterLen(const std::u32string &
-					                                 FromStr);
-
-					/**
-					 * Static method.
-					 *
-					 * Get the number of characters in the string.
-					 * This is not the number of octets and not the number
-					 * of characters units (unless all of the characters
-					 * are 1 character unit in length).
-					 * (wchar_t) character units are 2 octets in length
-					 * on systems where (__SIZEOF_WCHAR__ == 2) and 4 octets in length
-					 * on systems where (__SIZEOF_WCHAR__ == 4).
-					 *
-					 * @param FromStr The string to test the length of.
-					 * When FromStr is nullptr, nothing is done, and zero (0)
-					 * is returned.
-					 *
-					 * @note
-					 * FromStr must be in the String::CurrentWLocale.
-					 *
-					 * @return The number of characters in FromStr.
-					 *
-					 * @see String::SetWLocale()
-					 */
-					static size_t	    CharacterLen(const std::wstring &
-					                                 FromStr);
-
-					/**
-					 * Static method.
-					 *
-					 * Get the number of characters in the string.
-					 * This is not the number of octets and not the number
-					 * of characters units (unless all of the characters
-					 * are 1 character unit in length).
-					 *
-					 * If CharacterWidth() returns Is8Bit_t, then:
-					 * -(char) character units are 1 octet in length each.
-					 *
-					 * If CharacterWidth() returns Is16Bit_t, then:
-					 * -(char16_t) character units are 2 octets in length each.
-					 *
-					 * If CharacterWidth() returns Is32Bit_t, then:
-					 * -(char32_t) character units are 4 octets in length each.
-					 *
-					 * wchar_t characters are stored in char16_t or char32_t
-					 * strings depending on the operaring systems wchar_t size.
-					 *
-					 * @param FromStr The string to test the length of.
-					 * When FromStr is nullptr, nothing is done, and zero (0)
-					 * is returned.
-					 *
-					 * @return The number of characters in FromStr.
-					 */
-					static size_t	    CharacterLen(const String & FromStr);
-					/**
-					 * Static method.
-					 *
-					 * Get the number of characters in the string.
-					 * This is not the number of octets and not the number
-					 * of characters units (unless all of the characters
-					 * are 1 character unit in length).
-					 *
-					 * If CharacterWidth() returns Is8Bit_t, then:
-					 * -(char) character units are 1 octet in length each.
-					 *
-					 * If CharacterWidth() returns Is16Bit_t, then:
-					 * -(char16_t) character units are 2 octets in length each.
-					 *
-					 * If CharacterWidth() returns Is32Bit_t, then:
-					 * -(char32_t) character units are 4 octets in length each.
-					 *
-					 * wchar_t characters are stored in char16_t or char32_t
-					 * strings depending on the operaring systems wchar_t size.
-					 *
-					 * @param FromStr The string to test the length of.
-					 * When FromStr is nullptr, nothing is done, and zero (0)
-					 * is returned.
-					 *
-					 * @return The number of characters in FromStr.
-					 */
-					static size_t	    CharacterLen(const ROString & FromStr);
-
-					/**
-					 * Static method.
-					 *
-					 * Copy FromStr onto ToString
-					 *
-					 * @param ToString Copy into this string.
-					 * When ToString is nullptr, nothing will be done and nullptr
-					 * will be returned.
-					 *
-					 * @param FromStr The string to copy.
-					 * When FromStr is nullptr, nothing is done.
-					 *
-					 * @return ToString with the contents of FromStr in it.
-					 * The results are in String::Current8Locale.
-					 *
-					 * @note
-					 * Their must be sufficent room in ToString, or
-					 * or a memory overrun will occur.
-					 *
-					 * @note
-					 * FromStr must be in the String::Current8Locale.
-					 *
-					 * @see String::Set8Locale()
-					 */
+						 *
+						 * Copy FromStr onto ToString
+						 *
+						 * @param ToString Copy into this string.
+						 * When ToString is nullptr, nothing will be done and nullptr
+						 * will be returned.
+						 *
+						 * @param FromStr The string to copy.
+						 * When FromStr is nullptr, nothing is done.
+						 *
+						 * @return ToString with the contents of FromStr in it.
+						 * The results are in String::Current8Locale.
+						 *
+						 * @note
+						 * Their must be sufficent room in ToString, or
+						 * or a memory overrun will occur.
+						 *
+						 * @note
+						 * FromStr must be in the String::Current8Locale.
+						 *
+						 * @see String::Set8Locale()
+						 */
 					static char	  *  strcpy8(char * ToString,
 					                         const char * const FromStr);
 
@@ -24911,11 +24438,11 @@ namespace SoftwareAndServices {
 					/**
 					 * Static method.
 					 *
-					 * Set the Current 8-bit Locale.
+					 * Set the Current 8-bit Locale, returned from newlocale(3).
 					 *
-					 * @param TheLocale The new locale default.
+					 * @param TheLocale The new default locale.
 					 */
-					static void		Set8Locale(locale_t TheLocale);
+					static void	 Current8Locale(locale_t TheLocale);
 
 					/**
 					 * Static method.
@@ -24924,16 +24451,16 @@ namespace SoftwareAndServices {
 					 *
 					 * @return The Locale for 8-bits
 					 */
-					static locale_t		Get8Locale();
+					static locale_t		Current8Locale();
 
 					/**
 					 * Static method.
 					 *
 					 * Set the Current 16-bit Locale.
 					 *
-					 * @param TheLocale The new locale default.
+					 * @param TheLocale The new default locale.
 					 */
-					static void		Set16Locale(locale_t TheLocale);
+					static void		Current16Locale(locale_t TheLocale);
 
 					/**
 					 * Static method.
@@ -24942,16 +24469,16 @@ namespace SoftwareAndServices {
 					 *
 					 * @return The Locale for 16-bits
 					 */
-					static locale_t		Get16Locale();
+					static locale_t		Current16Locale();
 
 					/**
 					 * Static method.
 					 *
 					 * Set the Current 32-bit Locale.
 					 *
-					 * @param TheLocale The new locale default.
+					 * @param TheLocale The new default locale.
 					 */
-					static void		Set32Locale(locale_t TheLocale);
+					static void		Current32Locale(locale_t TheLocale);
 
 					/**
 					 * Static method.
@@ -24960,7 +24487,25 @@ namespace SoftwareAndServices {
 					 *
 					 * @return The Locale for 32-bits
 					 */
-					static locale_t		Get32Locale();
+					static locale_t		Current32Locale();
+
+					/**
+					 * Static method.
+					 *
+					 * Set the Current W-bit Locale.
+					 *
+					 * @param TheLocale The new default locale.
+					 */
+					static void		CurrentWLocale(locale_t TheLocale);
+
+					/**
+					 * Static method.
+					 *
+					 * Get the Current W-bit Locale.
+					 *
+					 * @return The Locale for W-bits
+					 */
+					static locale_t		CurrentWLocale();
 
 					/**
 					 * @class TokSave String.hpp "<SaS/String/String.hpp>"
@@ -44517,7 +44062,202 @@ namespace SoftwareAndServices {
 					 */
 					static const_iterator		&	crend(const wchar_t * Str);
 
+					/**
+					 * Get the codeset (charset).
+					 * This is just a wrapper for nl_langinfo(), except this
+					 * method caches the results.
+					 *
+					 * @param ALocale the local to use.
+					 *
+					 * @return The codeset for this segment.
+					 * The results are from StringCache. Do not delete the result.
+					 */
+					static const char * const	Charset(locale_t ALocale);
+
+					/**
+					 * Get the strftime() format string
+					 * for time and date this segments string.
+					 * This is just a wrapper for nl_langinfo(), except this
+					 * method caches the results.
+					 *
+					 * @param ALocale the local to use.
+					 *
+					 * @return the strftime() value to use.
+					 * The results are from StringCache. Do not delete the result.
+					 */
+					static const char * const	DateTimeFormatter(locale_t ALocale);
+
+					/**
+					 * Get the strftime() format string
+					 * for time this segments string.
+					 * This is just a wrapper for nl_langinfo(), except this
+					 * method caches the results.
+					 *
+					 * @param ALocale the local to use.
+					 *
+					 * @return the strftime() value to use.
+					 * The results are from StringCache. Do not delete the result.
+					 */
+					static const char * const	TimeFormatter(locale_t ALocale);
+
+					/**
+					 * Get the strftime() format string
+					 * for date this segments string.
+					 * This is just a wrapper for nl_langinfo(), except this
+					 * method caches the results.
+					 *
+					 * @param ALocale the local to use.
+					 *
+					 * @return the strftime() value to use.
+					 * The results are from StringCache. Do not delete the result.
+					 */
+					static const char * const	DateFormatter(locale_t ALocale);
+
+					/**
+					 * Get the name of the nTh day of the week for the
+					 * provided lcoale.
+					 * This is just a wrapper for nl_langinfo(), except this
+					 * method caches the results.
+					 *
+					 * @param ALocale the local to use.
+					 *
+					 * @param Dow The day of the week (1-7) where 1 is Sunday.
+					 *
+					 * @return the name of the Dow.
+					 * The results are from StringCache. Do not delete the result.
+					 */
+					static const char * const	DayOfWeek(locale_t ALocale,
+					                                      uint8_t Dow);
+
+					/**
+					 * Get the abbreviated name of the nTh day of the week for the
+					 * provided lcoale.
+					 * This is just a wrapper for nl_langinfo(), except this
+					 * method caches the results.
+					 *
+					 * @param ALocale the local to use.
+					 *
+					 * @param Dow The day of the week (1-7) where 1 is Sunday.
+					 *
+					 * @return the name of the Dow.
+					 * The results are from StringCache. Do not delete the result.
+					 */
+					static const char * const	AbbreviatedDayOfWeek(locale_t ALocale,
+					        uint8_t Dow);
+
+					/**
+					 * Get the name of the nTh month.
+					 * This is just a wrapper for nl_langinfo(), except this
+					 * method caches the results.
+					 *
+					 * @param ALocale the local to use.
+					 *
+					 * @param Mon The month to get the name of (1-12).
+					 *
+					 * @return the name of Mon.
+					 * The results are from StringCache. Do not delete the result.
+					 */
+					static const char * const	MonthName(locale_t ALocale,
+					                                      uint8_t Mon);
+
+
+					/**
+					 * Get the abbreviated name of the nTh month.
+					 * This is just a wrapper for nl_langinfo(), except this
+					 * method caches the results.
+					 *
+					 * @param ALocale the local to use.
+					 *
+					 * @param Mon The month to get the name of (1-12).
+					 *
+					 * @return the abbreviated name of Mon.
+					 * The results are from StringCache. Do not delete the result.
+					 */
+					static const char * const	AbbreviatedMonthName(locale_t ALocale,
+					        uint8_t Mon);
+
+					/**
+					 * Get the radix character. (decimal dot, decimal comma, ...).
+					 * This is just a wrapper for nl_langinfo(), except this
+					 * method caches the results.
+					 *
+					 * @param ALocale the local to use.
+					 *
+					 * @return the lcoale radix character.
+					 * The results are from StringCache. Do not delete the result.
+					 */
+					static const char * const	RadixCharacter(locale_t ALocale);
+
+					/**
+					 * Get the thousands separator.
+					 * This is just a wrapper for nl_langinfo(), except this
+					 * method caches the results.
+					 *
+					 * @param ALocale the local to use.
+					 *
+					 * @return the lcoale thousands separator.
+					 * The results are from StringCache. Do not delete the result.
+					 */
+					static const char * const	ThousandsSeperator(locale_t ALocale);
+
+					/**
+					 * Get the currency symbol.
+					 * This is just a wrapper for nl_langinfo(), except this
+					 * method caches the results.
+					 *
+					 * @param ALocale the local to use.
+					 *
+					 * @return the currency symbol.
+					 * The results are from StringCache. Do not delete the result.
+					 */
+					static const char * const	CurrencySymbol(locale_t ALocale);
+
+					/**
+					 * Get the positive (yes) reply regular expression value.
+					 * this is the regular expression that can be used with the
+					 * regex(3) function to recognize a positive response to a yes/no
+					 * question.
+					 *
+					 * This is just a wrapper for nl_langinfo(), except this
+					 * method caches the results.
+					 *
+					 * @param ALocale the local to use.
+					 *
+					 * @return the regex() value.
+					 */
+					static const char * const YesRegex(locale_t ALocale);
+
+					/**
+					 * Get the negative (no) reply regular expression value.
+					 * this is the regular expression that can be used with the
+					 * regex(3) function to recognize a negative response to a yes/no
+					 * question.
+					 *
+					 * This is just a wrapper for nl_langinfo(), except this
+					 * method caches the results.
+					 *
+					 * @param ALocale the local to use.
+					 *
+					 * @return the regex() value.
+					 */
+					static const char * const NoRegex(locale_t ALocale);
+
 				protected:
+
+					/**
+					 * Cache of <locale, <item,value>>
+					 */
+					static std::multimap<locale_t, std::map<nl_item, char *>>	_LangInfo;
+
+					/**
+					 * Load a _LangInfo item.
+					 *
+					 * @param Item The nl_langinfo() item.
+					 *
+					 * @param ALocale The locale_t to load it from.
+					 */
+					const char * const	_LangInfoLoad(nl_item Item,
+					                                  locale_t ALocale);
 
 					/**
 					 * Does no charset work, just does strtok().
@@ -44718,28 +44458,6 @@ namespace SoftwareAndServices {
 					                               const wchar_t * const Delim,
 					                               size_t DelimLen,
 					                               TokSave & Save);
-
-					/**
-					 * The default input charset for this object.
-					 * A StringCache pointer.
-					 */
-					const char	*	_InputCharset;
-
-					/**
-					 * The default input charset unit width for this object.
-					 */
-					CharacterUnitWidth_e	_InputWidth;
-
-					/**
-					 * The default output charset for this object.
-					 * A StringCache pointer.
-					 */
-					const char	*	_OutputCharset;
-
-					/**
-					 * The default output charset unit width for this object.
-					 */
-					CharacterUnitWidth_e	_OutputWidth;
 
 					/**
 					 * During append, a StringSeg (String Segment) is added,
@@ -45024,21 +44742,22 @@ namespace SoftwareAndServices {
 						void		Clear();
 
 						/**
-						 * The character width of string data in this segment.
-						 */
-						CharacterUnitWidth_e		Width;
-
-						/**
-						 * This segments charset.
-						 * When nullptr, it is the same as the systems.
-						 * A StringCache pointer.
-						 */
-						const char	*	Charset;
-
-						/**
 						 * Locale.
 						 */
 						locale_t		Locale;
+
+						/**
+						 * The character width of string data in this segment.
+						 * A cached value calculated from Locale.
+						 */
+						mutable CharacterUnitWidth_e		Width;
+
+						/**
+						 * This segments charset.
+						 * A StringCache pointer.
+						 * A cached value calculated from Locale.
+						 */
+						mutable const char	*	Charset;
 
 						/**
 						 * When true, this is from Read Only (ROString) data.
@@ -45049,37 +44768,26 @@ namespace SoftwareAndServices {
 						 * The string data in Charset and Language (locale_t)
 						 */
 						union {
-							std::string		*	Utf8;	// Non-ROString
-							std::u16string	*	Utf16;	// Non-ROString
-							std::u32string	*	Utf32;	// Non-ROString
-							std::wstring	*	W;	// Non-ROString
-							const char		*	RO8;	// ROString
-							const char16_t	 *	RO16;	// ROString
-							const char32_t	 *	RO32;	// ROString
-							const wchar_t	 *	ROW;	// ROString
+							//std::string		*	Utf8;	// Non-ROString
+							//std::u16string	*	Utf16;	// Non-ROString
+							//std::u32string	*	Utf32;	// Non-ROString
+							//std::wstring	*	W;	// Non-ROString
+							const char		*	s8;
+							const char16_t	 *	s16;
+							const char32_t	 *	s32;
+							const wchar_t	 *	sW;
 						} Str;
 
 						/**
 						 * The length of the string in character units - cached.
-						 *
-						 * -For Is8Bit_t: Number of 8-bit characters in _RO8.
-						 * -For Is16Bit_t: Number of 16-bit characters in _RO16.
-						 * -For Is32Bit_t: Number of 32-bit characters in _RO32.
-						 * -For IsWBit_t: Number of wchar_t characters in _RO32.
 						 */
 						mutable size_t	StrUnits;
 					};
 
-
 					/**
 					 * When true, this is a memory mapped ReadOnly string.
 					 */
-					bool			_ROString;
-
-					/**
-					 * When _ROString is true, this better be non-nullptr.
-					 */
-					StringSeg	*	_RO;
+					bool			_IsROString;
 
 					/**
 					 * All of the pieces of the Sting.
@@ -45139,6 +44847,75 @@ namespace SoftwareAndServices {
 					friend class iteratorType<char16_t>;
 					friend class iteratorType<char32_t>;
 					friend class iteratorType<wchar_t>;
+
+					/**
+					 * The 8-bit Locale.
+					 */
+					static locale_t		_Current8BitLocale;
+
+					/**
+					 * The 16-bit Locale.
+					 */
+					static locale_t		_Current16BitLocale;
+
+					/**
+					 * The 32-bit Locale.
+					 */
+					static locale_t		_Current32BitLocale;
+
+					/**
+					 * The W-bit (wchar_t) Locale.
+					 */
+					static locale_t		_CurrentWBitLocale;
+
+					/**
+					 * The 8-bit Charset.
+					 * A StringCache pointer.
+					 */
+					static const char	 *	_Current8BitCharset;
+
+					/**
+					 * The 16-bit Charset.
+					 * A StringCache pointer.
+					 */
+					static const char	 *	_Current16BitCharset;
+
+					/**
+					 * The 32-bit Charset.
+					 * A StringCache pointer.
+					 */
+					static const char	 *	_Current32BitCharset;
+
+					/**
+					 * The wchar_t Charset.
+					 * A StringCache pointer.
+					 */
+					const char	 *	_CurrentWBitCharset;
+
+					/**
+					 * The minimum width of the Current8BitCharset
+					 * in octets.
+					 */
+					static CharacterUnitWidth_e	_Current8BitWidth;
+
+					/**
+					 * The minimum width of the Current16BitCharset
+					 * in octets.
+					 */
+					static CharacterUnitWidth_e	_Current16BitWidth;
+
+					/**
+					 * The minimum width of the Current32BitCharset
+					 * in octets.
+					 */
+					static CharacterUnitWidth_e	_Current32BitWidth;
+
+					/**
+					 * The minimum width of the CurrentWBitCharset
+					 * in octets.
+					 */
+					static CharacterUnitWidth_e	_CurrentWBitWidth;
+
 			};
 		}
 	}
@@ -45199,7 +44976,7 @@ extern "C" {
 	 */
 	void			ToLower32(char32_t * ToConvert);
 }
-//#include <SaS/String/StringLocale.hpp>
+#include <SaS/String/StringLocale.hpp>
 #include <SaS/String/StringCache.hpp>
 
 #endif // SOFTWARE_AND_SERVICES_LIBRARY_STRING_STRING_HPP_

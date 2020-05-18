@@ -479,9 +479,89 @@ namespace SoftwareAndServices {
 					};
 
 					/**
-					 * @class LcBase StringLocale.hpp "<SaS/String/StringLocale.hpp>"
-					 * Base class for LC categories.
+					 * A single character mapping.
 					 */
+					class CharMap
+						: public instance<CharMap> {
+
+						public:
+
+							/**
+							 * CharMap - Default Constructor.
+							 */
+							CharMap();
+
+							/**
+							 * CharMap - Destructor.
+							 */
+							~CharMap();
+
+							/**
+							 * Code set name from StringCache::Add().
+							 */
+							const char * CodeSetName;
+
+							/**
+							 * The symbolic name. From StringCache::Add().
+							 */
+							const char	*	SymbolicName;
+
+							/**
+							 * Unique runtime mapping ID, or handle.
+							 */
+							CharMapID_t	CharMapID;
+
+							/**
+							 * Array of octets, not zero terminated.
+							 */
+							const char	*	Octets;
+
+							/**
+							 * Number of valid Octets.
+							 */
+							size_t		OctetsLen;
+
+							/**
+							 * Any comment - From StringCache::Add().
+							 */
+							const char	*	Comment;
+
+							/**
+							 * Width: Some, (like control characters) have a width of zero.
+							 */
+							uint8_t	Width;
+
+							/**
+							 * Parse a charmap file.
+							 *
+							 * @param FileName The file name to parse.
+							 *
+							 * @return true when parsed.
+							 */
+							static bool		Parse(const char * FileName);
+
+						private:
+
+							/**
+							 * One entry for each character defined by symbolic
+							 * name in the charmap file.
+							 *
+							 * <symbolic-name, object>
+							 */
+							static std::map<const char *, CharMap *, CStringCompareOperator>	_MapBySymbolicName;
+
+							/**
+								* A multimap of CodeSetName to CharMap object
+								*
+								* <CodeSetName, object>
+								*/
+							static std::multimap<const char *, CharMap *, CStringCompareOperator>	_MapByCodeSetName;
+					};
+
+					/**
+					 * @class LcBase StringLocale.hpp "<SaS/String/StringLocale.hpp>"
+						 * Base class for LC categories.
+						 */
 					class LcBase
 						: public instance<LcBase> {
 
@@ -2091,53 +2171,6 @@ namespace SoftwareAndServices {
 					File		*		_CharmapFp;
 
 				private:
-
-					/**
-					 * A single character mapping.
-					 */
-					struct CharMap
-						: public instance<CharMap> {
-
-						/**
-						 * CharMap - Default Constructor.
-						 */
-						CharMap();
-
-						/**
-						 * CharMap - Destructor.
-						 */
-						~CharMap();
-
-						/**
-						 * The symbolic name. From StringCache::Add().
-						 */
-						const char	*	SymbolicName;
-
-						/**
-						 * Unique runtime mapping ID, or handle.
-						 */
-						CharMapID_t	CharMapID;
-
-						/**
-						 * Array of octets, not zero terminated.
-						 */
-						int8_t	*	Octets;
-
-						/**
-						 * Number of valid Octets.
-						 */
-						size_t		OctetsLen;
-
-						/**
-						 * Any comment - StringCache.
-						 */
-						char	*	Comment;
-
-						/**
-						 * Width: Some, (like control characters) have a width of zero.
-						 */
-						uint8_t	Width;
-					};
 
 					/**
 					 * A Charset definition.
